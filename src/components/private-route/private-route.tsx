@@ -6,7 +6,7 @@ type PrivateRouteProps = {
   children: JSX.Element;
 }
 
-export const PrivateRoute = ({authorization, children}: PrivateRouteProps) =>
+export const PrivateRoute = ({authorization, children}: PrivateRouteProps): JSX.Element | null =>
   authorization === Authorization.Auth
     ? children
     : <Navigate to={Paths.Login}/>;
