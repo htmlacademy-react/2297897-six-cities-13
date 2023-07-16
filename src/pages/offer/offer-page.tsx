@@ -1,6 +1,6 @@
 import {Header} from '../../components/header/header.tsx';
 
-export const OfferPage = (): JSX.Element => (
+export const OfferPage = () => (
   <div className="page">
     <Header />
     <main className="page__main page__main--offer">

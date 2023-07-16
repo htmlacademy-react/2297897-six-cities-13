@@ -1,6 +1,6 @@
 import {Header} from '../../components/header/header.tsx';
 
-export const FavoritesPage = (): JSX.Element => (
+export const FavoritesPage = () => (
   <div className="page">
     <Header />
     <main className="page__main page__main--favorites">

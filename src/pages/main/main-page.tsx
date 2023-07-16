@@ -5,7 +5,7 @@ type MainScreenProps = {
   placesCount: number;
 };
 
-export const MainPage = ({placesCount}: MainScreenProps): JSX.Element => (
+export const MainPage = ({placesCount}: MainScreenProps) => (
   <div className="page page--gray page--main">
     <Header />
     <main className="page__main page__main--index">

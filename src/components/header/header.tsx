@@ -1,4 +1,4 @@
-export const Header = (): JSX.Element => (
+export const Header = () => (
   <header className="header">
     <div className="container">
       <div className="header__wrapper">

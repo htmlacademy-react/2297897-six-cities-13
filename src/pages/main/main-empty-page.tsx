@@ -1,6 +1,6 @@
 import {Header} from '../../components/header/header.tsx';
 
-export const MainEmptyPage = (): JSX.Element => (
+export const MainEmptyPage = () => (
   <div className="page page--gray page--main">
     <Header />
     <main className="page__main page__main--index page__main--index-empty">
