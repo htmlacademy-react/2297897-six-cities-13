@@ -1,4 +1,4 @@
-export const PlaceCard = (): JSX.Element => (
+export const PlaceCard = () => (
   <article className="cities__card place-card">
     <div className="place-card__mark">
       <span>Premium</span>
