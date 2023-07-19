@@ -1,18 +1,22 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import {Preferences, Paths, Authorization} from '../../const.ts';
+import {Paths, Authorization} from '../../const.ts';
 import {MainPage} from '../../pages/main/main-page.tsx';
 import {LoginPage} from '../../pages/login/login-page.tsx';
 import {OfferPage} from '../../pages/offer/offer-page.tsx';
 import {FavoritesPage} from '../../pages/favorites/favorites-page.tsx';
 import {ErrorPage} from '../../pages/error/error-page.tsx';
 import {PrivateRoute} from '../private-route/private-route.tsx';
+import {Offer} from '../../mocks/offers.ts';
 
-export const App = (): JSX.Element => (
+type AppGlobalProps = {
+  offers: Offer[];
+}
+export const App = ({offers}: AppGlobalProps): JSX.Element => (
   <BrowserRouter>
     <Routes>
       <Route
         path={Paths.Main}
-        element={<MainPage placesCount={Preferences.PlacesCount} />}
+        element={<MainPage offers={offers}/>}
       />
       <Route
         path={Paths.Login}
@@ -25,8 +29,8 @@ export const App = (): JSX.Element => (
       <Route
         path={Paths.Favorites}
         element={
-          <PrivateRoute authorization={Authorization.NoAuth}>
-            <FavoritesPage />
+          <PrivateRoute authorization={Authorization.Auth}>
+            <FavoritesPage offers={offers} />
           </PrivateRoute>
         }
       />

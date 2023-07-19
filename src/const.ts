@@ -1,6 +1,4 @@
-export const Preferences = {
-  PlacesCount : 5
-} as const;
+export const RATING_COEFFICIENT = 20;
 
 export const Paths = {
   Main: '/',

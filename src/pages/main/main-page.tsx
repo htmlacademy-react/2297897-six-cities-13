@@ -1,11 +1,12 @@
-import {PlaceCard} from '../../components/place-card/place-card.tsx';
 import {Header} from '../../components/header/header.tsx';
+import {Offer} from '../../mocks/offers.ts';
+import {PlacesList} from '../../components/places-list/places-list.tsx';
 
 type MainScreenProps = {
-  placesCount: number;
+  offers: Offer[];
 };
 
-export const MainPage = ({placesCount}: MainScreenProps) => (
+export const MainPage = ({offers}: MainScreenProps) => (
   <div className="page page--gray page--main">
     <Header />
     <main className="page__main page__main--index">
@@ -67,7 +68,7 @@ export const MainPage = ({placesCount}: MainScreenProps) => (
               </ul>
             </form>
             <div className="cities__places-list places__list tabs__content">
-              {Array.from(Array(placesCount).keys()).map((number) => <PlaceCard key={number} />)}
+              <PlacesList offers={offers}/>
             </div>
           </section>
           <div className="cities__right-section">
