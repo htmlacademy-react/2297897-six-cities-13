@@ -1,5 +1,5 @@
-import {Offer} from '../mocks/offers.ts';
-import {FavoritePlaceCard} from '../components/favorite-place-card/favorite-place-card.tsx';
+import {Offer} from '../../mocks/offers.ts';
+import {FavoritePlaceCard} from '../favorite-place-card/favorite-place-card.tsx';
 
 type FavoriteCityPlacesList = {
   favoriteOffers: Offer[];
