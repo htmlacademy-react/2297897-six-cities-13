@@ -26,11 +26,20 @@ export const PlacesList = ({offers}: PlacesListProps): JSX.Element => {
         (offer) =>
           (
             <PlaceCard
+              id={offer.id}
+              isPremium={offer.isPremium}
+              isFavorite={offer.isFavorite}
+              price={offer.price}
+              previewImg={offer.previewImage}
+              rating={offer.rating}
+              title={offer.title}
+              type={offer.type}
+
               key={offer.id}
-              offer={offer}
+
               activeCard={activeCard}
               handleMouseEnter={handleMouseEnter}
-              handleMouseLeave = {handleMouseLeave}
+              handleMouseLeave={handleMouseLeave}
             />
           )
       )};

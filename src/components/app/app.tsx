@@ -11,35 +11,36 @@ import {Offer} from '../../mocks/offers.ts';
 type AppGlobalProps = {
   offers: Offer[];
 }
-export const App = ({offers}: AppGlobalProps): JSX.Element => (
-  <BrowserRouter>
-    <Routes>
-      <Route
-        path={Paths.Main}
-        element={<MainPage offers={offers}/>}
-      />
-      <Route
-        path={Paths.Login}
-        element={<LoginPage />}
-      />
-      <Route
-        path={Paths.Offer}
-        element={<OfferPage />}
-      />
-      <Route
-        path={Paths.Favorites}
-        element={
-          <PrivateRoute authorization={Authorization.Auth}>
-            <FavoritesPage offers={offers} />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path={Paths.Error}
-        element={<ErrorPage />}
-      />
-    </Routes>
-  </BrowserRouter>
-);
-
-
+export const App = ({offers}: AppGlobalProps) => {
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path={Paths.Main}
+          element={<MainPage offers={offers}/>}
+        />
+        <Route
+          path={Paths.Login}
+          element={<LoginPage/>}
+        />
+        <Route
+          path={Paths.Offer}
+          element={<OfferPage offers={offers}/>}
+        />
+        <Route
+          path={Paths.Favorites}
+          element={
+            <PrivateRoute authorization={Authorization.Auth}>
+              <FavoritesPage favoriteOffers={favoriteOffers}/>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={Paths.Error}
+          element={<ErrorPage/>}
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+};

@@ -1,14 +1,30 @@
 import {Header} from '../../components/header/header.tsx';
 import {Offer} from '../../mocks/offers.ts';
-import FavoriteCityPlacesList from '../../components/favorite-city-places-list/favorite-city-places-list.tsx';
+import {FavoriteCityPlaces} from '../../components/favorite-city-places-list/favorite-city-places-list.tsx';
+import {CITIES} from '../../const.ts';
 
 type FavoritesPageProps = {
-  offers: Offer[];
+  favoriteOffers: Offer[];
 }
 
-export const FavoritesPage = ({offers}: FavoritesPageProps) => {
+export const FavoritesPage = ({favoriteOffers}: FavoritesPageProps) => {
+  const favoritePlaces: Record<string, Offer[]> = {
+    Paris: [],
+    Cologne: [],
+    Brussels: [],
+    Amsterdam: [],
+    Hamburg: [],
+    Dusseldorf: [],
+  };
 
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  const filterPlacesPerCities = () => {
+    favoriteOffers.forEach((favoriteOffer) => {
+      const cityName = favoriteOffer.city.name;
+      favoritePlaces[cityName].push(favoriteOffer);
+    });
+  };
+
+  filterPlacesPerCities();
 
   return (
     <div className="page">
@@ -18,7 +34,11 @@ export const FavoritesPage = ({offers}: FavoritesPageProps) => {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <FavoriteCityPlacesList favoriteOffers={favoriteOffers} cityName={'Amsterdam'}/>
+
+              {CITIES.map((city) =>
+                <FavoriteCityPlaces favoriteOffers={favoritePlaces[city]} cityName={city} key={city}/>
+              )}
+
             </ul>
           </section>
         </div>
