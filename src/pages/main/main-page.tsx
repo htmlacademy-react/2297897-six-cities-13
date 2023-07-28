@@ -59,14 +59,13 @@ export const MainPage = ({offers}: MainScreenProps) => {
                 <PlacesList
                   handleMouseEnter={handleMouseEnter}
                   handleMouseLeave={handleMouseLeave}
-                  activeCard={activeCard}
                   offers={offers}
                 />
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map offers={offers} city={offers[0].city} selectedPlace={activeCard}/>
+                <Map offers={offers} city={offers[0].city} selectedPlace={activeCard} isOfferPage={false}/>
               </section>
             </div>
           </div>

@@ -7,11 +7,13 @@ import {FavoritesPage} from '../../pages/favorites/favorites-page.tsx';
 import {ErrorPage} from '../../pages/error/error-page.tsx';
 import {PrivateRoute} from '../private-route/private-route.tsx';
 import {Offer} from '../../mocks/offers.ts';
+import {Review} from '../../mocks/reviews.ts';
 
 type AppGlobalProps = {
   offers: Offer[];
+  reviews: Review[];
 }
-export const App = ({offers}: AppGlobalProps) => {
+export const App = ({offers, reviews}: AppGlobalProps) => {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   return (
@@ -27,7 +29,7 @@ export const App = ({offers}: AppGlobalProps) => {
         />
         <Route
           path={Paths.Offer}
-          element={<OfferPage offers={offers}/>}
+          element={<OfferPage offers={offers} reviews={reviews}/>}
         />
         <Route
           path={Paths.Favorites}

@@ -1,7 +1,7 @@
-import {Offer} from '../../mocks/offers.ts';
 import {MouseEventHandler} from 'react';
 import {RATING_COEFFICIENT} from '../../const.ts';
 import {Link} from 'react-router-dom';
+import {getFavoriteStyles} from '../../utils.ts';
 
 export type PlaceCardProps = {
   id: string;
@@ -14,13 +14,12 @@ export type PlaceCardProps = {
   type: string;
 };
 
-type ActiveCardProps = {
-  activeCard: Offer | null;
-  handleMouseEnter: (offerId: string) => void;
-  handleMouseLeave: MouseEventHandler;
+export type ActiveCardProps = {
+  handleMouseEnter?: (offerId: string) => void;
+  handleMouseLeave?: MouseEventHandler;
 };
 
-type PlaceCardPropsWithActiveCard = PlaceCardProps & ActiveCardProps
+type PlaceCardPropsWithActiveCard = PlaceCardProps & ActiveCardProps;
 
 export const PlaceCard = (
   {
@@ -33,72 +32,56 @@ export const PlaceCard = (
     title,
     type,
 
-    activeCard,
     handleMouseEnter,
-    handleMouseLeave
-  }: PlaceCardPropsWithActiveCard) => {
+    handleMouseLeave,
+  }: PlaceCardPropsWithActiveCard) => (
+  <article
+    className="cities__card place-card"
+    onMouseEnter={() => handleMouseEnter ? handleMouseEnter(id) : null}
+    onMouseLeave={handleMouseLeave ?? undefined}
+  >
 
-  const getFavoriteStyles = (isFavoritePlace: boolean) => {
-    if (isFavoritePlace) {
-      return {fill: '#4481c3', stroke: '#4481c3'};
+    {
+      isPremium
+        ? <div className="place-card__mark"><span>Premium</span></div>
+        : null
     }
-  };
 
-  const getActiveCardStyles = (cardId: string) => {
-    if(cardId === (activeCard ? activeCard.id : 'none')){
-      return {boxShadow: '0px 5px 10px #4481c3'};
-    }
-  };
-
-  return (
-    <article
-      className="cities__card place-card"
-      onMouseEnter={() => handleMouseEnter(id)}
-      onMouseLeave={handleMouseLeave}
-      style={getActiveCardStyles(id)}
-    >
-
-      {
-        isPremium
-          ? <div className="place-card__mark"><span>Premium</span></div>
-          : null
-      }
-
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`offer/${id}`}>
-          <img className="place-card__image" src={previewImg} width="260" height="200" alt="Place image"/>
-        </Link>
-      </div>
-      <div className="place-card__info">
-        <div className="place-card__price-wrapper">
-          <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{price}</b>
-            <span className="place-card__price-text">&#47;&nbsp;night</span>
-          </div>
-          <button className="place-card__bookmark-button button" type="button">
-            <svg
-              className="place-card__bookmark-icon"
-              width="18"
-              height="19"
-              style={getFavoriteStyles(isFavorite)}
-            >
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+    <div className="cities__image-wrapper place-card__image-wrapper">
+      <Link to={`/offer/${id}`}>
+        <img className="place-card__image" src={previewImg} width="260" height="200" alt="Place image"/>
+      </Link>
+    </div>
+    <div className="place-card__info">
+      <div className="place-card__price-wrapper">
+        <div className="place-card__price">
+          <b className="place-card__price-value">&euro;{price}</b>
+          <span className="place-card__price-text">&#47;&nbsp;night</span>
         </div>
-        <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating * RATING_COEFFICIENT}%`}}></span>
-            <span className="visually-hidden">Rating</span>
-          </div>
-        </div>
-        <h2 className="place-card__name">
-          <Link to={`offer/${id}`}>{title}</Link>
-        </h2>
-        <p className="place-card__type" style={{textTransform: 'capitalize'}}>{type}</p>
+        <button className="place-card__bookmark-button button" type="button">
+          <svg
+            className="place-card__bookmark-icon"
+            width="18"
+            height="19"
+            style={getFavoriteStyles(isFavorite)}
+          >
+            <use xlinkHref="#icon-bookmark"></use>
+          </svg>
+          <span className="visually-hidden">To bookmarks</span>
+        </button>
       </div>
-    </article>
-  );
-};
+      <div className="place-card__rating rating">
+        <div className="place-card__stars rating__stars">
+          <span style={{width: `${rating * RATING_COEFFICIENT}%`}}></span>
+          <span className="visually-hidden">Rating</span>
+        </div>
+      </div>
+      <h2 className="place-card__name">
+        <Link to={`/offer/${id}`}>{title}</Link>
+      </h2>
+      <p className="place-card__type" style={{textTransform: 'capitalize'}}>{type}</p>
+    </div>
+  </article>
+);
+
 

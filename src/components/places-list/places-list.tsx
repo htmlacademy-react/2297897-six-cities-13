@@ -1,36 +1,38 @@
-import {PlaceCard} from '../place-card/place-card.tsx';
+import {ActiveCardProps, PlaceCard} from '../place-card/place-card.tsx';
 import {Offer} from '../../mocks/offers.ts';
-import {Fragment, MouseEventHandler} from 'react';
+import {Fragment} from 'react';
 
 type PlacesListProps = {
   offers: Offer[];
-  activeCard: Offer | null;
-  handleMouseEnter: (offerId: string) => void;
-  handleMouseLeave: MouseEventHandler;
-}
+  selectedPlace?: Offer;
+} & ActiveCardProps;
 
-export const PlacesList = ({offers, handleMouseEnter, handleMouseLeave, activeCard}: PlacesListProps) => (
-  <Fragment>
-    {offers.map(
-      (offer) =>
-        (
-          <PlaceCard
-            id={offer.id}
-            isPremium={offer.isPremium}
-            isFavorite={offer.isFavorite}
-            price={offer.price}
-            previewImg={offer.previewImage}
-            rating={offer.rating}
-            title={offer.title}
-            type={offer.type}
+export const PlacesList = ({offers, handleMouseEnter, handleMouseLeave, selectedPlace}: PlacesListProps) => {
+  if(selectedPlace){
+    offers = offers.filter((offer) => offer.id !== selectedPlace.id);
+  }
+  return (
+    <Fragment>
+      {offers.map(
+        (offer) =>
+          (
+            <PlaceCard
+              id={offer.id}
+              isPremium={offer.isPremium}
+              isFavorite={offer.isFavorite}
+              price={offer.price}
+              previewImg={offer.previewImage}
+              rating={offer.rating}
+              title={offer.title}
+              type={offer.type}
 
-            key={offer.id}
+              key={offer.id}
 
-            activeCard={activeCard}
-            handleMouseEnter={() => handleMouseEnter(offer.id)}
-            handleMouseLeave={handleMouseLeave}
-          />
-        )
-    )};
-  </Fragment>
-);
+              handleMouseEnter={() => handleMouseEnter ? handleMouseEnter(offer.id) : null}
+              handleMouseLeave={handleMouseLeave ?? undefined}
+            />
+          )
+      )};
+    </Fragment>
+  );
+};

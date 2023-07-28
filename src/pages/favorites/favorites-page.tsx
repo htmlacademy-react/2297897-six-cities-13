@@ -1,6 +1,6 @@
 import {Header} from '../../components/header/header.tsx';
 import {Offer} from '../../mocks/offers.ts';
-import {FavoriteCityPlaces} from '../../components/favorite-city-places-list/favorite-city-places-list.tsx';
+import {FavoriteCityPlaces} from '../../components/favorite-places-list/favorite-places-list.tsx';
 import {CITIES} from '../../const.ts';
 
 type FavoritesPageProps = {

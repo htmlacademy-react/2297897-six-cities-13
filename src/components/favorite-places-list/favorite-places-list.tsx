@@ -1,12 +1,12 @@
 import {Offer} from '../../mocks/offers.ts';
 import {FavoritePlaceCard} from '../favorite-place-card/favorite-place-card.tsx';
 
-type FavoriteCityPlacesList = {
+type FavoritePlacesList = {
   favoriteOffers: Offer[];
   cityName: string;
 }
 
-export const FavoriteCityPlaces = ({favoriteOffers, cityName}: FavoriteCityPlacesList): JSX.Element | null => {
+export const FavoriteCityPlaces = ({favoriteOffers, cityName}: FavoritePlacesList): JSX.Element | null => {
   if(!favoriteOffers.length){
     return null;
   }

@@ -9,9 +9,10 @@ type MapProps = {
   offers: Offer[];
   city: CityLocation;
   selectedPlace: Offer | null;
+  isOfferPage: boolean;
 }
 
-export const Map = ({offers, city, selectedPlace}: MapProps) => {
+export const Map = ({offers, city, selectedPlace, isOfferPage}: MapProps) => {
   const mapRef = useRef(null);
   const map = useMap({mapRef, city});
 
@@ -26,6 +27,11 @@ export const Map = ({offers, city, selectedPlace}: MapProps) => {
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
+
+  const getMapStyle = () =>
+    isOfferPage
+      ? {height: '100%', width: '1150px', margin: '0 auto'}
+      : {height: '100%'};
 
   useEffect(() => {
     if (map) {
@@ -46,11 +52,7 @@ export const Map = ({offers, city, selectedPlace}: MapProps) => {
 
   return (
     <div
-      style={
-        {
-          height: '100%',
-        }
-      }
+      style={getMapStyle()}
       ref={mapRef}
     >
 
