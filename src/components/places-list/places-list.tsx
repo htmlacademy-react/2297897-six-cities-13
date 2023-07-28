@@ -1,48 +1,36 @@
 import {PlaceCard} from '../place-card/place-card.tsx';
 import {Offer} from '../../mocks/offers.ts';
-import {Fragment, useState} from 'react';
+import {Fragment, MouseEventHandler} from 'react';
 
 type PlacesListProps = {
   offers: Offer[];
+  activeCard: Offer | null;
+  handleMouseEnter: (offerId: string) => void;
+  handleMouseLeave: MouseEventHandler;
 }
 
-export const PlacesList = ({offers}: PlacesListProps): JSX.Element => {
-  const [activeCard, setActiveCard] = useState<Offer | null>(null);
+export const PlacesList = ({offers, handleMouseEnter, handleMouseLeave, activeCard}: PlacesListProps) => (
+  <Fragment>
+    {offers.map(
+      (offer) =>
+        (
+          <PlaceCard
+            id={offer.id}
+            isPremium={offer.isPremium}
+            isFavorite={offer.isFavorite}
+            price={offer.price}
+            previewImg={offer.previewImage}
+            rating={offer.rating}
+            title={offer.title}
+            type={offer.type}
 
-  const handleMouseEnter = (offerId: string | undefined) => {
-    const currentOffer = offers.find((offer) => offer.id === offerId);
-    if (currentOffer) {
-      setActiveCard(currentOffer);
-    }
-  };
+            key={offer.id}
 
-  const handleMouseLeave = () => {
-    setActiveCard(null);
-  };
-
-  return (
-    <Fragment>
-      {offers.map(
-        (offer) =>
-          (
-            <PlaceCard
-              id={offer.id}
-              isPremium={offer.isPremium}
-              isFavorite={offer.isFavorite}
-              price={offer.price}
-              previewImg={offer.previewImage}
-              rating={offer.rating}
-              title={offer.title}
-              type={offer.type}
-
-              key={offer.id}
-
-              activeCard={activeCard}
-              handleMouseEnter={handleMouseEnter}
-              handleMouseLeave={handleMouseLeave}
-            />
-          )
-      )};
-    </Fragment>
-  );
-};
+            activeCard={activeCard}
+            handleMouseEnter={() => handleMouseEnter(offer.id)}
+            handleMouseLeave={handleMouseLeave}
+          />
+        )
+    )};
+  </Fragment>
+);

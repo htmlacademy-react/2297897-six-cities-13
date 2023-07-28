@@ -13,6 +13,7 @@ type AppGlobalProps = {
 }
 export const App = ({offers}: AppGlobalProps) => {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+
   return (
     <BrowserRouter>
       <Routes>
