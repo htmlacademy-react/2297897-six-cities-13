@@ -16,15 +16,20 @@ export const RATINGS = [
   { value: '1', id: '1-star', title: 'terribly' }
 ] as const;
 
+export const UrlMarkers = {
+  Default: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
+  Current: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg'
+} as const;
+
 export const Paths = {
   Main: '/',
   Favorites: '/favorites',
   Login: '/login',
   Offer: '/offer/:id',
   Error: '*',
-}as const;
+} as const;
 
 export const Authorization = {
   Auth: 'authorized',
   NoAuth: 'non-authorized'
-}as const;
+} as const;
