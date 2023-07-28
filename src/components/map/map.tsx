@@ -12,7 +12,13 @@ type MapProps = {
   isOfferPage: boolean;
 }
 
-export const Map = ({offers, city, selectedPlace, isOfferPage}: MapProps) => {
+export const Map = (
+  {
+    offers,
+    city,
+    selectedPlace,
+    isOfferPage
+  }: MapProps) => {
   const mapRef = useRef(null);
   const map = useMap({mapRef, city});
 

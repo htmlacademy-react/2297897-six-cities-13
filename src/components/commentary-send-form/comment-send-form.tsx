@@ -33,7 +33,11 @@ export const CommentSendForm = () => {
               className="reviews__rating-label form__rating-label"
               title={rating.title}
             >
-              <svg className="form__star-image" width="37" height="33">
+              <svg
+                className="form__star-image"
+                width="37"
+                height="33"
+              >
                 <use xlinkHref="#icon-star"></use>
               </svg>
             </label>
@@ -57,7 +61,9 @@ export const CommentSendForm = () => {
           describe
           your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled>
+          Submit
+        </button>
       </div>
     </form>
   );

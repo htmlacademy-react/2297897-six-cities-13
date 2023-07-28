@@ -24,6 +24,7 @@ export const FavoriteCityPlaces = ({favoriteOffers, cityName}: FavoritePlacesLis
         {favoriteOffers.map((offer) =>
           (
             <FavoritePlaceCard
+              id={offer.id}
               price={offer.price}
               previewImg={offer.previewImage}
               rating={offer.rating}

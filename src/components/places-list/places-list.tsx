@@ -7,7 +7,13 @@ type PlacesListProps = {
   selectedPlace?: Offer;
 } & ActiveCardProps;
 
-export const PlacesList = ({offers, handleMouseEnter, handleMouseLeave, selectedPlace}: PlacesListProps) => {
+export const PlacesList = (
+  {
+    offers,
+    handleMouseEnter,
+    handleMouseLeave,
+    selectedPlace
+  }: PlacesListProps) => {
   if(selectedPlace){
     offers = offers.filter((offer) => offer.id !== selectedPlace.id);
   }
