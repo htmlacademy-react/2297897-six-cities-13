@@ -1,7 +1,7 @@
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {CityLocation, Offer} from '../../mocks/offers.ts';
-import {useEffect, useRef} from 'react';
+import {FC, useEffect, useRef} from 'react';
 import {UrlMarkers} from '../../const.ts';
 import {useMap} from '../../hooks/usemap.ts';
 
@@ -12,13 +12,12 @@ type MapProps = {
   isOfferPage: boolean;
 }
 
-export const Map = (
-  {
-    offers,
-    city,
-    selectedPlace,
-    isOfferPage
-  }: MapProps) => {
+export const Map: FC<MapProps> = ({
+  offers,
+  city,
+  selectedPlace,
+  isOfferPage
+}) => {
   const mapRef = useRef(null);
   const map = useMap({mapRef, city});
 

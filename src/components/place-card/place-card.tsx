@@ -1,40 +1,39 @@
-import {MouseEventHandler} from 'react';
+import {FC, MouseEventHandler} from 'react';
 import {RATING_COEFFICIENT} from '../../const.ts';
 import {Link} from 'react-router-dom';
 import {getFavoriteStyles} from '../../utils.ts';
 
 export type PlaceCardProps = {
-  id: string;
-  isPremium: boolean;
-  isFavorite: boolean;
-  previewImg: string;
-  price: number;
-  rating: number;
-  title: string;
-  type: string;
+    id: string;
+    isPremium: boolean;
+    isFavorite: boolean;
+    previewImg: string;
+    price: number;
+    rating: number;
+    title: string;
+    type: string;
 };
 
 export type ActiveCardProps = {
-  handleMouseEnter?: (offerId: string) => void;
-  handleMouseLeave?: MouseEventHandler;
+    handleMouseEnter?: (offerId: string) => void;
+    handleMouseLeave?: MouseEventHandler;
 };
 
 type PlaceCardPropsWithActiveCard = PlaceCardProps & ActiveCardProps;
 
-export const PlaceCard = (
-  {
-    id,
-    isPremium,
-    isFavorite,
-    previewImg,
-    price,
-    rating,
-    title,
-    type,
+export const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
+  id,
+  isPremium,
+  isFavorite,
+  previewImg,
+  price,
+  rating,
+  title,
+  type,
 
-    handleMouseEnter,
-    handleMouseLeave,
-  }: PlaceCardPropsWithActiveCard) => (
+  handleMouseEnter,
+  handleMouseLeave,
+}) => (
   <article
     className="cities__card place-card"
     onMouseEnter={() => handleMouseEnter ? handleMouseEnter(id) : null}

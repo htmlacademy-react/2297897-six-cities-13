@@ -1,18 +1,18 @@
 import {ActiveCardProps, PlaceCard} from '../place-card/place-card.tsx';
 import {Offer} from '../../mocks/offers.ts';
+import {FC} from 'react';
 
 type PlacesListProps = {
   offers: Offer[];
   selectedPlace?: Offer;
 } & ActiveCardProps;
 
-export const PlacesList = (
-  {
-    offers,
-    handleMouseEnter,
-    handleMouseLeave,
-    selectedPlace
-  }: PlacesListProps) => {
+export const PlacesList: FC<PlacesListProps> = ({
+  offers,
+  handleMouseEnter,
+  handleMouseLeave,
+  selectedPlace
+}) => {
   let nearPlaces: Offer[] = [];
 
   if(selectedPlace){

@@ -8,12 +8,13 @@ import {ErrorPage} from '../../pages/error/error-page.tsx';
 import {PrivateRoute} from '../private-route/private-route.tsx';
 import {Offer} from '../../mocks/offers.ts';
 import {Review} from '../../mocks/reviews.ts';
+import {FC} from 'react';
 
 type AppGlobalProps = {
   offers: Offer[];
   reviews: Review[];
 }
-export const App = ({offers, reviews}: AppGlobalProps) => {
+export const App: FC<AppGlobalProps> = ({offers, reviews}) => {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   return (
