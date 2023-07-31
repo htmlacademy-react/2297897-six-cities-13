@@ -5,8 +5,6 @@ export const humanizeISODate = (date: string) => {
   return `${parseDate.getDate()} ${Months[parseDate.getMonth() - 1]}`;
 };
 
-export const getFavoriteStyles = (isFavoritePlace: boolean) => {
-  if (isFavoritePlace) {
-    return {fill: '#4481c3', stroke: '#4481c3'};
-  }
-};
+export const getFavoriteStyles = (isFavoritePlace: boolean) => isFavoritePlace
+  ? {fill: '#4481c3', stroke: '#4481c3'}
+  : undefined;

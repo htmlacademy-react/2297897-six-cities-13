@@ -1,6 +1,5 @@
 import {ActiveCardProps, PlaceCard} from '../place-card/place-card.tsx';
 import {Offer} from '../../mocks/offers.ts';
-import {Fragment} from 'react';
 
 type PlacesListProps = {
   offers: Offer[];
@@ -14,12 +13,15 @@ export const PlacesList = (
     handleMouseLeave,
     selectedPlace
   }: PlacesListProps) => {
+  let nearPlaces: Offer[] = [];
+
   if(selectedPlace){
-    offers = offers.filter((offer) => offer.id !== selectedPlace.id);
+    nearPlaces = offers.filter((offer) => offer.id !== selectedPlace.id);
   }
+
   return (
-    <Fragment>
-      {offers.map(
+    <>
+      {(selectedPlace ? nearPlaces : offers).map(
         (offer) =>
           (
             <PlaceCard
@@ -39,6 +41,6 @@ export const PlacesList = (
             />
           )
       )};
-    </Fragment>
+    </>
   );
 };

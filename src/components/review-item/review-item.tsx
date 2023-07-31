@@ -4,7 +4,6 @@ import {humanizeISODate} from '../../utils.ts';
 
 type ReviewItemProps = Omit<Review, 'id'>
 
-
 export const ReviewItem = (
   {
     date,

@@ -14,9 +14,10 @@ export const MainPage = ({offers}: MainScreenProps) => {
 
   const handleMouseEnter = (offerId: string | undefined) => {
     const currentOffer = offers.find((offer) => offer.id === offerId);
-    if (currentOffer) {
-      setActiveCard(currentOffer);
+    if (!currentOffer) {
+      return;
     }
+    setActiveCard(currentOffer);
   };
 
   const handleMouseLeave = () => {
