@@ -14,9 +14,10 @@ export const MainPage = ({offers}: MainScreenProps) => {
 
   const handleMouseEnter = (offerId: string | undefined) => {
     const currentOffer = offers.find((offer) => offer.id === offerId);
-    if (currentOffer) {
-      setActiveCard(currentOffer);
+    if (!currentOffer) {
+      return;
     }
+    setActiveCard(currentOffer);
   };
 
   const handleMouseLeave = () => {
@@ -59,14 +60,13 @@ export const MainPage = ({offers}: MainScreenProps) => {
                 <PlacesList
                   handleMouseEnter={handleMouseEnter}
                   handleMouseLeave={handleMouseLeave}
-                  activeCard={activeCard}
                   offers={offers}
                 />
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map offers={offers} city={offers[0].city} selectedPlace={activeCard}/>
+                <Map offers={offers} city={offers[0].city} selectedPlace={activeCard} isOfferPage={false}/>
               </section>
             </div>
           </div>
