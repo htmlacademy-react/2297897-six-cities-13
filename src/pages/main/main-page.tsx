@@ -70,7 +70,7 @@ export const MainPage = () => {
                 </section>
                 <div className="cities__right-section">
                   <section className="cities__map map">
-                    <Map offers={offers} city={offersForCity[0].city} selectedPlace={activeCard}
+                    <Map offers={offersForCity} city={offersForCity[0].city} selectedPlace={activeCard}
                       isOfferPage={false}
                     />
                   </section>

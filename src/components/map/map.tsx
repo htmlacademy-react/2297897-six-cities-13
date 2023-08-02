@@ -1,4 +1,4 @@
-import leaflet from 'leaflet';
+import leaflet, {layerGroup, Marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {CityLocation, Offer} from '../../mocks/offers.ts';
 import {FC, useEffect, useRef} from 'react';
@@ -40,18 +40,23 @@ export const Map: FC<MapProps> = ({
 
   useEffect(() => {
     if (map) {
+      const placeLayer = layerGroup().addTo(map);
       offers.forEach((offer) => {
-        leaflet
-          .marker({
-            lat: offer.location.latitude,
-            lng: offer.location.longitude,
-          }, {
-            icon: selectedPlace?.id === offer.id
-              ? currentCustomIcon
-              : defaultCustomIcon,
-          })
-          .addTo(map);
+        const marker = new Marker({
+          lat: offer.location.latitude,
+          lng: offer.location.longitude,
+        });
+
+        marker
+          .setIcon(selectedPlace?.id === offer.id
+            ? currentCustomIcon
+            : defaultCustomIcon,
+          )
+          .addTo(placeLayer);
       });
+      return () => {
+        map.removeLayer(placeLayer);
+      };
     }
   }, [map, offers, selectedPlace, currentCustomIcon, defaultCustomIcon]);
 

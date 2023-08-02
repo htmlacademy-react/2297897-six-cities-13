@@ -22,7 +22,7 @@ export const reducer = createReducer<InitialStateType>(
       .addCase(updateFavoriteAction,
         (state, action) => {
           const currentOffer = state.offers.findIndex(
-            (offer) => offer.id === action.payload.id
+            (offer) => offer.id === action.payload
           );
           state.offers[currentOffer].isFavorite = !state.offers[currentOffer].isFavorite;
         })
