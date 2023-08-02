@@ -22,7 +22,7 @@ export const App: FC<AppGlobalProps> = ({offers, reviews}) => {
       <Routes>
         <Route
           path={Paths.Main}
-          element={<MainPage offers={offers}/>}
+          element={<MainPage/>}
         />
         <Route
           path={Paths.Login}

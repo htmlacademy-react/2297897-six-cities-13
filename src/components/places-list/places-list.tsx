@@ -13,6 +13,7 @@ export const PlacesList: FC<PlacesListProps> = ({
   handleMouseLeave,
   selectedPlace
 }) => {
+
   let nearPlaces: Offer[] = [];
 
   if(selectedPlace){
