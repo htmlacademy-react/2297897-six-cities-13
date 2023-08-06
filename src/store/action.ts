@@ -6,7 +6,7 @@ export const updateFavoriteAction = createAction('offer/updateFavorite',
   (offerId: string) => ({payload: offerId}));
 
 export const updateCityAction = createAction('city/updateCity',
-  (value: typeof CITIES[number]) => ({payload: value}));
+  (newCity: typeof CITIES[number]) => ({payload: newCity}));
 
 export const updateSortMethod = createAction('offers/updateSort',
-  (value: allowedSortMethods) => ({payload: value}));
+  (newSortMethod: allowedSortMethods) => ({payload: newSortMethod}));
