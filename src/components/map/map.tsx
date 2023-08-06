@@ -1,7 +1,7 @@
-import leaflet from 'leaflet';
+import leaflet, {layerGroup, Marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {CityLocation, Offer} from '../../mocks/offers.ts';
-import {useEffect, useRef} from 'react';
+import {FC, useEffect, useRef} from 'react';
 import {UrlMarkers} from '../../const.ts';
 import {useMap} from '../../hooks/usemap.ts';
 
@@ -12,13 +12,12 @@ type MapProps = {
   isOfferPage: boolean;
 }
 
-export const Map = (
-  {
-    offers,
-    city,
-    selectedPlace,
-    isOfferPage
-  }: MapProps) => {
+export const Map: FC<MapProps> = ({
+  offers,
+  city,
+  selectedPlace,
+  isOfferPage
+}) => {
   const mapRef = useRef(null);
   const map = useMap({mapRef, city});
 
@@ -41,18 +40,23 @@ export const Map = (
 
   useEffect(() => {
     if (map) {
+      const placeLayer = layerGroup().addTo(map);
       offers.forEach((offer) => {
-        leaflet
-          .marker({
-            lat: offer.location.latitude,
-            lng: offer.location.longitude,
-          }, {
-            icon: selectedPlace?.id === offer.id
-              ? currentCustomIcon
-              : defaultCustomIcon,
-          })
-          .addTo(map);
+        const marker = new Marker({
+          lat: offer.location.latitude,
+          lng: offer.location.longitude,
+        });
+
+        marker
+          .setIcon(selectedPlace?.id === offer.id
+            ? currentCustomIcon
+            : defaultCustomIcon,
+          )
+          .addTo(placeLayer);
       });
+      return () => {
+        map.removeLayer(placeLayer);
+      };
     }
   }, [map, offers, selectedPlace, currentCustomIcon, defaultCustomIcon]);
 

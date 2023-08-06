@@ -1,11 +1,12 @@
 import {Review} from '../../mocks/reviews.ts';
 import {ReviewItem} from '../review-item/review-item.tsx';
+import {FC} from 'react';
 
 interface ReviewsListProps {
   reviews: Review[];
 }
 
-export const ReviewsList = ({reviews}: ReviewsListProps) => (
+export const ReviewsList: FC<ReviewsListProps> = ({reviews}) => (
   <>
     {reviews.map(
       (review) =>

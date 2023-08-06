@@ -1,18 +1,18 @@
 import {RATING_COEFFICIENT} from '../../const.ts';
 import {PlaceCardProps} from '../place-card/place-card.tsx';
 import {Link} from 'react-router-dom';
+import {FC} from 'react';
 
 type FavoritePlaceCardProps = Omit<PlaceCardProps, 'isPremium' | 'isFavorite'>
 
-export const FavoritePlaceCard = (
-  {
-    id,
-    previewImg,
-    price,
-    title,
-    type,
-    rating
-  }: FavoritePlaceCardProps) => (
+export const FavoritePlaceCard: FC<FavoritePlaceCardProps> = ({
+  id,
+  previewImg,
+  price,
+  title,
+  type,
+  rating
+}) => (
 
   <article className="favorites__card place-card">
     <div className="favorites__image-wrapper place-card__image-wrapper">
