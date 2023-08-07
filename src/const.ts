@@ -46,5 +46,14 @@ export const Paths = {
 
 export const Authorization = {
   Auth: 'authorized',
-  NoAuth: 'non-authorized'
+  NoAuth: 'non-authorized',
+  Unknown: 'unknown',
+} as const;
+
+export type AuthorizationStatus = typeof Authorization[keyof typeof Authorization];
+
+export const APIPaths = {
+  Offers: '/offers',
+  Login: '/login',
+  Logout: '/logout'
 } as const;

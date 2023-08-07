@@ -1,21 +1,33 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {CITIES} from '../const.ts';
-import {Offer} from '../mocks/offers.ts';
-
-import {mockOffers} from '../mocks/offers.ts';
-import {updateCityAction, updateFavoriteAction, updateSortMethod} from './action.ts';
+import {Authorization, AuthorizationStatus, CITIES} from '../const.ts';
+import {ChosenOffer, Offer} from '../mocks/offers.ts';
 import {allowedSortMethods, SortMethods} from '../components/places-sorting-form/places-sorting-form.tsx';
+import {
+  loadChosenOffer,
+  loadOffersAction,
+  requireAuthorization,
+  setLoadOffersStatusAction,
+  updateCityAction,
+  updateFavoriteAction,
+  updateSortMethodAction
+} from './action.ts';
 
 export type InitialStateType = {
   city: typeof CITIES[number];
   offers: Offer[];
   sortMethod: allowedSortMethods;
+  authorizationStatus: AuthorizationStatus;
+  loadingStatus: boolean;
+  chosenOffer: ChosenOffer | null;
 }
 
 const initialState: InitialStateType = {
   city: 'Amsterdam',
-  offers: mockOffers,
+  offers: [],
   sortMethod: SortMethods.ByPopularity,
+  authorizationStatus: Authorization.Unknown,
+  loadingStatus: true,
+  chosenOffer: null,
 };
 
 export const reducer = createReducer<InitialStateType>(
@@ -33,8 +45,20 @@ export const reducer = createReducer<InitialStateType>(
         (state, action) => {
           state.city = action.payload;
         })
-      .addCase(updateSortMethod, (state, action) => {
+      .addCase(updateSortMethodAction, (state, action) => {
         state.sortMethod = action.payload;
+      })
+      .addCase(loadOffersAction, (state, action) => {
+        state.offers = action.payload;
+      })
+      .addCase(requireAuthorization, (state, action) => {
+        state.authorizationStatus = action.payload;
+      })
+      .addCase(setLoadOffersStatusAction, (state, action) => {
+        state.loadingStatus = action.payload;
+      })
+      .addCase(loadChosenOffer, (state, action) => {
+        state.chosenOffer = action.payload;
       })
 );
 

@@ -1,23 +1,25 @@
 import {Header} from '../../components/header/header.tsx';
 import {useParams} from 'react-router-dom';
-import {Offer} from '../../mocks/offers.ts';
 import {CommentSendForm} from '../../components/commentary-send-form/comment-send-form.tsx';
 import {ReviewsList} from '../../components/reviews-list/reviews-list.tsx';
-import {Review} from '../../mocks/reviews.ts';
 import {Map} from '../../components/map/map.tsx';
 import {ErrorPage} from '../error/error-page.tsx';
 import {PlacesList} from '../../components/places-list/places-list.tsx';
+import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
+import {useEffect} from 'react';
+import {fetchChosenOffer} from '../../service/api-actions.ts';
 
-type OfferPageProps = {
-  offers: Offer[];
-  reviews: Review[];
-};
+export const OfferPage = () => {
+  const dispatch = useAppDispatch();
+  const offerId = useParams().id;
 
-export const OfferPage = ({offers, reviews}: OfferPageProps) => {
-  const currentParams = useParams();
-  const currentOffer = offers.find((offer) => offer.id === currentParams.id);
+  useEffect(() => {
+    if (offerId) {
+      dispatch(fetchChosenOffer(offerId));
+    }
+  });
 
-  if(currentOffer === undefined){
+  if(offerId === undefined){
     return <ErrorPage />;
   }
 
