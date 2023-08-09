@@ -14,7 +14,7 @@ import {
   setLoadNearbyOfferStatusAction,
   setLoadOfferReviewsAction,
   setLoadOffersStatusAction,
-  setLoadUserInfoAction,
+  setLoadUserInfoAction, setPostingCommentStatus,
   sortOffersAction,
   updateCityAction,
   updateFavoriteAction,
@@ -33,6 +33,7 @@ export type LoadingStatuses = {
   isNearbyOffersLoading: boolean;
   isOfferReviewsLoading: boolean;
   isUserInfoLoading: boolean;
+  isCommentPosting: boolean;
 }
 
 export type UserInfo = {
@@ -73,6 +74,7 @@ const initialState: InitialStateType = {
     isNearbyOffersLoading: true,
     isOfferReviewsLoading: true,
     isUserInfoLoading: false,
+    isCommentPosting: false,
   },
   chosenOffer: {
     offerDetails: null,
@@ -142,6 +144,9 @@ export const reducer = createReducer<InitialStateType>(
       })
       .addCase(setLoadUserInfoAction, (state, action) => {
         state.loadingStatuses.isUserInfoLoading = action.payload;
+      })
+      .addCase(setPostingCommentStatus, (state, action) => {
+        state.loadingStatuses.isCommentPosting = action.payload;
       })
       .addCase(loadChosenOffer, (state, action) => {
         state.chosenOffer.offerDetails = action.payload;

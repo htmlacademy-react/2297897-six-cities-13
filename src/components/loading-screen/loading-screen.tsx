@@ -1,3 +1,5 @@
+import classes from './loading-screen.module.css';
+
 export const LoadingScreen = () => (
-  <p>Loading...</p>
+  <div className={classes.loader}></div>
 );

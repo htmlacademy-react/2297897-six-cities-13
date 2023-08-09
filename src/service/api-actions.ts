@@ -7,6 +7,7 @@ import {APIPaths, Authorization, AuthorizationStatus, Paths} from '../const.ts';
 import {dropToken, saveToken} from './token.ts';
 import {Review} from '../mocks/reviews.ts';
 import {UserInfo} from '../store/reducer.ts';
+import {CommentWithOfferId} from '../components/commentary-send-form/comment-send-form.tsx';
 import {
   loadChosenOffer,
   loadChosenOfferReviews,
@@ -20,6 +21,7 @@ import {
   setLoadOfferReviewsAction,
   setLoadOffersStatusAction,
   setLoadUserInfoAction,
+  setPostingCommentStatus,
 } from '../store/action.ts';
 
 export type AuthData = {
@@ -146,5 +148,18 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIPaths.Logout);
     dropToken();
     dispatch(requireAuthorization(Authorization.NoAuth));
+  }
+);
+
+export const postComment = createAsyncThunk<void, CommentWithOfferId, {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+}>(
+  'data/postComment',
+  async ({rating, description: comment, offerId}, {dispatch, extra: api}) => {
+    dispatch(setPostingCommentStatus(true));
+    await api.post(`${APIPaths.Comments}/${offerId}`, {rating, comment});
+    dispatch(setPostingCommentStatus(false));
   }
 );

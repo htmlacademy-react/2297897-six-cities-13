@@ -1,17 +1,43 @@
-import {ChangeEvent, Fragment, useState} from 'react';
+import {ChangeEvent, FormEvent, Fragment, useState} from 'react';
 import {RATINGS} from '../../const.ts';
+import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
+import {fetchOfferReviews, postComment} from '../../service/api-actions.ts';
+import {useParams} from 'react-router-dom';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
+import * as selectors from '../../store/selectors.ts';
 
-type Comment = {
-  rating: string;
+export type Comment = {
+  rating: number;
   description: string;
 }
 
+export type CommentWithOfferId = Comment & {offerId: string};
+
 export const CommentSendForm = () => {
-  const [comment, setComment] = useState<Comment>({rating: '', description: ''});
+  const [comment, setComment] = useState<Comment>({rating: 0, description: ''});
+  const dispatch = useAppDispatch();
+  const offerId = useParams().id!;
+  const {isCommentPosting} = useAppSelector(selectors.getLoadingStatuses);
 
   const handleRadioChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setComment({...comment, rating: evt.target.value});
+    setComment({...comment, rating: Number(evt.target.value)});
   };
+
+  const handleTextAreaChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+    setComment({...comment, description: evt.target.value});
+  };
+
+  const handleSubmitButton = (evt: FormEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
+    dispatch(postComment({
+      rating: comment.rating,
+      description: comment.description,
+      offerId: offerId,
+    }));
+    dispatch(fetchOfferReviews(offerId));
+  };
+
+  const isNeedDisable = isCommentPosting || (comment.rating === 0) || (comment.description.length < 50);
 
   return (
     <form className="reviews__form form" action="#" method="post">
@@ -46,9 +72,7 @@ export const CommentSendForm = () => {
       </div>
       <textarea
         value={comment.description}
-        onChange={
-          (evt) => setComment({...comment, description: evt.target.value})
-        }
+        onChange={handleTextAreaChange}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
@@ -61,8 +85,12 @@ export const CommentSendForm = () => {
           describe
           your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled>
-          Submit
+        <button
+          onClick={handleSubmitButton}
+          className="reviews__submit form__submit button"
+          disabled={isNeedDisable}
+        >
+          {isCommentPosting ? 'Sending...' : 'Submit'}
         </button>
       </div>
     </form>

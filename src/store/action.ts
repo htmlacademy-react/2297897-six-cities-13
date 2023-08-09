@@ -56,9 +56,15 @@ export const redirectAction = createAction('app/redirectToRoute',
 export const loadChosenOffer = createAction('offer/loadOfferDetails',
   (offer: ChosenOffer) => ({payload: offer})
 );
+
 export const loadChosenOfferReviews = createAction('offer/loadOfferComments',
   (reviews: Review[]) => ({payload: reviews})
 );
+
 export const loadNearbyOffers = createAction('offer/loadNearbyOffers',
   (nearbyOffers: Offer[]) => ({payload: nearbyOffers})
+);
+
+export const setPostingCommentStatus = createAction('comment/setLoadingStatus',
+  (status: boolean) => ({payload: status})
 );
