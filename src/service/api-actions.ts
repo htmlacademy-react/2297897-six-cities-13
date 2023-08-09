@@ -5,12 +5,21 @@ import {AxiosInstance} from 'axios';
 import {ChosenOffer, Offer} from '../mocks/offers.ts';
 import {APIPaths, Authorization, AuthorizationStatus, Paths} from '../const.ts';
 import {dropToken, saveToken} from './token.ts';
+import {Review} from '../mocks/reviews.ts';
+import {UserInfo} from '../store/reducer.ts';
 import {
   loadChosenOffer,
+  loadChosenOfferReviews,
+  loadNearbyOffers,
   loadOffersAction,
   redirectAction,
   requireAuthorization,
-  setLoadOffersStatusAction
+  saveUserInfoAction,
+  setLoadChosenOfferStatusAction,
+  setLoadNearbyOfferStatusAction,
+  setLoadOfferReviewsAction,
+  setLoadOffersStatusAction,
+  setLoadUserInfoAction,
 } from '../store/action.ts';
 
 export type AuthData = {
@@ -37,6 +46,62 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
     const {data} = await api.get<Offer[]>(APIPaths.Offers);
     dispatch(setLoadOffersStatusAction(false));
     dispatch(loadOffersAction(data));
+  }
+);
+
+export const fetchChosenOffer = createAsyncThunk<void, OfferId, {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+}>(
+  'offer/fetchOffer',
+  async (offerId, {dispatch, extra: api})=>{
+    dispatch(setLoadChosenOfferStatusAction(true));
+    const {data: offerDetails} = await api.get<ChosenOffer>(`${APIPaths.Offers}/${offerId}`);
+    dispatch(setLoadChosenOfferStatusAction(false));
+    dispatch(loadChosenOffer(offerDetails));
+  }
+);
+
+export const fetchOfferReviews = createAsyncThunk<void, OfferId, {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+}>(
+  'offer/fetchOfferReviews',
+  async (offerId, {dispatch, extra: api})=> {
+    dispatch(setLoadOfferReviewsAction(true));
+    const {data: reviews} = await api.get<Review[]>(`${APIPaths.Comments}/${offerId}`);
+    dispatch(setLoadOfferReviewsAction(false));
+    dispatch(loadChosenOfferReviews(reviews));
+  }
+);
+
+export const fetchNearbyOffers = createAsyncThunk<void, OfferId, {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+}>(
+  'offer/fetchNearbyOffers',
+  async(offerId, {dispatch, extra: api}) => {
+    dispatch(setLoadNearbyOfferStatusAction(true));
+    const {data: nearbyOffers} = await api.get<Offer[]>(`${APIPaths.Offers}/${offerId}/nearby`);
+    dispatch(setLoadNearbyOfferStatusAction(false));
+    dispatch(loadNearbyOffers(nearbyOffers));
+  }
+);
+
+export const fetchUserInfo = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchUserData',
+  async (_args, {dispatch, extra: api}) => {
+    setLoadUserInfoAction(true);
+    const {data} = await api.get<UserInfo>(APIPaths.Login);
+    setLoadUserInfoAction(false);
+    dispatch(saveUserInfoAction(data));
   }
 );
 
@@ -81,17 +146,5 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIPaths.Logout);
     dropToken();
     dispatch(requireAuthorization(Authorization.NoAuth));
-  }
-);
-
-export const fetchChosenOffer = createAsyncThunk<void, OfferId, {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
-}>(
-  'offer/fetchOffer',
-  async (offerId: OfferId, {dispatch, extra: api})=>{
-    const {data} = await api.get<ChosenOffer>(`${APIPaths.Offers}/${offerId}`);
-    dispatch(loadChosenOffer(data));
   }
 );

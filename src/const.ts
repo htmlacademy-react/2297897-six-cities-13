@@ -13,7 +13,7 @@ export const RATINGS = [
   { value: '4', id: '4-stars', title: 'good' },
   { value: '3', id: '3-stars', title: 'not bad' },
   { value: '2', id: '2-stars', title: 'badly' },
-  { value: '1', id: '1-star', title: 'terribly' }
+  { value: '1', id: '1-star', title: 'terribly' },
 ] as const;
 
 export const Months = [
@@ -28,12 +28,12 @@ export const Months = [
   'September',
   'October',
   'November',
-  'December'
+  'December',
 ] as const;
 
 export const UrlMarkers = {
-  Default: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
-  Current: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg'
+  Default: 'markup/img/pin.svg',
+  Current: 'markup/img/pin-active.svg',
 } as const;
 
 export const Paths = {
@@ -54,6 +54,7 @@ export type AuthorizationStatus = typeof Authorization[keyof typeof Authorizatio
 
 export const APIPaths = {
   Offers: '/offers',
+  Comments: '/comments',
   Login: '/login',
-  Logout: '/logout'
+  Logout: '/logout',
 } as const;

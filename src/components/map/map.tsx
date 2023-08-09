@@ -1,6 +1,6 @@
 import leaflet, {layerGroup, Marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import {CityLocation, Offer} from '../../mocks/offers.ts';
+import {ChosenOffer, CityLocation, Offer} from '../../mocks/offers.ts';
 import {FC, useEffect, useRef} from 'react';
 import {UrlMarkers} from '../../const.ts';
 import {useMap} from '../../hooks/usemap.ts';
@@ -8,7 +8,7 @@ import {useMap} from '../../hooks/usemap.ts';
 type MapProps = {
   offers: Offer[];
   city: CityLocation;
-  selectedPlace: Offer | null;
+  selectedPlace: Offer | ChosenOffer | null;
   isOfferPage: boolean;
 }
 
@@ -20,6 +20,7 @@ export const Map: FC<MapProps> = ({
 }) => {
   const mapRef = useRef(null);
   const map = useMap({mapRef, city});
+  const {latitude: cityLatitude, longitude: cityLongitude, zoom} = city.location;
 
   const defaultCustomIcon = leaflet.icon({
     iconUrl: UrlMarkers.Default,
@@ -40,6 +41,7 @@ export const Map: FC<MapProps> = ({
 
   useEffect(() => {
     if (map) {
+      map.flyTo([cityLatitude, cityLongitude], zoom);
       const placeLayer = layerGroup().addTo(map);
       offers.forEach((offer) => {
         const marker = new Marker({
@@ -58,7 +60,7 @@ export const Map: FC<MapProps> = ({
         map.removeLayer(placeLayer);
       };
     }
-  }, [map, offers, selectedPlace, currentCustomIcon, defaultCustomIcon]);
+  }, [map, offers, selectedPlace, currentCustomIcon, defaultCustomIcon, cityLongitude, cityLatitude, zoom]);
 
   return (
     <div

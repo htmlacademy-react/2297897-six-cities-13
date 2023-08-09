@@ -11,12 +11,14 @@ import {LoadingScreen} from '../loading-screen/loading-screen.tsx';
 import {browserHistory} from '../../browser-history.ts';
 import {HistoryRouter} from '../history-route/history-route.tsx';
 
-
 export const App = () => {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.loadingStatus);
+  const isOffersDataLoading = useAppSelector((state) => state.loadingStatuses.isOffersLoading);
+  const isUserInfoLoading = useAppSelector((state) => state.loadingStatuses.isUserInfoLoading);
 
-  if(isOffersDataLoading){
+  // TODO: Избавиться от моргания почты по возможности удалить статусы загрузки
+
+  if(isOffersDataLoading || isUserInfoLoading){
     return <LoadingScreen />;
   }
 

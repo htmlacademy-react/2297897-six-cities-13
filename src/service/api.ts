@@ -12,6 +12,11 @@ const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.NOT_FOUND]: true,
 };
 
+type DetailMessageType = {
+  type: string;
+  message: string;
+};
+
 const shouldDisplayError = (response: AxiosResponse) => StatusCodeMapping[response.status];
 
 export const createAPI = () => {
@@ -34,9 +39,10 @@ export const createAPI = () => {
 
   api.interceptors.response.use(
     (response) => response,
-    (error: AxiosError<{error: string}>) => {
+    (error: AxiosError<DetailMessageType>) => {
       if(error.response && shouldDisplayError(error.response)){
-        toast.warn(error.response.data.error);
+        const detailMessage = error.response.data;
+        toast.warn(detailMessage.message);
       }
 
       throw error;
