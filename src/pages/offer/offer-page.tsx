@@ -12,16 +12,17 @@ import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {RATING_COEFFICIENT} from '../../const.ts';
 import {LoadingScreen} from '../../components/loading-screen/loading-screen.tsx';
 import {getFavoriteStyles} from '../../utils.ts';
+import * as selectors from '../../store/selectors.ts';
 
 export const OfferPage = () => {
   const dispatch = useAppDispatch();
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(selectors.getOffers);
   const offerId = useParams().id!;
   const isExistingId = offers.some((offer) => offer.id === offerId);
-  const loadingStatuses = useAppSelector((state) => state.loadingStatuses);
-  const offerDetails = useAppSelector((state) => state.chosenOffer.offerDetails)!;
-  const offerReviews = useAppSelector((state) => state.chosenOffer.offerReviews);
-  const nearbyOffers = useAppSelector((state) => state.chosenOffer.nearbyOffers);
+  const loadingStatuses = useAppSelector(selectors.getLoadingStatuses);
+  const offerDetails = useAppSelector(selectors.getOfferDetails)!;
+  const offerReviews = useAppSelector(selectors.getOfferReviews);
+  const nearbyOffers = useAppSelector(selectors.getNearbyOffers);
 
   useEffect(() => {
     if (!isExistingId) {

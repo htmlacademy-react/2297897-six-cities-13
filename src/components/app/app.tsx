@@ -10,15 +10,26 @@ import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {LoadingScreen} from '../loading-screen/loading-screen.tsx';
 import {browserHistory} from '../../browser-history.ts';
 import {HistoryRouter} from '../history-route/history-route.tsx';
+import {checkAuthAction, fetchOffersAction} from '../../service/api-actions.ts';
+import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
+import {useEffect} from 'react';
+import * as selectors from '../../store/selectors.ts';
 
 export const App = () => {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.loadingStatuses.isOffersLoading);
-  const isUserInfoLoading = useAppSelector((state) => state.loadingStatuses.isUserInfoLoading);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOffersAction());
+    dispatch(checkAuthAction());
+  }, [dispatch]);
+
+  const authorizationStatus = useAppSelector(selectors.getAuthStatus);
+  const {isOffersLoading} = useAppSelector(selectors.getLoadingStatuses);
+  const {isUserInfoLoading} = useAppSelector(selectors.getLoadingStatuses);
 
   // TODO: Избавиться от моргания почты по возможности удалить статусы загрузки
 
-  if(isOffersDataLoading || isUserInfoLoading){
+  if(isOffersLoading || isUserInfoLoading){
     return <LoadingScreen />;
   }
 

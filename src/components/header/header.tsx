@@ -4,11 +4,12 @@ import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {fetchUserInfo, logoutAction} from '../../service/api-actions.ts';
 import {SyntheticEvent, useEffect} from 'react';
+import * as selectors from '../../store/selectors.ts';
 
 export const Header = () =>{
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
+  const authStatus = useAppSelector(selectors.getAuthStatus);
+  const {email, avatarUrl} = useAppSelector(selectors.getUserInfo);
   const dispatch = useAppDispatch();
-  const {email, avatarUrl} = useAppSelector((state) => state.userInfo);
 
   useEffect(() => {
     if(authStatus === Authorization.Auth){
@@ -27,7 +28,7 @@ export const Header = () =>{
         <div className="header__wrapper">
           <div className="header__left">
             <Link className="header__logo-link" to={Paths.Main}>
-              <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
+              <img className="header__logo" src="markup/img/logo.svg" alt="6 cities logo" width="81" height="41"/>
             </Link>
           </div>
           <nav className="header__nav">
@@ -41,7 +42,7 @@ export const Header = () =>{
                         to={Paths.Favorites}
                       >
                         <div className="header__avatar-wrapper user__avatar-wrapper">
-                          <img src={avatarUrl} style={{borderRadius: '50%'}}/>
+                          <img src={avatarUrl} alt="avatar" style={{borderRadius: '50%'}}/>
                         </div>
                         <span className="header__user-name user__name">{email}</span>
                         <span className="header__favorite-count">3</span>
