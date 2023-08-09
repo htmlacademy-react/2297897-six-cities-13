@@ -17,7 +17,7 @@ export const PlacesSortingForm = () => {
   const dispatch = useAppDispatch();
 
   const onSortFormClick = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
   const onSortMethodClick = (sortMethod: allowedSortMethods) => {

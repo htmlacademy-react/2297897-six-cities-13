@@ -2,12 +2,12 @@ import {Header} from '../../components/header/header.tsx';
 import {Offer} from '../../mocks/offers.ts';
 import {FavoriteCityPlaces} from '../../components/favorite-places-list/favorite-places-list.tsx';
 import {CITIES, Paths} from '../../const.ts';
-import {useSelector} from 'react-redux';
 import {InitialStateType} from '../../store/reducer.ts';
 import {Link} from 'react-router-dom';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
 
 export const FavoritesPage = () => {
-  const favoriteOffers = useSelector(
+  const favoriteOffers = useAppSelector(
     (state: InitialStateType) => state.offers.filter((offer) => offer.isFavorite)
   );
 
