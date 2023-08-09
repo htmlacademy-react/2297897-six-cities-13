@@ -1,13 +1,13 @@
 import {CITIES} from '../../const.ts';
 import {Link} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
 import {updateCityAction} from '../../store/action.ts';
-import {InitialStateType} from '../../store/reducer.ts';
-
+import * as selectors from '../../store/selectors.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
+import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 
 export const CitiesList = () => {
-  const activeCity = useSelector(((store: InitialStateType) => store.city));
-  const dispatch = useDispatch();
+  const activeCity = useAppSelector(selectors.getActiveCity);
+  const dispatch = useAppDispatch();
   const onCityClick = (nextCityName: typeof CITIES[number]) => dispatch(updateCityAction(nextCityName));
 
   return (

@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
-import {updateSortMethod} from '../../store/action.ts';
+import {sortOffersAction, updateSortMethodAction} from '../../store/action.ts';
 
 export const SortMethods = {
   ByPopularity: 'Popular',
@@ -17,12 +17,13 @@ export const PlacesSortingForm = () => {
   const dispatch = useAppDispatch();
 
   const onSortFormClick = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
   const onSortMethodClick = (sortMethod: allowedSortMethods) => {
     setCurrentSort(sortMethod);
-    dispatch(updateSortMethod(sortMethod));
+    dispatch(updateSortMethodAction(sortMethod));
+    dispatch(sortOffersAction(sortMethod));
     setIsOpen(!isOpen);
   };
 

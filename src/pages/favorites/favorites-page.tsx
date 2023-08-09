@@ -2,14 +2,13 @@ import {Header} from '../../components/header/header.tsx';
 import {Offer} from '../../mocks/offers.ts';
 import {FavoriteCityPlaces} from '../../components/favorite-places-list/favorite-places-list.tsx';
 import {CITIES, Paths} from '../../const.ts';
-import {useSelector} from 'react-redux';
-import {InitialStateType} from '../../store/reducer.ts';
 import {Link} from 'react-router-dom';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
+import * as selectors from '../../store/selectors.ts';
 
 export const FavoritesPage = () => {
-  const favoriteOffers = useSelector(
-    (state: InitialStateType) => state.offers.filter((offer) => offer.isFavorite)
-  );
+  const offers = useAppSelector(selectors.getOffers);
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   const favoritePlaces: Record<string, Offer[]> = {
     Paris: [],
@@ -48,7 +47,7 @@ export const FavoritesPage = () => {
       </main>
       <footer className="footer container">
         <Link className="footer__logo-link" to={Paths.Main}>
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
+          <img className="footer__logo" src="markup/img/logo.svg" alt="6 cities logo" width="64" height="33"/>
         </Link>
       </footer>
     </div>

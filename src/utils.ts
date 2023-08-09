@@ -2,7 +2,7 @@ import {Months} from './const.ts';
 
 export const humanizeISODate = (date: string) => {
   const parseDate = new Date(date);
-  return `${parseDate.getDate()} ${Months[parseDate.getMonth() - 1]}`;
+  return `${parseDate.getDate()} ${Months[parseDate.getMonth()]}`;
 };
 
 export const getFavoriteStyles = (isFavoritePlace: boolean) => isFavoritePlace
