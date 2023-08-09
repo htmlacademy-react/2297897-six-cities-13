@@ -7,9 +7,8 @@ import {Link} from 'react-router-dom';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 
 export const FavoritesPage = () => {
-  const favoriteOffers = useAppSelector(
-    (state: InitialStateType) => state.offers.filter((offer) => offer.isFavorite)
-  );
+  const offers = useAppSelector((state: InitialStateType) => state.offers);
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   const favoritePlaces: Record<string, Offer[]> = {
     Paris: [],
