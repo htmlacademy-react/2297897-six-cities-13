@@ -9,7 +9,7 @@ import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {useEffect} from 'react';
 import {fetchChosenOffer, fetchNearbyOffers, fetchOfferReviews} from '../../service/api-actions.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
-import {RATING_COEFFICIENT} from '../../const.ts';
+import {Authorization, RATING_COEFFICIENT} from '../../const.ts';
 import {LoadingScreen} from '../../components/loading-screen/loading-screen.tsx';
 import {getFavoriteStyles} from '../../utils.ts';
 import * as selectors from '../../store/selectors.ts';
@@ -23,6 +23,7 @@ export const OfferPage = () => {
   const offerDetails = useAppSelector(selectors.getOfferDetails)!;
   const offerReviews = useAppSelector(selectors.getOfferReviews);
   const nearbyOffers = useAppSelector(selectors.getNearbyOffers);
+  const authStatus = useAppSelector(selectors.getAuthStatus);
 
   useEffect(() => {
     if (!isExistingId) {
@@ -166,7 +167,7 @@ export const OfferPage = () => {
                 <ul className="reviews__list">
                   <ReviewsList reviews={offerReviews}/>
                 </ul>
-                <CommentSendForm />
+                {(authStatus === Authorization.Auth) && <CommentSendForm />}
               </section>
             </div>
           </div>
