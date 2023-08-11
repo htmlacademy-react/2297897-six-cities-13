@@ -7,7 +7,7 @@ import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 
 export type ReviewsListProps = {
   offerId: string;
-}
+};
 
 export const ReviewsList: FC<ReviewsListProps> = ({offerId}) => {
   const {isCommentPosting, isOffersLoading} = useAppSelector(selectors.getLoadingStatuses);

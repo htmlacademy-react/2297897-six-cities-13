@@ -9,7 +9,7 @@ import * as selectors from '../../store/selectors.ts';
 export type Comment = {
   rating: number;
   description: string;
-}
+};
 
 export type CommentWithOfferId = Comment & {offerId: string};
 

@@ -25,7 +25,7 @@ export type OfferInfo = {
   offerDetails: ChosenOffer | null;
   offerReviews: Review[];
   nearbyOffers: Offer[];
-}
+};
 
 export type LoadingStatuses = {
   isOffersLoading : boolean;
@@ -34,7 +34,7 @@ export type LoadingStatuses = {
   isOfferReviewsLoading: boolean;
   isUserInfoLoading: boolean;
   isCommentPosting: boolean;
-}
+};
 
 export type UserInfo = {
   avatarUrl: string;
@@ -42,7 +42,7 @@ export type UserInfo = {
   isPro: boolean;
   name: string;
   token: string;
-}
+};
 
 export type InitialStateType = {
   city: typeof CITIES[number];
@@ -53,7 +53,7 @@ export type InitialStateType = {
   authorizationStatus: AuthorizationStatus;
   loadingStatuses: LoadingStatuses;
   chosenOffer: OfferInfo;
-}
+};
 
 const initialState: InitialStateType = {
   city: 'Amsterdam',
