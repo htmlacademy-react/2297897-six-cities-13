@@ -1,7 +1,7 @@
 import {ChangeEvent, FormEvent, Fragment, useState} from 'react';
-import {RATINGS} from '../../const.ts';
+import {MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATINGS} from '../../const.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
-import {fetchOfferReviews, postComment} from '../../service/api-actions.ts';
+import {postComment} from '../../service/api-actions.ts';
 import {useParams} from 'react-router-dom';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import * as selectors from '../../store/selectors.ts';
@@ -14,7 +14,8 @@ export type Comment = {
 export type CommentWithOfferId = Comment & {offerId: string};
 
 export const CommentSendForm = () => {
-  const [comment, setComment] = useState<Comment>({rating: 0, description: ''});
+  const initialComment: Comment = {rating: 0, description: ''};
+  const [comment, setComment] = useState(initialComment);
   const dispatch = useAppDispatch();
   const offerId = useParams().id!;
   const {isCommentPosting} = useAppSelector(selectors.getLoadingStatuses);
@@ -34,10 +35,13 @@ export const CommentSendForm = () => {
       description: comment.description,
       offerId: offerId,
     }));
-    dispatch(fetchOfferReviews(offerId));
+    setComment(initialComment);
   };
 
-  const isNeedDisable = isCommentPosting || (comment.rating === 0) || (comment.description.length < 50);
+  const isNeedDisable = isCommentPosting ||
+                                 comment.rating === 0 ||
+                                 comment.description.length < MIN_COMMENT_LENGTH ||
+                                 comment.description.length > MAX_COMMENT_LENGTH;
 
   return (
     <form className="reviews__form form" action="#" method="post">

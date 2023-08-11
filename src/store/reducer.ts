@@ -72,7 +72,7 @@ const initialState: InitialStateType = {
     isOffersLoading: true,
     isChosenOfferLoading: true,
     isNearbyOffersLoading: true,
-    isOfferReviewsLoading: true,
+    isOfferReviewsLoading: false,
     isUserInfoLoading: false,
     isCommentPosting: false,
   },

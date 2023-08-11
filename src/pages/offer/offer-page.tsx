@@ -7,7 +7,7 @@ import {ErrorPage} from '../error/error-page.tsx';
 import {PlacesList} from '../../components/places-list/places-list.tsx';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {useEffect} from 'react';
-import {fetchChosenOffer, fetchNearbyOffers, fetchOfferReviews} from '../../service/api-actions.ts';
+import {fetchChosenOffer, fetchNearbyOffers} from '../../service/api-actions.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {Authorization, RATING_COEFFICIENT} from '../../const.ts';
 import {LoadingScreen} from '../../components/loading-screen/loading-screen.tsx';
@@ -19,7 +19,7 @@ export const OfferPage = () => {
   const offers = useAppSelector(selectors.getOffers);
   const offerId = useParams().id!;
   const isExistingId = offers.some((offer) => offer.id === offerId);
-  const loadingStatuses = useAppSelector(selectors.getLoadingStatuses);
+  const {isOffersLoading, isChosenOfferLoading, isNearbyOffersLoading } = useAppSelector(selectors.getLoadingStatuses);
   const offerDetails = useAppSelector(selectors.getOfferDetails)!;
   const offerReviews = useAppSelector(selectors.getOfferReviews);
   const nearbyOffers = useAppSelector(selectors.getNearbyOffers);
@@ -30,17 +30,16 @@ export const OfferPage = () => {
       return;
     }
     dispatch(fetchChosenOffer(offerId));
-    dispatch(fetchOfferReviews(offerId));
     dispatch(fetchNearbyOffers(offerId));
   }, [isExistingId, offerId, dispatch]);
 
-  const isAllLoaded = Object.values(loadingStatuses).every((status) => !status);
+  const isSomethingLoading = isOffersLoading || isChosenOfferLoading || isNearbyOffersLoading; //Object.values(loadingStatuses).every((status) => !status);
 
-  if(!isExistingId && !loadingStatuses.isOffersLoading){
+  if(!isExistingId && !isOffersLoading){
     return <ErrorPage/>;
   }
 
-  if(!isAllLoaded){
+  if(isSomethingLoading){
     return <LoadingScreen/>;
   }
 
@@ -165,7 +164,7 @@ export const OfferPage = () => {
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerReviews.length}</span></h2>
                 <ul className="reviews__list">
-                  <ReviewsList reviews={offerReviews}/>
+                  <ReviewsList offerId={offerId}/>
                 </ul>
                 {(authStatus === Authorization.Auth) && <CommentSendForm />}
               </section>
