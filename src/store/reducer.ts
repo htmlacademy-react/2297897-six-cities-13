@@ -3,6 +3,7 @@ import {Authorization, AuthorizationStatus, CITIES} from '../const.ts';
 import {ChosenOffer, Offer} from '../mocks/offers.ts';
 import {allowedSortMethods, SortMethods} from '../components/places-sorting-form/places-sorting-form.tsx';
 import {Review} from '../mocks/reviews.ts';
+import {shuffleNearby} from '../utils.ts';
 import {
   loadChosenOffer,
   loadChosenOfferReviews,
@@ -155,7 +156,7 @@ export const reducer = createReducer<InitialStateType>(
         state.chosenOffer.offerReviews = action.payload;
       })
       .addCase(loadNearbyOffers, (state, action) => {
-        state.chosenOffer.nearbyOffers = action.payload;
+        state.chosenOffer.nearbyOffers = shuffleNearby(action.payload);
       })
 );
 

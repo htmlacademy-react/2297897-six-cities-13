@@ -1,4 +1,4 @@
-import {Header} from '../../components/header/header.tsx';
+import {MemoizedHeader} from '../../components/header/header.tsx';
 import {Offer} from '../../mocks/offers.ts';
 import {FavoriteCityPlaces} from '../../components/favorite-places-list/favorite-places-list.tsx';
 import {CITIES, Paths} from '../../const.ts';
@@ -30,7 +30,7 @@ export const FavoritesPage = () => {
 
   return (
     <div className="page">
-      <Header/>
+      <MemoizedHeader/>
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">

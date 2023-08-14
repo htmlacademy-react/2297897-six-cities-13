@@ -3,10 +3,10 @@ import {Authorization, Paths} from '../../const.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {fetchUserInfo, logoutAction} from '../../service/api-actions.ts';
-import {SyntheticEvent, useEffect} from 'react';
+import {memo, SyntheticEvent, useEffect} from 'react';
 import * as selectors from '../../store/selectors.ts';
 
-export const Header = () =>{
+const Header = () =>{
   const authStatus = useAppSelector(selectors.getAuthStatus);
   const {email, avatarUrl} = useAppSelector(selectors.getUserInfo);
   const dispatch = useAppDispatch();
@@ -72,3 +72,4 @@ export const Header = () =>{
   );
 };
 
+export const MemoizedHeader = memo(Header);

@@ -1,4 +1,4 @@
-import {FC, MouseEventHandler} from 'react';
+import {FC, memo, MouseEventHandler} from 'react';
 import {RATING_COEFFICIENT} from '../../const.ts';
 import {Link} from 'react-router-dom';
 import {getFavoriteStyles} from '../../utils.ts';
@@ -23,7 +23,7 @@ export type ActiveCardProps = {
 
 type PlaceCardPropsWithActiveCard = PlaceCardProps & ActiveCardProps;
 
-export const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
+const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
   id,
   isPremium,
   isFavorite,
@@ -94,3 +94,5 @@ export const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
     </article>
   );
 };
+
+export const MemoizedPlaceCard = memo(PlaceCard);

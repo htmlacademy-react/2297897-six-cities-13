@@ -3,7 +3,7 @@ import {AppDispatch} from '../hooks/use-app-dispatch.ts';
 import {State} from '../hooks/use-app-selector.ts';
 import {AxiosInstance} from 'axios';
 import {ChosenOffer, Offer} from '../mocks/offers.ts';
-import {APIPaths, Authorization, AuthorizationStatus, Paths} from '../const.ts';
+import {APIPaths, Authorization, AuthorizationStatus, MAX_REVIEWS_ON_PAGE, Paths} from '../const.ts';
 import {dropToken, saveToken} from './token.ts';
 import {Review} from '../mocks/reviews.ts';
 import {UserInfo} from '../store/reducer.ts';
@@ -75,7 +75,7 @@ export const fetchOfferReviews = createAsyncThunk<void, OfferId, {
     dispatch(setLoadOfferReviewsAction(true));
     const {data: reviews} = await api.get<Review[]>(`${APIPaths.Comments}/${offerId}`);
     dispatch(setLoadOfferReviewsAction(false));
-    dispatch(loadChosenOfferReviews(reviews));
+    dispatch(loadChosenOfferReviews(reviews.slice(-MAX_REVIEWS_ON_PAGE).reverse()));
   }
 );
 
@@ -88,6 +88,7 @@ export const fetchNearbyOffers = createAsyncThunk<void, OfferId, {
   async(offerId, {dispatch, extra: api}) => {
     dispatch(setLoadNearbyOfferStatusAction(true));
     const {data: nearbyOffers} = await api.get<Offer[]>(`${APIPaths.Offers}/${offerId}/nearby`);
+    // const offers =
     dispatch(setLoadNearbyOfferStatusAction(false));
     dispatch(loadNearbyOffers(nearbyOffers));
   }

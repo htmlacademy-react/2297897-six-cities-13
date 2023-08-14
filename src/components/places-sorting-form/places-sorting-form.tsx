@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {memo, useState} from 'react';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {sortOffersAction, updateSortMethodAction} from '../../store/action.ts';
 
@@ -11,7 +11,7 @@ export const SortMethods = {
 
 export type allowedSortMethods = typeof SortMethods[keyof typeof SortMethods];
 
-export const PlacesSortingForm = () => {
+const PlacesSortingForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentSort, setCurrentSort] = useState<allowedSortMethods>(SortMethods.ByPopularity);
   const dispatch = useAppDispatch();
@@ -58,3 +58,5 @@ export const PlacesSortingForm = () => {
     </form>
   );
 };
+
+export const MemoizedPlacesSortingForm = memo(PlacesSortingForm);

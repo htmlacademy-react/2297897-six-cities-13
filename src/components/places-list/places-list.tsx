@@ -1,6 +1,6 @@
-import {ActiveCardProps, PlaceCard} from '../place-card/place-card.tsx';
+import {ActiveCardProps, MemoizedPlaceCard} from '../place-card/place-card.tsx';
 import {Offer} from '../../mocks/offers.ts';
-import {FC} from 'react';
+import {FC, memo} from 'react';
 
 type PlacesListProps = {
   offers: Offer[];
@@ -15,7 +15,7 @@ export const PlacesList: FC<PlacesListProps> = ({
     {offers.map(
       (offer) =>
         (
-          <PlaceCard
+          <MemoizedPlaceCard
             id={offer.id}
             isPremium={offer.isPremium}
             isFavorite={offer.isFavorite}
@@ -34,3 +34,5 @@ export const PlacesList: FC<PlacesListProps> = ({
     )};
   </>
 );
+
+export const MemoizedPlacesList = memo(PlacesList);
