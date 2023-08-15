@@ -1,5 +1,5 @@
 import {Months} from './const.ts';
-import {Offer} from './mocks/offers.ts';
+import {Offer} from './store/offers-process/offers-process.slice.ts';
 
 export const humanizeISODate = (date: string) => {
   const parseDate = new Date(date);

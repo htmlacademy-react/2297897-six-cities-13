@@ -1,5 +1,5 @@
 import {ActiveCardProps, MemoizedPlaceCard} from '../place-card/place-card.tsx';
-import {Offer} from '../../mocks/offers.ts';
+import {Offer} from '../../store/offers-process/offers-process.slice.ts';
 import {FC, memo} from 'react';
 
 type PlacesListProps = {

@@ -1,6 +1,6 @@
 import leaflet, {layerGroup, Marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import {CityLocation, Offer} from '../../mocks/offers.ts';
+import {CityLocation, Offer} from '../../store/offers-process/offers-process.slice.ts';
 import {FC, useEffect, useRef} from 'react';
 import {UrlMarkers} from '../../const.ts';
 import {useMap} from '../../hooks/usemap.ts';

@@ -1,4 +1,4 @@
-import {Offer} from '../../mocks/offers.ts';
+import {Offer} from '../../store/offers-process/offers-process.slice.ts';
 import {FavoritePlaceCard} from '../favorite-place-card/favorite-place-card.tsx';
 import {FC} from 'react';
 

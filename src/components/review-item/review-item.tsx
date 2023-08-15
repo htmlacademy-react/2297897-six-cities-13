@@ -1,4 +1,4 @@
-import {Review} from '../../mocks/reviews.ts';
+import {Review} from '../../store/offers-process/offers-process.slice.ts';
 import {RATING_COEFFICIENT} from '../../const.ts';
 import {humanizeISODate} from '../../utils.ts';
 

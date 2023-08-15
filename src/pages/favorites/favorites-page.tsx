@@ -1,5 +1,5 @@
 import {MemoizedHeader} from '../../components/header/header.tsx';
-import {Offer} from '../../mocks/offers.ts';
+import {Offer} from '../../store/offers-process/offers-process.slice.ts';
 import {FavoriteCityPlaces} from '../../components/favorite-places-list/favorite-places-list.tsx';
 import {CITIES, Paths} from '../../const.ts';
 import {Link} from 'react-router-dom';

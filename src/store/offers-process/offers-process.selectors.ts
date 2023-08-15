@@ -1,4 +1,4 @@
-import {Offer} from '../../mocks/offers.ts';
+import {Offer} from './offers-process.slice.ts';
 import {NameSpace} from '../../const.ts';
 import {allowedSortMethods} from '../../components/places-sorting-form/places-sorting-form.tsx';
 import {State} from '../../hooks/use-app-selector.ts';
