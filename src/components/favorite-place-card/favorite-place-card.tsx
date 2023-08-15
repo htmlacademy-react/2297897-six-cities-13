@@ -16,6 +16,7 @@ export const FavoritePlaceCard: FC<FavoritePlaceCardProps> = ({
   rating
 }) => {
   const dispatch = useAppDispatch();
+
   const unsetFavorite = () => {
     dispatch(setFavoriteAction({id, isFavorite: true}));
   };
@@ -23,6 +24,7 @@ export const FavoritePlaceCard: FC<FavoritePlaceCardProps> = ({
   const handleFavoriteClick = () => {
     unsetFavorite();
   };
+
   return(
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">

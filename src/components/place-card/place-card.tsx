@@ -40,6 +40,7 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
   const setFavorite = () => {
     dispatch(setFavoriteAction({id, isFavorite}));
   };
+
   const handleFavoriteClick = () => {
     setFavorite();
   };
