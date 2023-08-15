@@ -5,13 +5,13 @@ import {Map} from '../../components/map/map.tsx';
 import {useCallback, useState} from 'react';
 import {MemoizedPlacesSortingForm} from '../../components/places-sorting-form/places-sorting-form.tsx';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
-import * as selectors from '../../store/selectors.ts';
+import {getOffers, getOffersCity} from '../../store/offers-process/offers-process.selectors.ts';
 
 export const MainPage = () => {
   const [activeId, setActiveId] = useState<string | undefined>(undefined);
 
-  const offers = useAppSelector(selectors.getOffers);
-  const activeCity = useAppSelector(selectors.getActiveCity);
+  const offers = useAppSelector(getOffers);
+  const activeCity = useAppSelector(getOffersCity);
   const offersForCity = offers.filter((offer) => offer.city.name === activeCity);
 
   const handleMouseEnter = useCallback((offerId: string | undefined) => {

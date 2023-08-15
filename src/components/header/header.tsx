@@ -2,20 +2,14 @@ import {Link} from 'react-router-dom';
 import {Authorization, Paths} from '../../const.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
-import {fetchUserInfo, logoutAction} from '../../service/api-actions.ts';
-import {memo, SyntheticEvent, useEffect} from 'react';
-import * as selectors from '../../store/selectors.ts';
+import {logoutAction} from '../../service/api-actions.ts';
+import {memo, SyntheticEvent} from 'react';
+import {getAuthStatus, getUserInfo} from '../../store/user-process/user-process.selectors.ts';
 
 const Header = () =>{
-  const authStatus = useAppSelector(selectors.getAuthStatus);
-  const {email, avatarUrl} = useAppSelector(selectors.getUserInfo);
+  const authStatus = useAppSelector(getAuthStatus);
+  const {email, avatarUrl} = useAppSelector(getUserInfo);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if(authStatus === Authorization.Auth){
-      dispatch(fetchUserInfo());
-    }
-  }, [authStatus, dispatch]);
 
   const signOutButtonHandler = (evt: SyntheticEvent<HTMLAnchorElement>) => {
     evt.preventDefault();

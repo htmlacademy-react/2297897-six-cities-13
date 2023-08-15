@@ -2,8 +2,8 @@ import {FC, memo, MouseEventHandler} from 'react';
 import {RATING_COEFFICIENT} from '../../const.ts';
 import {Link} from 'react-router-dom';
 import {getFavoriteStyles} from '../../utils.ts';
-import {updateFavoriteAction} from '../../store/action.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
+import {setFavoriteAction} from '../../service/api-actions.ts';
 
 export type PlaceCardProps = {
   id: string;
@@ -38,7 +38,13 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const onFavoriteClick = () => dispatch(updateFavoriteAction(id));
+  const setFavorite = () => {
+    dispatch(setFavoriteAction({id, isFavorite}));
+  };
+
+  const handleFavoriteClick = () =>{
+    setFavorite();
+  };
 
   return(
     <article
@@ -67,7 +73,7 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
           <button
             className="place-card__bookmark-button button"
             type="button"
-            onClick={onFavoriteClick}
+            onClick={handleFavoriteClick}
           >
             <svg
               className="place-card__bookmark-icon"

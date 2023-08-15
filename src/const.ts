@@ -53,11 +53,16 @@ export const Authorization = {
   Unknown: 'unknown',
 } as const;
 
-export type AuthorizationStatus = typeof Authorization[keyof typeof Authorization];
-
 export const APIPaths = {
   Offers: '/offers',
   Comments: '/comments',
   Login: '/login',
   Logout: '/logout',
+  Favorite: '/favorite',
+} as const;
+
+export const NameSpace = {
+  User: 'USER',
+  Offers: 'OFFERS',
+  Loaders: 'LOADERS',
 } as const;

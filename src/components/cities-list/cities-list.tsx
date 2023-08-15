@@ -1,15 +1,15 @@
 import {CITIES} from '../../const.ts';
 import {Link} from 'react-router-dom';
-import {updateCityAction} from '../../store/action.ts';
-import * as selectors from '../../store/selectors.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {memo} from 'react';
+import {getOffersCity} from '../../store/offers-process/offers-process.selectors.ts';
+import {changeOffersCity, City} from '../../store/offers-process/offers-process.slice.ts';
 
 const CitiesList = () => {
-  const activeCity = useAppSelector(selectors.getActiveCity);
+  const activeCity = useAppSelector(getOffersCity);
   const dispatch = useAppDispatch();
-  const handleCityClick = (nextCityName: typeof CITIES[number]) => dispatch(updateCityAction(nextCityName));
+  const handleCityClick = (nextCityName: City) => dispatch(changeOffersCity(nextCityName));
 
   return (
     <>

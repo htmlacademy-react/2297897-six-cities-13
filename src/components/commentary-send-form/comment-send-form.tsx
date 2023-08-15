@@ -1,10 +1,10 @@
 import {ChangeEvent, FormEvent, Fragment, useState} from 'react';
 import {MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATINGS} from '../../const.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
-import {postComment} from '../../service/api-actions.ts';
+import {postCommentAction} from '../../service/api-actions.ts';
 import {useParams} from 'react-router-dom';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
-import * as selectors from '../../store/selectors.ts';
+import {getCommentPostingStatus} from '../../store/loading-process/loading-process.selectors.ts';
 
 export type Comment = {
   rating: number;
@@ -18,7 +18,7 @@ export const CommentSendForm = () => {
   const [comment, setComment] = useState(initialComment);
   const dispatch = useAppDispatch();
   const offerId = useParams().id!;
-  const {isCommentPosting} = useAppSelector(selectors.getLoadingStatuses);
+  const isCommentPosting = useAppSelector(getCommentPostingStatus);
 
   const handleRadioChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setComment({...comment, rating: Number(evt.target.value)});
@@ -30,7 +30,7 @@ export const CommentSendForm = () => {
 
   const handleSubmitButton = (evt: FormEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    dispatch(postComment({
+    dispatch(postCommentAction({
       rating: comment.rating,
       description: comment.description,
       offerId: offerId,

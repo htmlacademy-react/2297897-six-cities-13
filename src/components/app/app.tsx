@@ -13,7 +13,8 @@ import {HistoryRouter} from '../history-route/history-route.tsx';
 import {checkAuthAction, fetchOffersAction} from '../../service/api-actions.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {useEffect} from 'react';
-import * as selectors from '../../store/selectors.ts';
+import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
+import {getOffersLoadingStatus} from '../../store/loading-process/loading-process.selectors.ts';
 
 export const App = () => {
   const dispatch = useAppDispatch();
@@ -23,13 +24,12 @@ export const App = () => {
     dispatch(checkAuthAction());
   }, [dispatch]);
 
-  const authorizationStatus = useAppSelector(selectors.getAuthStatus);
-  const {isOffersLoading} = useAppSelector(selectors.getLoadingStatuses);
-  const {isUserInfoLoading} = useAppSelector(selectors.getLoadingStatuses);
+  const authorizationStatus = useAppSelector(getAuthStatus);
+  const isOffersLoading = useAppSelector(getOffersLoadingStatus);
 
   // TODO: Избавиться от моргания почты по возможности удалить статусы загрузки
 
-  if(isOffersLoading || isUserInfoLoading){
+  if(isOffersLoading){
     return <LoadingScreen />;
   }
 
