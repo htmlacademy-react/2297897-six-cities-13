@@ -5,10 +5,12 @@ import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {logoutAction} from '../../service/api-actions.ts';
 import {memo, SyntheticEvent} from 'react';
 import {getAuthStatus, getUserInfo} from '../../store/user-process/user-process.selectors.ts';
+import {getFavoriteOffers} from '../../store/offers-process/offers-process.selectors.ts';
 
 const Header = () =>{
   const authStatus = useAppSelector(getAuthStatus);
   const {email, avatarUrl} = useAppSelector(getUserInfo);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
   const dispatch = useAppDispatch();
 
   const signOutButtonHandler = (evt: SyntheticEvent<HTMLAnchorElement>) => {
@@ -39,7 +41,7 @@ const Header = () =>{
                           <img src={avatarUrl} alt="avatar" style={{borderRadius: '50%'}}/>
                         </div>
                         <span className="header__user-name user__name">{email}</span>
-                        <span className="header__favorite-count">3</span>
+                        <span className="header__favorite-count">{favoriteOffers.length}</span>
                       </Link>
                     </li>
                     <li className="header__nav-item">

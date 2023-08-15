@@ -17,6 +17,7 @@ type InitialOffersState = {
   offersCity: City;
   offers: Offer[];
   savedOrderOffers: Offer[];
+  favoriteOffers: Offer[];
   sortMethod: allowedSortMethods;
   chosenOffer: OfferInfo;
 }
@@ -25,6 +26,7 @@ const initialOffersState: InitialOffersState = {
   offersCity: 'Amsterdam',
   offers: [],
   savedOrderOffers: [],
+  favoriteOffers: [],
   sortMethod: SortMethods.ByPopularity,
   chosenOffer: {
     offerDetails: null,
@@ -49,6 +51,9 @@ export const offersProcess = createSlice({
     },
     loadOfferReviews: (state, action: {payload: Review[]}) => {
       state.chosenOffer.offerReviews = action.payload.slice(-MAX_REVIEWS_ON_PAGE).reverse();
+    },
+    loadFavoriteOffers: (state, action: {payload: Offer[]}) => {
+      state.favoriteOffers = action.payload;
     },
     changeOffersCity: (state, action: {payload: City}) => {
       state.offersCity = action.payload;
@@ -81,4 +86,6 @@ export const {
   loadChosenOffer,
   loadOfferReviews,
   sortOffers,
-  changeOffersCity} = offersProcess.actions;
+  changeOffersCity,
+  loadFavoriteOffers
+} = offersProcess.actions;

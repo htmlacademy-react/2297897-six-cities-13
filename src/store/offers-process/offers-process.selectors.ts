@@ -10,4 +10,6 @@ export const getSortMethod = (state: State): allowedSortMethods => state[NameSpa
 
 export const getChosenOffer = (state: State): OfferInfo => state[NameSpace.Offers].chosenOffer;
 
+export const getFavoriteOffers = (state: State): Offer[] => state[NameSpace.Offers].favoriteOffers;
+
 export const getOffersCity = (state: State): City => state[NameSpace.Offers].offersCity;

@@ -11,6 +11,7 @@ import {redirectToRoute} from '../store/action.ts';
 import {loadUserData, UserInfo} from '../store/user-process/user-process.slice.ts';
 import {
   loadChosenOffer,
+  loadFavoriteOffers,
   loadNearbyOffers,
   loadOfferReviews,
   loadOffers
@@ -130,6 +131,18 @@ export const postCommentAction = createAsyncThunk<void, CommentWithOfferId, {
   }
 );
 
+export const fetchFavoriteOffersAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'OFFER/fetchFavoriteOffers',
+  async (_arg, {dispatch, extra: api}) => {
+    const {data: favoriteOffers} = await api.get<Offer[]>(APIPaths.Favorite);
+    dispatch(loadFavoriteOffers(favoriteOffers));
+  }
+);
+
 export const setFavoriteAction = createAsyncThunk<void, favoriteData, {
     dispatch: AppDispatch;
     state: State;
@@ -139,5 +152,6 @@ export const setFavoriteAction = createAsyncThunk<void, favoriteData, {
   async({id: offerId, isFavorite}, {dispatch, extra: api}) => {
     await api.post(`${APIPaths.Favorite}/${offerId}/${Number(!isFavorite)}`);
     dispatch(fetchOffersAction());
+    dispatch(fetchFavoriteOffersAction());
   }
 );

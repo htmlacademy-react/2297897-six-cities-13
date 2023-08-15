@@ -7,11 +7,10 @@ import {ErrorPage} from '../error/error-page.tsx';
 import {MemoizedPlacesList} from '../../components/places-list/places-list.tsx';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {useEffect, useState} from 'react';
-import {fetchChosenOfferAction, fetchNearbyOffersAction} from '../../service/api-actions.ts';
+import {fetchChosenOfferAction, fetchNearbyOffersAction, setFavoriteAction} from '../../service/api-actions.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {Authorization, RATING_COEFFICIENT} from '../../const.ts';
 import {LoadingScreen} from '../../components/loading-screen/loading-screen.tsx';
-import {getFavoriteStyles} from '../../utils.ts';
 import {getChosenOffer, getOffers} from '../../store/offers-process/offers-process.selectors.ts';
 import {getOffersLoadingStatus} from '../../store/loading-process/loading-process.selectors.ts';
 import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
@@ -39,7 +38,7 @@ export const OfferPage = () => {
     fetchOfferInfo().then(() => setIsLoading(false));
   }, [isExistingId, offerId, dispatch]);
 
-  if((!isExistingId && !isOffersLoading) || offerDetails === null){
+  if(!isExistingId && !isOffersLoading){
     return <ErrorPage/>;
   } else if(isLoading){
     return <LoadingScreen/>;
@@ -59,7 +58,15 @@ export const OfferPage = () => {
     bedrooms,
     goods,
     maxAdults
-  } = offerDetails;
+  } = offerDetails!;
+
+  const setFavorite = () => {
+    dispatch(setFavoriteAction({id: offerId, isFavorite}));
+  };
+
+  const handleFavoriteClick = () => {
+    setFavorite();
+  };
 
   return (
     <div className="page">
@@ -94,10 +101,17 @@ export const OfferPage = () => {
                 <h1 className="offer__name">
                   {title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
+                <button
+                  className={`
+                      offer__bookmark-button
+                      ${isFavorite ? 'offer__bookmark-button--active' : ''}
+                      button
+                      `}
+                  type="button"
+                  onClick={handleFavoriteClick}
+                >
                   <svg
                     className="offer__bookmark-icon"
-                    style={getFavoriteStyles(isFavorite)}
                     width="31"
                     height="33"
                   >

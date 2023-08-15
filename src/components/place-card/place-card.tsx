@@ -1,7 +1,6 @@
 import {FC, memo, MouseEventHandler} from 'react';
 import {RATING_COEFFICIENT} from '../../const.ts';
 import {Link} from 'react-router-dom';
-import {getFavoriteStyles} from '../../utils.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {setFavoriteAction} from '../../service/api-actions.ts';
 
@@ -41,8 +40,7 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
   const setFavorite = () => {
     dispatch(setFavoriteAction({id, isFavorite}));
   };
-
-  const handleFavoriteClick = () =>{
+  const handleFavoriteClick = () => {
     setFavorite();
   };
 
@@ -71,7 +69,11 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className="place-card__bookmark-button button"
+            className={`
+              place-card__bookmark-button
+              ${isFavorite ? 'place-card__bookmark-button--active' : ''}
+              button
+            `}
             type="button"
             onClick={handleFavoriteClick}
           >
@@ -79,7 +81,6 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
               className="place-card__bookmark-icon"
               width="18"
               height="19"
-              style={getFavoriteStyles(isFavorite)}
             >
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

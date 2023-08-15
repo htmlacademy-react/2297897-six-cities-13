@@ -6,10 +6,6 @@ export const humanizeISODate = (date: string) => {
   return `${parseDate.getDate()} ${Months[parseDate.getMonth()]}`;
 };
 
-export const getFavoriteStyles = (isFavoritePlace: boolean) => isFavoritePlace
-  ? {fill: '#4481c3', stroke: '#4481c3'}
-  : undefined;
-
 export const shuffleNearby = (nearbyOffers: Offer[]) => {
   const shuffledNearbyOffers = [...nearbyOffers];
   for(let i = nearbyOffers.length - 1; i > 0; i--){

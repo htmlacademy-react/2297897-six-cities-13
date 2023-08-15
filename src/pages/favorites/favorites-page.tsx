@@ -4,11 +4,10 @@ import {FavoriteCityPlaces} from '../../components/favorite-places-list/favorite
 import {CITIES, Paths} from '../../const.ts';
 import {Link} from 'react-router-dom';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
-import {getOffers} from '../../store/offers-process/offers-process.selectors.ts';
+import {getFavoriteOffers} from '../../store/offers-process/offers-process.selectors.ts';
 
 export const FavoritesPage = () => {
-  const offers = useAppSelector(getOffers);
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
 
   const favoritePlaces: Record<string, Offer[]> = {
     Paris: [],

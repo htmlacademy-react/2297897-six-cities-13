@@ -10,7 +10,7 @@ import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {LoadingScreen} from '../loading-screen/loading-screen.tsx';
 import {browserHistory} from '../../browser-history.ts';
 import {HistoryRouter} from '../history-route/history-route.tsx';
-import {checkAuthAction, fetchOffersAction} from '../../service/api-actions.ts';
+import {checkAuthAction, fetchFavoriteOffersAction, fetchOffersAction} from '../../service/api-actions.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {useEffect} from 'react';
 import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
@@ -21,6 +21,7 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(fetchOffersAction());
+    dispatch(fetchFavoriteOffersAction());
     dispatch(checkAuthAction());
   }, [dispatch]);
 
