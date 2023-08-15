@@ -17,7 +17,7 @@ export const CommentSendForm = () => {
   const initialComment: Comment = {rating: 0, description: ''};
   const [comment, setComment] = useState(initialComment);
   const dispatch = useAppDispatch();
-  const offerId = useParams().id!;
+  const offerId = useParams().id || '';
   const isCommentPosting = useAppSelector(getCommentPostingStatus);
 
   const handleRadioChange = (evt: ChangeEvent<HTMLInputElement>) => {

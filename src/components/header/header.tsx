@@ -43,9 +43,9 @@ const Header = () =>{
                       </Link>
                     </li>
                     <li className="header__nav-item">
-                      <a onClick={signOutButtonHandler} className="header__nav-link" href="#">
+                      <Link onClick={signOutButtonHandler} className="header__nav-link" to={Paths.Main}>
                         <span className="header__signout">Sign out</span>
-                      </a>
+                      </Link>
                     </li>
                   </>
                 )
