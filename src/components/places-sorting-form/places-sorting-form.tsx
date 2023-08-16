@@ -1,8 +1,8 @@
 import {memo, useState} from 'react';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {sortOffers} from '../../store/offers-process/offers-process.slice.ts';
-import {useAppSelector} from "../../hooks/use-app-selector.ts";
-import {getSortMethod} from "../../store/offers-process/offers-process.selectors.ts";
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
+import {getSortMethod} from '../../store/offers-process/offers-process.selectors.ts';
 
 export const SortMethods = {
   ByPopularity: 'Popular',

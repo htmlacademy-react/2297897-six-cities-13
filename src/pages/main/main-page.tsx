@@ -6,10 +6,12 @@ import {useCallback, useState} from 'react';
 import {MemoizedPlacesSortingForm} from '../../components/places-sorting-form/places-sorting-form.tsx';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {getOffers, getOffersCity} from '../../store/offers-process/offers-process.selectors.ts';
+import {getOffersLoadingStatus} from '../../store/loading-process/loading-process.selectors.ts';
 
 export const MainPage = () => {
   const [activeId, setActiveId] = useState<string | undefined>(undefined);
 
+  const isOffersLoading = useAppSelector(getOffersLoadingStatus);
   const offers = useAppSelector(getOffers);
   const activeCity = useAppSelector(getOffersCity);
   const offersForCity = offers.filter((offer) => offer.city.name === activeCity);
@@ -61,7 +63,7 @@ export const MainPage = () => {
             </div>
           </main>
         )
-        : (
+        : (!offers.length && !isOffersLoading) && (
           <main className="page__main page__main--index page__main--index-empty">
             <h1 className="visually-hidden">Cities</h1>
             <div className="tabs">

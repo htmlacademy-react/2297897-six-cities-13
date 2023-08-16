@@ -5,9 +5,19 @@ import {CITIES, Paths} from '../../const.ts';
 import {Link} from 'react-router-dom';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {getFavoriteOffers} from '../../store/offers-process/offers-process.selectors.ts';
+import {getFavoriteOffersLoadingStatus} from '../../store/loading-process/loading-process.selectors.ts';
+import {LoadingScreen} from '../../components/loading-screen/loading-screen.tsx';
+import {FavoriteEmptyPage} from '../../components/favorite-empty-page/favorite-empty-page.tsx';
 
 export const FavoritesPage = () => {
   const favoriteOffers = useAppSelector(getFavoriteOffers);
+  const isFavoriteOffersLoading = useAppSelector(getFavoriteOffersLoadingStatus);
+
+  if(isFavoriteOffersLoading){
+    return <LoadingScreen />;
+  } else if (!isFavoriteOffersLoading && !favoriteOffers.length){
+    return <FavoriteEmptyPage/>;
+  }
 
   const favoritePlaces: Record<string, Offer[]> = {
     Paris: [],
@@ -35,11 +45,15 @@ export const FavoritesPage = () => {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-
               {CITIES.map((city) =>
-                <FavoriteCityPlaces favoriteOffers={favoritePlaces[city]} cityName={city} key={city}/>
+                (
+                  <FavoriteCityPlaces
+                    favoriteOffers={favoritePlaces[city]}
+                    cityName={city}
+                    key={city}
+                  />
+                )
               )}
-
             </ul>
           </section>
         </div>

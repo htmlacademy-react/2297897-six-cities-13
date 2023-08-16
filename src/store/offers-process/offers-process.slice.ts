@@ -23,7 +23,6 @@ export type Review = {
     rating: number;
 };
 
-
 export type CityLocation = {
     name: string;
     location: PlaceLocation;

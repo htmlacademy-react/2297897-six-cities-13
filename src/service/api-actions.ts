@@ -3,7 +3,7 @@ import {AppDispatch} from '../hooks/use-app-dispatch.ts';
 import {State} from '../hooks/use-app-selector.ts';
 import {AxiosInstance} from 'axios';
 import {ChosenOffer, Offer, sortOffers} from '../store/offers-process/offers-process.slice.ts';
-import {APIPaths, MAX_REVIEWS_ON_PAGE, Paths} from '../const.ts';
+import {APIPaths, Authorization, NameSpace, Paths} from '../const.ts';
 import {dropToken, saveToken} from './token.ts';
 import {Review} from '../store/offers-process/offers-process.slice.ts';
 import {CommentWithOfferId} from '../components/commentary-send-form/comment-send-form.tsx';
@@ -43,7 +43,7 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
     const {data} = await api.get<Offer[]>(APIPaths.Offers);
     dispatch(loadOffers(data));
     const currentSort = getState().OFFERS.sortMethod;
-    dispatch(sortOffers(currentSort))
+    dispatch(sortOffers(currentSort));
   }
 );
 
@@ -59,6 +59,18 @@ export const fetchChosenOfferAction = createAsyncThunk<void, string, {
   }
 );
 
+export const fetchFavoriteOffersAction = createAsyncThunk<void, undefined, {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+}>(
+  'OFFER/fetchFavoriteOffers',
+  async (_arg, {dispatch, extra: api}) => {
+    const {data: favoriteOffers} = await api.get<Offer[]>(APIPaths.Favorite);
+    dispatch(loadFavoriteOffers(favoriteOffers));
+  }
+);
+
 export const fetchOfferReviewsAction = createAsyncThunk<void, string, {
     dispatch: AppDispatch;
     state: State;
@@ -67,7 +79,7 @@ export const fetchOfferReviewsAction = createAsyncThunk<void, string, {
   'OFFERS/fetchOfferReviews',
   async (offerId, {dispatch, extra: api})=> {
     const {data: reviews} = await api.get<Review[]>(`${APIPaths.Comments}/${offerId}`);
-    dispatch(loadOfferReviews(reviews.slice(-MAX_REVIEWS_ON_PAGE).reverse()));
+    dispatch(loadOfferReviews(reviews));
   }
 );
 
@@ -79,7 +91,6 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, string, {
   'OFFERS/fetchNearbyOffers',
   async(offerId, {dispatch, extra: api}) => {
     const {data: nearbyOffers} = await api.get<Offer[]>(`${APIPaths.Offers}/${offerId}/nearby`);
-    // const offers =
     dispatch(loadNearbyOffers(nearbyOffers));
   }
 );
@@ -90,9 +101,12 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'USER/checkAuth',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {dispatch, getState, extra: api}) => {
     const {data: userData} = await api.get<UserInfo>(APIPaths.Login);
     dispatch(loadUserData(userData));
+    if(getState()[NameSpace.User].authStatus === Authorization.Auth){
+      dispatch(fetchFavoriteOffersAction());
+    }
   }
 );
 
@@ -105,6 +119,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   async ({login: email, password}, {dispatch, extra: api}) =>{
     const {data: {token}} = await api.post<UserData>(APIPaths.Login, {email, password});
     saveToken(token);
+    dispatch(fetchOffersAction());
     dispatch(redirectToRoute(Paths.Main));
     dispatch(checkAuthAction());
   }
@@ -116,8 +131,9 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     extra: AxiosInstance;
 }>(
   'USER/logout',
-  async (_arg, {extra: api}) => {
+  async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIPaths.Logout);
+    dispatch(fetchOffersAction());
     dropToken();
   }
 );
@@ -133,17 +149,6 @@ export const postCommentAction = createAsyncThunk<void, CommentWithOfferId, {
   }
 );
 
-export const fetchFavoriteOffersAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  'OFFER/fetchFavoriteOffers',
-  async (_arg, {dispatch, extra: api}) => {
-    const {data: favoriteOffers} = await api.get<Offer[]>(APIPaths.Favorite);
-    dispatch(loadFavoriteOffers(favoriteOffers));
-  }
-);
 
 export const setFavoriteAction = createAsyncThunk<void, favoriteData, {
     dispatch: AppDispatch;

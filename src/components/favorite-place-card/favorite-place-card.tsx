@@ -1,9 +1,9 @@
-import {RATING_COEFFICIENT} from '../../const.ts';
+import {Authorization, RATING_COEFFICIENT} from '../../const.ts';
 import {PlaceCardProps} from '../place-card/place-card.tsx';
 import {Link} from 'react-router-dom';
 import {FC} from 'react';
-import {setFavoriteAction} from '../../service/api-actions.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
+import {handleFavoriteClick} from '../../utils.ts';
 
 type FavoritePlaceCardProps = Omit<PlaceCardProps, 'isPremium' | 'isFavorite'>
 
@@ -17,12 +17,13 @@ export const FavoritePlaceCard: FC<FavoritePlaceCardProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const unsetFavorite = () => {
-    dispatch(setFavoriteAction({id, isFavorite: true}));
-  };
-
-  const handleFavoriteClick = () => {
-    unsetFavorite();
+  const favoriteClickHandler = () => {
+    handleFavoriteClick(
+      Authorization.Auth,
+      dispatch,
+      id,
+      true
+    );
   };
 
   return(
@@ -47,7 +48,7 @@ export const FavoritePlaceCard: FC<FavoritePlaceCardProps> = ({
           <button
             className="place-card__bookmark-button place-card__bookmark-button--active button"
             type="button"
-            onClick={handleFavoriteClick}
+            onClick={favoriteClickHandler}
           >
             <svg
               className="place-card__bookmark-icon"

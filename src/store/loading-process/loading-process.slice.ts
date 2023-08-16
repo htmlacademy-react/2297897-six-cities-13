@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const.ts';
 import {
-  fetchChosenOfferAction,
+  fetchChosenOfferAction, fetchFavoriteOffersAction,
   fetchNearbyOffersAction, fetchOfferReviewsAction,
   fetchOffersAction, postCommentAction
 } from '../../service/api-actions.ts';
@@ -11,14 +11,16 @@ type InitialLoadingState = {
   isChosenOfferLoading: boolean;
   isNearbyOffersLoading: boolean;
   isOfferReviewsLoading: boolean;
+  isFavoriteOffersLoading: boolean;
   isCommentPosting: boolean;
 };
 
 const initialLoadingState: InitialLoadingState = {
-  isOffersLoading: false,
+  isOffersLoading: true,
   isChosenOfferLoading: false,
   isNearbyOffersLoading: false,
   isOfferReviewsLoading: false,
+  isFavoriteOffersLoading: true,
   isCommentPosting: false,
 };
 
@@ -54,6 +56,13 @@ export const loadingProcess = createSlice({
       })
       .addCase((fetchOfferReviewsAction.fulfilled || fetchOfferReviewsAction.rejected), (state) => {
         state.isOfferReviewsLoading = false;
+      })
+
+      .addCase(fetchFavoriteOffersAction.pending, (state) => {
+        state.isFavoriteOffersLoading = true;
+      })
+      .addCase((fetchFavoriteOffersAction.fulfilled || fetchFavoriteOffersAction.rejected), (state) => {
+        state.isFavoriteOffersLoading = false;
       })
 
       .addCase(postCommentAction.pending, (state) => {

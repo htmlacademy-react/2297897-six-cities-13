@@ -10,7 +10,7 @@ import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {LoadingScreen} from '../loading-screen/loading-screen.tsx';
 import {browserHistory} from '../../browser-history.ts';
 import {HistoryRouter} from '../history-route/history-route.tsx';
-import {checkAuthAction, fetchFavoriteOffersAction, fetchOffersAction} from '../../service/api-actions.ts';
+import {checkAuthAction, fetchOffersAction} from '../../service/api-actions.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {useEffect} from 'react';
 import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
@@ -21,14 +21,11 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(fetchOffersAction());
-    dispatch(fetchFavoriteOffersAction());
     dispatch(checkAuthAction());
   }, [dispatch]);
 
-  const authorizationStatus = useAppSelector(getAuthStatus);
+  const authStatus = useAppSelector(getAuthStatus);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
-
-  // TODO: Избавиться от моргания почты по возможности удалить статусы загрузки
 
   if(isOffersLoading){
     return <LoadingScreen />;
@@ -47,12 +44,12 @@ export const App = () => {
         />
         <Route
           path={Paths.Offer}
-          element={<OfferPage />} //WIP
+          element={<OfferPage />}
         />
         <Route
           path={Paths.Favorites}
           element={
-            <PrivateRoute authorization={authorizationStatus}>
+            <PrivateRoute authorization={authStatus}>
               <FavoritesPage/>
             </PrivateRoute>
           }

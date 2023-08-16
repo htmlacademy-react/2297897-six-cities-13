@@ -7,13 +7,14 @@ import {ErrorPage} from '../error/error-page.tsx';
 import {MemoizedPlacesList} from '../../components/places-list/places-list.tsx';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {useEffect, useState} from 'react';
-import {fetchChosenOfferAction, fetchNearbyOffersAction, setFavoriteAction} from '../../service/api-actions.ts';
+import {fetchChosenOfferAction, fetchNearbyOffersAction} from '../../service/api-actions.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {Authorization, RATING_COEFFICIENT} from '../../const.ts';
 import {LoadingScreen} from '../../components/loading-screen/loading-screen.tsx';
 import {getChosenOffer, getOffers} from '../../store/offers-process/offers-process.selectors.ts';
 import {getOffersLoadingStatus} from '../../store/loading-process/loading-process.selectors.ts';
 import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
+import {handleFavoriteClick} from '../../utils.ts';
 
 export const OfferPage = () => {
   const dispatch = useAppDispatch();
@@ -60,12 +61,13 @@ export const OfferPage = () => {
     maxAdults
   } = offerDetails!;
 
-  const setFavorite = () => {
-    dispatch(setFavoriteAction({id: offerId, isFavorite}));
-  };
-
-  const handleFavoriteClick = () => {
-    setFavorite();
+  const favoriteClickHandler = () => {
+    handleFavoriteClick(
+      authStatus,
+      dispatch,
+      offerId,
+      isFavorite
+    );
   };
 
   return (
@@ -108,7 +110,7 @@ export const OfferPage = () => {
                       button
                       `}
                   type="button"
-                  onClick={handleFavoriteClick}
+                  onClick={favoriteClickHandler}
                 >
                   <svg
                     className="offer__bookmark-icon"
