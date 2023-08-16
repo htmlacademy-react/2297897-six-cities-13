@@ -57,7 +57,6 @@ export type ChosenOffer = Omit<Offer, 'previewImage'> & {
     maxAdults: number;
 };
 
-
 export type City = typeof CITIES[number];
 
 export type OfferInfo = {
@@ -112,7 +111,10 @@ export const offersProcess = createSlice({
       state.offersCity = action.payload;
     },
     sortOffers: (state, action: { payload: allowedSortMethods }) => {
-      state.sortMethod = action.payload;
+      if(state.sortMethod !== action.payload){
+        state.sortMethod = action.payload;
+      }
+
       switch (state.sortMethod) {
         case SortMethods.ByPopularity:
           state.offers = state.savedOrderOffers;

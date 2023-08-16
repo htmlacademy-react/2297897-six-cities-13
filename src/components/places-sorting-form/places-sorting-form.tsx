@@ -1,6 +1,8 @@
 import {memo, useState} from 'react';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {sortOffers} from '../../store/offers-process/offers-process.slice.ts';
+import {useAppSelector} from "../../hooks/use-app-selector.ts";
+import {getSortMethod} from "../../store/offers-process/offers-process.selectors.ts";
 
 export const SortMethods = {
   ByPopularity: 'Popular',
@@ -13,14 +15,15 @@ export type allowedSortMethods = typeof SortMethods[keyof typeof SortMethods];
 
 const PlacesSortingForm = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentSort, setCurrentSort] = useState<allowedSortMethods>(SortMethods.ByPopularity);
+  const currentSortMethod = useAppSelector(getSortMethod);
+  const [currentSort, setCurrentSort] = useState<allowedSortMethods>(currentSortMethod);
   const dispatch = useAppDispatch();
 
-  const onSortFormClick = () => {
+  const handleSortFormClick = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
-  const onSortMethodClick = (sortMethod: allowedSortMethods) => {
+  const handleSortMethodClick = (sortMethod: allowedSortMethods) => {
     setCurrentSort(sortMethod);
     dispatch(sortOffers(sortMethod));
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -35,7 +38,7 @@ const PlacesSortingForm = () => {
           className="places__sorting-arrow"
           width="7"
           height="4"
-          onClick={onSortFormClick}
+          onClick={handleSortFormClick}
         >
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
@@ -47,7 +50,7 @@ const PlacesSortingForm = () => {
               className={`places__option ${currentSort === sortMethod ? 'places__option--active' : ''}`}
               tabIndex={0}
               key={sortMethod}
-              onClick={() => onSortMethodClick(sortMethod)}
+              onClick={() => handleSortMethodClick(sortMethod)}
             >
               {sortMethod}
             </li>

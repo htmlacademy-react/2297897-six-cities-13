@@ -2,7 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch} from '../hooks/use-app-dispatch.ts';
 import {State} from '../hooks/use-app-selector.ts';
 import {AxiosInstance} from 'axios';
-import {ChosenOffer, Offer} from '../store/offers-process/offers-process.slice.ts';
+import {ChosenOffer, Offer, sortOffers} from '../store/offers-process/offers-process.slice.ts';
 import {APIPaths, MAX_REVIEWS_ON_PAGE, Paths} from '../const.ts';
 import {dropToken, saveToken} from './token.ts';
 import {Review} from '../store/offers-process/offers-process.slice.ts';
@@ -39,9 +39,11 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'OFFERS/fetchOffers',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {dispatch, getState, extra: api}) => {
     const {data} = await api.get<Offer[]>(APIPaths.Offers);
     dispatch(loadOffers(data));
+    const currentSort = getState().OFFERS.sortMethod;
+    dispatch(sortOffers(currentSort))
   }
 );
 
