@@ -7,13 +7,15 @@ import {MemoizedPlacesSortingForm} from '../../components/places-sorting-form/pl
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {getOffers, getOffersCity} from '../../store/offers-process/offers-process.selectors.ts';
 import {getOffersLoadingStatus} from '../../store/loading-process/loading-process.selectors.ts';
+import {City} from '../../store/offers-process/offers-process.slice.ts';
+import MainEmptyPage from '../../components/main-empty-page/main-empty-page.tsx';
 
 export const MainPage = () => {
   const [activeId, setActiveId] = useState<string | undefined>(undefined);
 
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
   const offers = useAppSelector(getOffers);
-  const activeCity = useAppSelector(getOffersCity);
+  const activeCity: City = useAppSelector(getOffersCity);
   const offersForCity = offers.filter((offer) => offer.city.name === activeCity);
 
   const handleMouseEnter = useCallback((offerId: string | undefined) => {
@@ -63,31 +65,7 @@ export const MainPage = () => {
             </div>
           </main>
         )
-        : (!offers.length && !isOffersLoading) && (
-          <main className="page__main page__main--index page__main--index-empty">
-            <h1 className="visually-hidden">Cities</h1>
-            <div className="tabs">
-              <section className="locations container">
-                <ul className="locations__list tabs__list">
-                  <MemoizedCitiesList/>
-                </ul>
-              </section>
-            </div>
-            <div className="cities">
-              <div className="cities__places-container cities__places-container--empty container">
-                <section className="cities__no-places">
-                  <div className="cities__status-wrapper tabs__content">
-                    <b className="cities__status">No places to stay available</b>
-                    <p className="cities__status-description">We could not find any property available at the moment
-                      in {activeCity}
-                    </p>
-                  </div>
-                </section>
-                <div className="cities__right-section"></div>
-              </div>
-            </div>
-          </main>
-        )}
+        : (!offers.length && !isOffersLoading) && <MainEmptyPage activeCity={activeCity}/>}
     </div>
   );
 };
