@@ -1,14 +1,15 @@
 import {CITIES} from '../../const.ts';
 import {Link} from 'react-router-dom';
-import {updateCityAction} from '../../store/action.ts';
-import * as selectors from '../../store/selectors.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
+import {memo} from 'react';
+import {getOffersCity} from '../../store/offers-process/offers-process.selectors.ts';
+import {changeOffersCity, City} from '../../store/offers-process/offers-process.slice.ts';
 
-export const CitiesList = () => {
-  const activeCity = useAppSelector(selectors.getActiveCity);
+const CitiesList = () => {
+  const activeCity = useAppSelector(getOffersCity);
   const dispatch = useAppDispatch();
-  const onCityClick = (nextCityName: typeof CITIES[number]) => dispatch(updateCityAction(nextCityName));
+  const handleCityClick = (nextCityName: City) => dispatch(changeOffersCity(nextCityName));
 
   return (
     <>
@@ -17,7 +18,7 @@ export const CitiesList = () => {
           <li className="locations__item" key={city}>
             <Link
               className={`locations__item-link tabs__item ${activeCity === city ? 'tabs__item--active' : ''}`}
-              onClick={() => onCityClick(city)}
+              onClick={() => handleCityClick(city)}
               to="#"
             >
               <span>{city}</span>
@@ -28,3 +29,5 @@ export const CitiesList = () => {
     </>
   );
 };
+
+export const MemoizedCitiesList = memo(CitiesList);

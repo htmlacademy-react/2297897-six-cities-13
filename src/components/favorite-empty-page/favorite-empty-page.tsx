@@ -1,8 +1,10 @@
-import {Header} from '../../components/header/header.tsx';
+import {MemoizedHeader} from '../header/header.tsx';
+import {Link} from 'react-router-dom';
+import {Paths} from '../../const.ts';
 
-export const FavoritesEmptyPage = () => (
-  <div className="page page--favorites-empty">
-    <Header />
+export const FavoriteEmptyPage = () => (
+  <>
+    <MemoizedHeader/>
     <main className="page__main page__main--favorites page__main--favorites-empty">
       <div className="page__favorites-container container">
         <section className="favorites favorites--empty">
@@ -14,10 +16,10 @@ export const FavoritesEmptyPage = () => (
         </section>
       </div>
     </main>
-    <footer className="footer">
-      <a className="footer__logo-link" href="main.html">
-        <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-      </a>
+    <footer className="footer container">
+      <Link className="footer__logo-link" to={Paths.Main}>
+        <img className="footer__logo" src="markup/img/logo.svg" alt="6 cities logo" width="64" height="33"/>
+      </Link>
     </footer>
-  </div>
+  </>
 );

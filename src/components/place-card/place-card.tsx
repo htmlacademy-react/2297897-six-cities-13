@@ -1,9 +1,10 @@
-import {FC, MouseEventHandler} from 'react';
+import {FC, memo, MouseEventHandler} from 'react';
 import {RATING_COEFFICIENT} from '../../const.ts';
 import {Link} from 'react-router-dom';
-import {getFavoriteStyles} from '../../utils.ts';
-import {updateFavoriteAction} from '../../store/action.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
+import {handleFavoriteClick} from '../../utils.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
+import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
 
 export type PlaceCardProps = {
   id: string;
@@ -23,7 +24,7 @@ export type ActiveCardProps = {
 
 type PlaceCardPropsWithActiveCard = PlaceCardProps & ActiveCardProps;
 
-export const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
+const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
   id,
   isPremium,
   isFavorite,
@@ -36,9 +37,18 @@ export const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
   handleMouseEnter,
   handleMouseLeave,
 }) => {
-  const dispatch = useAppDispatch();
 
-  const onFavoriteClick = () => dispatch(updateFavoriteAction(id));
+  const dispatch = useAppDispatch();
+  const authStatus = useAppSelector(getAuthStatus);
+
+  const favoriteClickHandler = () => {
+    handleFavoriteClick(
+      authStatus,
+      dispatch,
+      id,
+      isFavorite
+    );
+  };
 
   return(
     <article
@@ -65,15 +75,18 @@ export const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className="place-card__bookmark-button button"
+            className={`
+              place-card__bookmark-button
+              ${isFavorite ? 'place-card__bookmark-button--active' : ''}
+              button
+            `}
             type="button"
-            onClick={onFavoriteClick}
+            onClick={favoriteClickHandler}
           >
             <svg
               className="place-card__bookmark-icon"
               width="18"
               height="19"
-              style={getFavoriteStyles(isFavorite)}
             >
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -94,3 +107,5 @@ export const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
     </article>
   );
 };
+
+export const MemoizedPlaceCard = memo(PlaceCard);

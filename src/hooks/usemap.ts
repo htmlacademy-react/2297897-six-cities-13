@@ -1,6 +1,6 @@
 import {useState, useEffect, useRef, MutableRefObject} from 'react';
 import leaflet from 'leaflet';
-import {CityLocation} from '../mocks/offers.ts';
+import {CityLocation} from '../store/offers-process/offers-process.slice.ts';
 
 type UseMapArgs = {
   mapRef: MutableRefObject<null>;

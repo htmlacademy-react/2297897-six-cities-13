@@ -1,6 +1,8 @@
-import {useState} from 'react';
+import {memo, useState} from 'react';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
-import {sortOffersAction, updateSortMethodAction} from '../../store/action.ts';
+import {sortOffers} from '../../store/offers-process/offers-process.slice.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
+import {getSortMethod} from '../../store/offers-process/offers-process.selectors.ts';
 
 export const SortMethods = {
   ByPopularity: 'Popular',
@@ -11,20 +13,20 @@ export const SortMethods = {
 
 export type allowedSortMethods = typeof SortMethods[keyof typeof SortMethods];
 
-export const PlacesSortingForm = () => {
+const PlacesSortingForm = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentSort, setCurrentSort] = useState<allowedSortMethods>(SortMethods.ByPopularity);
+  const currentSortMethod = useAppSelector(getSortMethod);
+  const [currentSort, setCurrentSort] = useState<allowedSortMethods>(currentSortMethod);
   const dispatch = useAppDispatch();
 
-  const onSortFormClick = () => {
+  const handleSortFormClick = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
-  const onSortMethodClick = (sortMethod: allowedSortMethods) => {
+  const handleSortMethodClick = (sortMethod: allowedSortMethods) => {
     setCurrentSort(sortMethod);
-    dispatch(updateSortMethodAction(sortMethod));
-    dispatch(sortOffersAction(sortMethod));
-    setIsOpen(!isOpen);
+    dispatch(sortOffers(sortMethod));
+    setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
   return (
@@ -36,7 +38,7 @@ export const PlacesSortingForm = () => {
           className="places__sorting-arrow"
           width="7"
           height="4"
-          onClick={onSortFormClick}
+          onClick={handleSortFormClick}
         >
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
@@ -48,7 +50,7 @@ export const PlacesSortingForm = () => {
               className={`places__option ${currentSort === sortMethod ? 'places__option--active' : ''}`}
               tabIndex={0}
               key={sortMethod}
-              onClick={() => onSortMethodClick(sortMethod)}
+              onClick={() => handleSortMethodClick(sortMethod)}
             >
               {sortMethod}
             </li>
@@ -58,3 +60,5 @@ export const PlacesSortingForm = () => {
     </form>
   );
 };
+
+export const MemoizedPlacesSortingForm = memo(PlacesSortingForm);

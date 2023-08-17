@@ -6,13 +6,16 @@ import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 
 export const LoginPage = () => {
   const [AuthInfo, setAuthInfo] = useState<AuthData>({login: '', password: ''});
+  const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]+$/;
+  const isValidPassword = passwordRegex.test(AuthInfo.password);
+  const isNeedDisable = !AuthInfo.login || !isValidPassword;
   const dispatch = useAppDispatch();
 
-  const onLoginChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleLoginChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setAuthInfo({...AuthInfo, login: evt.target.value});
   };
 
-  const onPasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setAuthInfo({...AuthInfo, password: evt.target.value});
   };
 
@@ -22,13 +25,10 @@ export const LoginPage = () => {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-
-    if(AuthInfo.login !== '' && AuthInfo.password !== ''){
-      onSubmit({
-        login: AuthInfo.login,
-        password: AuthInfo.password,
-      });
-    }
+    onSubmit({
+      login: AuthInfo.login,
+      password: AuthInfo.password,
+    });
   };
 
   return(
@@ -59,7 +59,7 @@ export const LoginPage = () => {
                 <label className="visually-hidden">E-mail</label>
                 <input
                   value={AuthInfo.login}
-                  onChange={onLoginChange}
+                  onChange={handleLoginChange}
                   className="login__input form__input"
                   type="email"
                   name="email"
@@ -71,7 +71,7 @@ export const LoginPage = () => {
                 <label className="visually-hidden">Password</label>
                 <input
                   value={AuthInfo.password}
-                  onChange={onPasswordChange}
+                  onChange={handlePasswordChange}
                   className="login__input form__input"
                   type="password"
                   name="password"
@@ -79,7 +79,21 @@ export const LoginPage = () => {
                   required
                 />
               </div>
-              <button className="login__submit form__submit button" type="submit">Sign in</button>
+              <button
+                className="login__submit form__submit button"
+                type="submit"
+                disabled={isNeedDisable}
+              >
+                Sign in
+              </button>
+              <ul>
+                <li
+                  style={
+                    {color: isValidPassword ? 'green' : 'red'}
+                  }
+                >Password must contain at least 1 number and letter
+                </li>
+              </ul>
             </form>
           </section>
           <section className="locations locations--login locations--current">

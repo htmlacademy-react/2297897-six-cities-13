@@ -1,6 +1,7 @@
 export const RATING_COEFFICIENT = 20;
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 300;
+export const MAX_REVIEWS_ON_PAGE = 10;
 
 export const CITIES = [
   'Paris',
@@ -52,11 +53,16 @@ export const Authorization = {
   Unknown: 'unknown',
 } as const;
 
-export type AuthorizationStatus = typeof Authorization[keyof typeof Authorization];
-
 export const APIPaths = {
   Offers: '/offers',
   Comments: '/comments',
   Login: '/login',
   Logout: '/logout',
+  Favorite: '/favorite',
+} as const;
+
+export const NameSpace = {
+  User: 'USER',
+  Offers: 'OFFERS',
+  Loaders: 'LOADERS',
 } as const;

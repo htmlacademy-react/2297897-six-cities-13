@@ -1,26 +1,28 @@
 import {ReviewItem} from '../review-item/review-item.tsx';
 import {FC, useEffect} from 'react';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
-import * as selectors from '../../store/selectors.ts';
-import {fetchOfferReviews} from '../../service/api-actions.ts';
+import {fetchOfferReviewsAction} from '../../service/api-actions.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
+import {getChosenOffer} from '../../store/offers-process/offers-process.selectors.ts';
+import {getCommentPostingStatus, getOffersLoadingStatus} from '../../store/loading-process/loading-process.selectors.ts';
 
 export type ReviewsListProps = {
   offerId: string;
 };
 
 export const ReviewsList: FC<ReviewsListProps> = ({offerId}) => {
-  const {isCommentPosting, isOffersLoading} = useAppSelector(selectors.getLoadingStatuses);
-  const reviews = useAppSelector(selectors.getOfferReviews);
+  const isOffersLoading = useAppSelector(getOffersLoadingStatus);
+  const isCommentPosting = useAppSelector(getCommentPostingStatus);
+  const {offerReviews} = useAppSelector(getChosenOffer);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchOfferReviews(offerId));
+    dispatch(fetchOfferReviewsAction(offerId));
   }, [isCommentPosting, isOffersLoading, offerId, dispatch]);
 
   return (
     <>
-      {reviews.map(
+      {offerReviews.map(
         (review) =>
           (
             <ReviewItem

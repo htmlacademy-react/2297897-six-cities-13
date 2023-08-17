@@ -1,45 +1,47 @@
-import {Header} from '../../components/header/header.tsx';
+import {MemoizedHeader} from '../../components/header/header.tsx';
 import {useParams} from 'react-router-dom';
 import {CommentSendForm} from '../../components/commentary-send-form/comment-send-form.tsx';
 import {ReviewsList} from '../../components/reviews-list/reviews-list.tsx';
 import {Map} from '../../components/map/map.tsx';
 import {ErrorPage} from '../error/error-page.tsx';
-import {PlacesList} from '../../components/places-list/places-list.tsx';
+import {MemoizedPlacesList} from '../../components/places-list/places-list.tsx';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
-import {useEffect} from 'react';
-import {fetchChosenOffer, fetchNearbyOffers} from '../../service/api-actions.ts';
+import {useEffect, useState} from 'react';
+import {fetchChosenOfferAction, fetchNearbyOffersAction} from '../../service/api-actions.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {Authorization, RATING_COEFFICIENT} from '../../const.ts';
 import {LoadingScreen} from '../../components/loading-screen/loading-screen.tsx';
-import {getFavoriteStyles} from '../../utils.ts';
-import * as selectors from '../../store/selectors.ts';
+import {getChosenOffer, getOffers} from '../../store/offers-process/offers-process.selectors.ts';
+import {getOffersLoadingStatus} from '../../store/loading-process/loading-process.selectors.ts';
+import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
+import {handleFavoriteClick} from '../../utils.ts';
 
 export const OfferPage = () => {
   const dispatch = useAppDispatch();
-  const offers = useAppSelector(selectors.getOffers);
-  const offerId = useParams().id!;
+  const offers = useAppSelector(getOffers);
+  const offerId = useParams().id || '';
   const isExistingId = offers.some((offer) => offer.id === offerId);
-  const {isOffersLoading, isChosenOfferLoading, isNearbyOffersLoading } = useAppSelector(selectors.getLoadingStatuses);
-  const offerDetails = useAppSelector(selectors.getOfferDetails)!;
-  const offerReviews = useAppSelector(selectors.getOfferReviews);
-  const nearbyOffers = useAppSelector(selectors.getNearbyOffers);
-  const authStatus = useAppSelector(selectors.getAuthStatus);
+  const isOffersLoading = useAppSelector(getOffersLoadingStatus);
+  const {offerDetails, offerReviews, nearbyOffers} = useAppSelector(getChosenOffer);
+  const authStatus = useAppSelector(getAuthStatus);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!isExistingId) {
       return;
     }
-    dispatch(fetchChosenOffer(offerId));
-    dispatch(fetchNearbyOffers(offerId));
+    const fetchOfferInfo = async () => {
+      await Promise.all([
+        dispatch(fetchChosenOfferAction(offerId)),
+        dispatch(fetchNearbyOffersAction(offerId))
+      ]);
+    };
+    fetchOfferInfo().then(() => setIsLoading(false));
   }, [isExistingId, offerId, dispatch]);
-
-  const isSomethingLoading = isOffersLoading || isChosenOfferLoading || isNearbyOffersLoading; //Object.values(loadingStatuses).every((status) => !status);
 
   if(!isExistingId && !isOffersLoading){
     return <ErrorPage/>;
-  }
-
-  if(isSomethingLoading){
+  } else if(isLoading){
     return <LoadingScreen/>;
   }
 
@@ -57,12 +59,20 @@ export const OfferPage = () => {
     bedrooms,
     goods,
     maxAdults
-  } = offerDetails;
+  } = offerDetails!;
 
+  const favoriteClickHandler = () => {
+    handleFavoriteClick(
+      authStatus,
+      dispatch,
+      offerId,
+      isFavorite
+    );
+  };
 
   return (
     <div className="page">
-      <Header/>
+      <MemoizedHeader/>
       <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">
@@ -93,10 +103,17 @@ export const OfferPage = () => {
                 <h1 className="offer__name">
                   {title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
+                <button
+                  className={`
+                      offer__bookmark-button
+                      ${isFavorite ? 'offer__bookmark-button--active' : ''}
+                      button
+                      `}
+                  type="button"
+                  onClick={favoriteClickHandler}
+                >
                   <svg
                     className="offer__bookmark-icon"
-                    style={getFavoriteStyles(isFavorite)}
                     width="31"
                     height="33"
                   >
@@ -173,8 +190,9 @@ export const OfferPage = () => {
           <section className="offer__map map">
             <Map
               offers={offers}
+              nearbyOffers={nearbyOffers}
               city={city}
-              selectedPlace={offerDetails}
+              selectedOfferId={offerId}
               isOfferPage
             />
           </section>
@@ -183,7 +201,7 @@ export const OfferPage = () => {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <PlacesList offers={nearbyOffers}/>
+              <MemoizedPlacesList offers={nearbyOffers}/>
             </div>
           </section>
         </div>
