@@ -25,17 +25,17 @@ export const OfferPage = () => {
   const {offerDetails, offerReviews, nearbyOffers} = useAppSelector(getChosenOffer);
   const authStatus = useAppSelector(getAuthStatus);
   const [isLoading, setIsLoading] = useState(true);
-  const [isFavoriteLocal, setIsFavoriteLocal] = useState(offerDetails?.isFavorite);
+  const [isFavoriteLocal, setIsFavoriteLocal] = useState<undefined | boolean>(undefined);
 
   useEffect(() => {
-    setIsFavoriteLocal(offerDetails?.isFavorite);
     if (!isExistingId) {
       return;
     }
     dispatch(fetchChosenOfferAction(offerId))
+      .then(() => setIsFavoriteLocal(offerDetails?.isFavorite))
       .then(() => dispatch(fetchNearbyOffersAction(offerId)))
       .then(() => setIsLoading(false));
-  }, [isExistingId, offerId, dispatch]);
+  }, [isExistingId, offerId, dispatch, offerDetails?.isFavorite]);
 
   if(!isExistingId && !isOffersLoading){
     return <ErrorPage/>;
