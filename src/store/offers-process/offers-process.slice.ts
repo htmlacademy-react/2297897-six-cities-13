@@ -64,7 +64,7 @@ export type OfferInfo = {
     nearbyOffers: Offer[];
 };
 
-type InitialOffersState = {
+export type InitialOffersState = {
     offersCity: City;
     offers: Offer[];
     savedOrderOffers: Offer[];

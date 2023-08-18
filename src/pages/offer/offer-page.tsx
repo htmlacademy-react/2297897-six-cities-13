@@ -7,14 +7,14 @@ import {ErrorPage} from '../error/error-page.tsx';
 import {MemoizedPlacesList} from '../../components/places-list/places-list.tsx';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {useEffect, useState} from 'react';
-import {fetchChosenOfferAction, fetchNearbyOffersAction} from '../../service/api-actions.ts';
+import {fetchChosenOfferAction, fetchNearbyOffersAction, setFavoriteAction} from '../../service/api-actions.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
-import {Authorization, RATING_COEFFICIENT} from '../../const.ts';
+import {Authorization, Paths, RATING_COEFFICIENT} from '../../const.ts';
 import {LoadingScreen} from '../../components/loading-screen/loading-screen.tsx';
 import {getChosenOffer, getOffers} from '../../store/offers-process/offers-process.selectors.ts';
 import {getOffersLoadingStatus} from '../../store/loading-process/loading-process.selectors.ts';
 import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
-import {handleFavoriteClick} from '../../utils.ts';
+import {redirectToRoute} from '../../store/action.ts';
 
 export const OfferPage = () => {
   const dispatch = useAppDispatch();
@@ -25,18 +25,16 @@ export const OfferPage = () => {
   const {offerDetails, offerReviews, nearbyOffers} = useAppSelector(getChosenOffer);
   const authStatus = useAppSelector(getAuthStatus);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFavoriteLocal, setIsFavoriteLocal] = useState(offerDetails?.isFavorite);
 
   useEffect(() => {
+    setIsFavoriteLocal(offerDetails?.isFavorite);
     if (!isExistingId) {
       return;
     }
-    const fetchOfferInfo = async () => {
-      await Promise.all([
-        dispatch(fetchChosenOfferAction(offerId)),
-        dispatch(fetchNearbyOffersAction(offerId))
-      ]);
-    };
-    fetchOfferInfo().then(() => setIsLoading(false));
+    dispatch(fetchChosenOfferAction(offerId))
+      .then(() => dispatch(fetchNearbyOffersAction(offerId)))
+      .then(() => setIsLoading(false));
   }, [isExistingId, offerId, dispatch]);
 
   if(!isExistingId && !isOffersLoading){
@@ -45,12 +43,15 @@ export const OfferPage = () => {
     return <LoadingScreen/>;
   }
 
+  if(!offerDetails){
+    return <ErrorPage/>;
+  }
+
   const {
     title,
     type,
     price,
     city,
-    isFavorite,
     isPremium,
     rating,
     images,
@@ -59,15 +60,14 @@ export const OfferPage = () => {
     bedrooms,
     goods,
     maxAdults
-  } = offerDetails!;
+  } = offerDetails;
 
-  const favoriteClickHandler = () => {
-    handleFavoriteClick(
-      authStatus,
-      dispatch,
-      offerId,
-      isFavorite
-    );
+  const handleFavoriteClick = () => {
+    if(authStatus === Authorization.NoAuth){
+      dispatch(redirectToRoute(Paths.Login));
+    }
+    dispatch(setFavoriteAction({id: offerId, isFavorite: isFavoriteLocal ?? false}))
+      .then(() => setIsFavoriteLocal((prevIsFavorite) => !prevIsFavorite));
   };
 
   return (
@@ -106,11 +106,11 @@ export const OfferPage = () => {
                 <button
                   className={`
                       offer__bookmark-button
-                      ${isFavorite ? 'offer__bookmark-button--active' : ''}
+                      ${isFavoriteLocal ? 'offer__bookmark-button--active' : ''}
                       button
                       `}
                   type="button"
-                  onClick={favoriteClickHandler}
+                  onClick={handleFavoriteClick}
                 >
                   <svg
                     className="offer__bookmark-icon"

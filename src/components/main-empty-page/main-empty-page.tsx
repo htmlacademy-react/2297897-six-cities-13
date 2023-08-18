@@ -6,7 +6,7 @@ type MainEmptyPageProps = {
     activeCity: City;
 }
 
-const MainEmptyPage: FC<MainEmptyPageProps> = ({activeCity}) => (
+export const MainEmptyPage: FC<MainEmptyPageProps> = ({activeCity}) => (
   <main className="page__main page__main--index page__main--index-empty">
     <h1 className="visually-hidden">Cities</h1>
     <div className="tabs">
@@ -31,5 +31,3 @@ const MainEmptyPage: FC<MainEmptyPageProps> = ({activeCity}) => (
     </div>
   </main>
 );
-
-export default MainEmptyPage;

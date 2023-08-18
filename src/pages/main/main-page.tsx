@@ -8,11 +8,15 @@ import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {getOffers, getOffersCity} from '../../store/offers-process/offers-process.selectors.ts';
 import {getOffersLoadingStatus} from '../../store/loading-process/loading-process.selectors.ts';
 import {City} from '../../store/offers-process/offers-process.slice.ts';
-import MainEmptyPage from '../../components/main-empty-page/main-empty-page.tsx';
+import {MainEmptyPage} from '../../components/main-empty-page/main-empty-page.tsx';
+import {LoadingScreen} from '../../components/loading-screen/loading-screen.tsx';
+import {Authorization} from '../../const.ts';
+import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
 
 export const MainPage = () => {
   const [activeId, setActiveId] = useState<string | undefined>(undefined);
 
+  const authStatus = useAppSelector(getAuthStatus);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
   const offers = useAppSelector(getOffers);
   const activeCity: City = useAppSelector(getOffersCity);
@@ -26,46 +30,48 @@ export const MainPage = () => {
     setActiveId(undefined);
   }, []);
 
+  if(isOffersLoading || authStatus === Authorization.Unknown){
+    return <LoadingScreen />;
+  } else if(!offers.length && !isOffersLoading){
+    return <MainEmptyPage activeCity={activeCity}/>;
+  }
+
   return (
     <div className="page page--gray page--main">
       <MemoizedHeader/>
-      {offersForCity.length
-        ? (
-          <main className="page__main page__main--index">
-            <h1 className="visually-hidden">Cities</h1>
-            <div className="tabs">
-              <section className="locations container">
-                <ul className="locations__list tabs__list">
-                  <MemoizedCitiesList />
-                </ul>
+      <main className="page__main page__main--index">
+        <h1 className="visually-hidden">Cities</h1>
+        <div className="tabs">
+          <section className="locations container">
+            <ul className="locations__list tabs__list">
+              <MemoizedCitiesList />
+            </ul>
+          </section>
+        </div>
+        <div className="cities">
+          <div className="cities__places-container container">
+            <section className="cities__places places">
+              <h2 className="visually-hidden">Places</h2>
+              <b className="places__found">{offersForCity.length} places to stay in {activeCity}</b>
+              <MemoizedPlacesSortingForm/>
+              <div className="cities__places-list places__list tabs__content">
+                <MemoizedPlacesList
+                  handleMouseEnter={handleMouseEnter}
+                  handleMouseLeave={handleMouseLeave}
+                  offers={offersForCity}
+                />
+              </div>
+            </section>
+            <div className="cities__right-section">
+              <section className="cities__map map">
+                <Map offers={offersForCity} city={offersForCity[0].city} selectedOfferId={activeId}
+                  isOfferPage={false}
+                />
               </section>
             </div>
-            <div className="cities">
-              <div className="cities__places-container container">
-                <section className="cities__places places">
-                  <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{offersForCity.length} places to stay in {activeCity}</b>
-                  <MemoizedPlacesSortingForm/>
-                  <div className="cities__places-list places__list tabs__content">
-                    <MemoizedPlacesList
-                      handleMouseEnter={handleMouseEnter}
-                      handleMouseLeave={handleMouseLeave}
-                      offers={offersForCity}
-                    />
-                  </div>
-                </section>
-                <div className="cities__right-section">
-                  <section className="cities__map map">
-                    <Map offers={offersForCity} city={offersForCity[0].city} selectedOfferId={activeId}
-                      isOfferPage={false}
-                    />
-                  </section>
-                </div>
-              </div>
-            </div>
-          </main>
-        )
-        : (!offers.length && !isOffersLoading) && <MainEmptyPage activeCity={activeCity}/>}
+          </div>
+        </div>
+      </main>
     </div>
   );
 };

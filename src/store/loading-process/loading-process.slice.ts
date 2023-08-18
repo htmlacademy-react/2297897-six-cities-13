@@ -7,12 +7,13 @@ import {
 } from '../../service/api-actions.ts';
 
 type InitialLoadingState = {
-  isOffersLoading : boolean;
+  isOffersLoading: boolean;
   isChosenOfferLoading: boolean;
   isNearbyOffersLoading: boolean;
   isOfferReviewsLoading: boolean;
   isFavoriteOffersLoading: boolean;
   isCommentPosting: boolean;
+  hasError: boolean;
 };
 
 const initialLoadingState: InitialLoadingState = {
@@ -22,6 +23,7 @@ const initialLoadingState: InitialLoadingState = {
   isOfferReviewsLoading: false,
   isFavoriteOffersLoading: true,
   isCommentPosting: false,
+  hasError: false,
 };
 
 export const loadingProcess = createSlice({
@@ -32,43 +34,63 @@ export const loadingProcess = createSlice({
     builder
       .addCase(fetchOffersAction.pending, (state) => {
         state.isOffersLoading = true;
+        state.hasError = false;
       })
-      .addCase((fetchOffersAction.fulfilled || fetchOffersAction.rejected), (state) => {
+      .addCase(fetchOffersAction.fulfilled, (state) => {
         state.isOffersLoading = false;
+      })
+      .addCase(fetchOffersAction.rejected, (state) => {
+        state.isOffersLoading = false;
+        state.hasError = true;
       })
 
       .addCase(fetchChosenOfferAction.pending, (state) => {
         state.isChosenOfferLoading = true;
       })
-      .addCase((fetchChosenOfferAction.fulfilled || fetchChosenOfferAction.rejected), (state) => {
+      .addCase(fetchChosenOfferAction.fulfilled, (state) => {
+        state.isChosenOfferLoading = false;
+      })
+      .addCase(fetchChosenOfferAction.rejected, (state) => {
         state.isChosenOfferLoading = false;
       })
 
       .addCase(fetchNearbyOffersAction.pending, (state) => {
         state.isNearbyOffersLoading = true;
       })
-      .addCase((fetchNearbyOffersAction.fulfilled || fetchNearbyOffersAction.rejected), (state) => {
+      .addCase(fetchNearbyOffersAction.fulfilled, (state) => {
+        state.isNearbyOffersLoading = false;
+      })
+      .addCase(fetchNearbyOffersAction.rejected, (state) => {
         state.isNearbyOffersLoading = false;
       })
 
       .addCase(fetchOfferReviewsAction.pending, (state) => {
         state.isOfferReviewsLoading = true;
       })
-      .addCase((fetchOfferReviewsAction.fulfilled || fetchOfferReviewsAction.rejected), (state) => {
+      .addCase(fetchOfferReviewsAction.fulfilled, (state) => {
+        state.isOfferReviewsLoading = false;
+      })
+      .addCase(fetchOfferReviewsAction.rejected, (state) => {
         state.isOfferReviewsLoading = false;
       })
 
       .addCase(fetchFavoriteOffersAction.pending, (state) => {
         state.isFavoriteOffersLoading = true;
       })
-      .addCase((fetchFavoriteOffersAction.fulfilled || fetchFavoriteOffersAction.rejected), (state) => {
+      .addCase(fetchFavoriteOffersAction.fulfilled, (state) => {
+        state.isFavoriteOffersLoading = false;
+      })
+      .addCase(fetchFavoriteOffersAction.rejected, (state) => {
         state.isFavoriteOffersLoading = false;
       })
 
       .addCase(postCommentAction.pending, (state) => {
         state.isCommentPosting = true;
       })
-      .addCase(postCommentAction.fulfilled || postCommentAction.rejected, (state) => {
+      .addCase(postCommentAction.fulfilled, (state) => {
+        state.isCommentPosting = false;
+      })
+      .addCase(postCommentAction.rejected, (state) => {
         state.isCommentPosting = false;
       });
   }

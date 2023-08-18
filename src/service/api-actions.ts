@@ -158,7 +158,7 @@ export const setFavoriteAction = createAsyncThunk<void, favoriteData, {
   'OFFER/setFavorite',
   async({id: offerId, isFavorite}, {dispatch, extra: api}) => {
     await api.post(`${APIPaths.Favorite}/${offerId}/${Number(!isFavorite)}`);
-    dispatch(fetchOffersAction());
     dispatch(fetchFavoriteOffersAction());
+    dispatch(fetchOffersAction());
   }
 );
