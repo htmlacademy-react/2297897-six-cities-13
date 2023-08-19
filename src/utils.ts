@@ -1,5 +1,5 @@
-import {Months} from './const.ts';
-import {Offer} from './store/offers-process/offers-process.slice.ts';
+import {CITIES, Months} from './const.ts';
+import {City, Offer} from './store/offers-process/offers-process.slice.ts';
 
 export const humanizeISODate = (date: string) => {
   const parseDate = new Date(date);
@@ -14,3 +14,5 @@ export const shuffleNearby = (nearbyOffers: Offer[]) => {
   }
   return shuffledNearbyOffers.slice(0, 3);
 };
+
+export const getRandomCity = (): City => CITIES[Math.floor(Math.random() * CITIES.length)];

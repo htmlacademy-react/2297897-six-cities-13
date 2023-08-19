@@ -5,7 +5,7 @@ export const ServerErrorPage = () => {
   const dispatch = useAppDispatch();
   return (
     <>
-      <p className="error__text">Не удалось загрузить вопросы</p>
+      <p className="error__text">Не удалось загрузить предложения</p>
       <button
         onClick={() => {
           dispatch(fetchOffersAction());

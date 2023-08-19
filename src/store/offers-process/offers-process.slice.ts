@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {CITIES, MAX_REVIEWS_ON_PAGE, NameSpace} from '../../const.ts';
-import {shuffleNearby} from '../../utils.ts';
 import {allowedSortMethods, SortMethods} from '../../components/places-sorting-form/places-sorting-form.tsx';
 
 export type PlaceLocation = {
@@ -9,7 +8,7 @@ export type PlaceLocation = {
     zoom: number;
 };
 
-type UserInfo = {
+export type UserInfo = {
     name: string;
     avatarUrl: string;
     isPro: boolean;
@@ -95,7 +94,7 @@ export const offersProcess = createSlice({
       state.savedOrderOffers = action.payload;
     },
     loadNearbyOffers: (state, action: { payload: Offer[] }) => {
-      state.chosenOffer.nearbyOffers = shuffleNearby(action.payload);
+      state.chosenOffer.nearbyOffers = action.payload;
     },
     loadChosenOffer: (state, action: { payload: ChosenOffer }) => {
       state.chosenOffer.offerDetails = action.payload;

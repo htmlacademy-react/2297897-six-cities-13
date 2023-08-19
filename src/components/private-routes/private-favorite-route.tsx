@@ -8,7 +8,7 @@ type PrivateRouteProps = {
   children: ReactElement;
 }
 
-export const PrivateRoute: FC<PrivateRouteProps> = ({authorization, children}) =>{
+export const PrivateFavoriteRoute: FC<PrivateRouteProps> = ({authorization, children}) =>{
   if(authorization === Authorization.Unknown){
     return <LoadingScreen/>;
   }

@@ -35,7 +35,7 @@ export const OfferPage = () => {
       .then(() => setIsFavoriteLocal(offerDetails?.isFavorite))
       .then(() => dispatch(fetchNearbyOffersAction(offerId)))
       .then(() => setIsLoading(false));
-  }, [isExistingId, offerId, dispatch, offerDetails?.isFavorite]);
+  }, [isExistingId, offerId, dispatch, offerDetails?.isFavorite, authStatus]);
 
   if(!isExistingId && !isOffersLoading){
     return <ErrorPage/>;
@@ -124,7 +124,7 @@ export const OfferPage = () => {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `${rating * RATING_COEFFICIENT}%`}}></span>
+                  <span style={{width: `${Math.ceil(rating) * RATING_COEFFICIENT}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{rating}</span>

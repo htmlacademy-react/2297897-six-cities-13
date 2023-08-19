@@ -5,7 +5,8 @@ import {LoginPage} from '../../pages/login/login-page.tsx';
 import {OfferPage} from '../../pages/offer/offer-page.tsx';
 import {FavoritesPage} from '../../pages/favorites/favorites-page.tsx';
 import {ErrorPage} from '../../pages/error/error-page.tsx';
-import {PrivateRoute} from '../private-route/private-route.tsx';
+import {PrivateFavoriteRoute} from '../private-routes/private-favorite-route.tsx';
+import {PrivateLoginRoute} from '../private-routes/private-login-route.tsx';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {browserHistory} from '../../browser-history.ts';
 import {HistoryRouter} from '../history-route/history-route.tsx';
@@ -39,7 +40,11 @@ export const App = () => {
         />
         <Route
           path={Paths.Login}
-          element={<LoginPage/>}
+          element={
+            <PrivateLoginRoute authorization={authStatus}>
+              <LoginPage/>
+            </PrivateLoginRoute>
+          }
         />
         <Route
           path={Paths.Offer}
@@ -48,9 +53,9 @@ export const App = () => {
         <Route
           path={Paths.Favorites}
           element={
-            <PrivateRoute authorization={authStatus}>
+            <PrivateFavoriteRoute authorization={authStatus}>
               <FavoritesPage/>
-            </PrivateRoute>
+            </PrivateFavoriteRoute>
           }
         />
         <Route

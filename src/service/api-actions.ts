@@ -9,6 +9,7 @@ import {Review} from '../store/offers-process/offers-process.slice.ts';
 import {CommentWithOfferId} from '../components/commentary-send-form/comment-send-form.tsx';
 import {redirectToRoute} from '../store/action.ts';
 import {loadUserData, UserInfo} from '../store/user-process/user-process.slice.ts';
+import {shuffleNearby} from '../utils.ts';
 import {
   loadChosenOffer,
   loadFavoriteOffers,
@@ -91,7 +92,8 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, string, {
   'OFFERS/fetchNearbyOffers',
   async(offerId, {dispatch, extra: api}) => {
     const {data: nearbyOffers} = await api.get<Offer[]>(`${APIPaths.Offers}/${offerId}/nearby`);
-    dispatch(loadNearbyOffers(nearbyOffers));
+    const shuffledNearbyOffers = shuffleNearby(nearbyOffers);
+    dispatch(loadNearbyOffers(shuffledNearbyOffers));
   }
 );
 
@@ -131,10 +133,9 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     extra: AxiosInstance;
 }>(
   'USER/logout',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     await api.delete(APIPaths.Logout);
     dropToken();
-    dispatch(fetchOffersAction());
   }
 );
 

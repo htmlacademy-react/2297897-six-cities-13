@@ -78,7 +78,7 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
           <button
             className={`
               place-card__bookmark-button
-              ${isFavoriteLocal ? 'place-card__bookmark-button--active' : ''}
+              ${(authStatus === Authorization.Auth && isFavoriteLocal) ? 'place-card__bookmark-button--active' : ''}
               button
             `}
             type="button"
@@ -96,7 +96,7 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating * RATING_COEFFICIENT}%`}}></span>
+            <span style={{width: `${Math.ceil(rating) * RATING_COEFFICIENT}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
