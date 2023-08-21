@@ -47,8 +47,11 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
     if(authStatus === Authorization.NoAuth){
       dispatch(redirectToRoute(Paths.Login));
     }
-    dispatch(setFavoriteAction({id, isFavorite: isFavoriteLocal}))
-      .then(() => setIsFavoriteLocal((prevFavoriteLocal) => !prevFavoriteLocal));
+    try {
+      dispatch(setFavoriteAction({id, isFavorite: isFavoriteLocal}));
+    } finally {
+      setIsFavoriteLocal((prevFavoriteLocal) => !prevFavoriteLocal);
+    }
   };
 
   return(

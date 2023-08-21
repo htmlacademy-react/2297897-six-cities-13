@@ -31,10 +31,18 @@ export const OfferPage = () => {
     if (!isExistingId) {
       return;
     }
-    dispatch(fetchChosenOfferAction(offerId))
-      .then(() => setIsFavoriteLocal(offerDetails?.isFavorite))
-      .then(() => dispatch(fetchNearbyOffersAction(offerId)))
-      .then(() => setIsLoading(false));
+
+    const fetchData = async () => {
+      try{
+        await dispatch(fetchChosenOfferAction(offerId));
+        setIsFavoriteLocal(offerDetails?.isFavorite);
+        await dispatch(fetchNearbyOffersAction(offerId));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, [isExistingId, offerId, dispatch, offerDetails?.isFavorite, authStatus]);
 
   if(!isExistingId && !isOffersLoading){
@@ -66,8 +74,12 @@ export const OfferPage = () => {
     if(authStatus === Authorization.NoAuth){
       dispatch(redirectToRoute(Paths.Login));
     }
-    dispatch(setFavoriteAction({id: offerId, isFavorite: isFavoriteLocal ?? false}))
-      .then(() => setIsFavoriteLocal((prevIsFavorite) => !prevIsFavorite));
+    try {
+      dispatch(setFavoriteAction({id: offerId, isFavorite: isFavoriteLocal ?? false}));
+    } finally {
+      setIsFavoriteLocal((prevIsFavorite) => !prevIsFavorite);
+    }
+
   };
 
   return (

@@ -17,6 +17,7 @@ import {
   loadOfferReviews,
   loadOffers
 } from '../store/offers-process/offers-process.slice.ts';
+import {toast} from 'react-toastify';
 
 export type AuthData = {
   login: string;
@@ -41,10 +42,14 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'OFFERS/fetchOffers',
   async (_arg, {dispatch, getState, extra: api}) => {
-    const {data} = await api.get<Offer[]>(APIPaths.Offers);
-    dispatch(loadOffers(data));
-    const currentSort = getState().OFFERS.sortMethod;
-    dispatch(sortOffers(currentSort));
+    try{
+      const {data} = await api.get<Offer[]>(APIPaths.Offers);
+      dispatch(loadOffers(data));
+      const currentSort = getState().OFFERS.sortMethod;
+      dispatch(sortOffers(currentSort));
+    } catch {
+      toast.error('Problem with getting offers. Please try later');
+    }
   }
 );
 
@@ -55,8 +60,12 @@ export const fetchChosenOfferAction = createAsyncThunk<void, string, {
 }>(
   'OFFERS/fetchOffer',
   async (offerId, {dispatch, extra: api})=>{
-    const {data: offerDetails} = await api.get<ChosenOffer>(`${APIPaths.Offers}/${offerId}`);
-    dispatch(loadChosenOffer(offerDetails));
+    try {
+      const {data: offerDetails} = await api.get<ChosenOffer>(`${APIPaths.Offers}/${offerId}`);
+      dispatch(loadChosenOffer(offerDetails));
+    } catch {
+      toast.error('Problem with getting data. Please try later');
+    }
   }
 );
 
@@ -67,8 +76,12 @@ export const fetchFavoriteOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'OFFER/fetchFavoriteOffers',
   async (_arg, {dispatch, extra: api}) => {
-    const {data: favoriteOffers} = await api.get<Offer[]>(APIPaths.Favorite);
-    dispatch(loadFavoriteOffers(favoriteOffers));
+    try {
+      const {data: favoriteOffers} = await api.get<Offer[]>(APIPaths.Favorite);
+      dispatch(loadFavoriteOffers(favoriteOffers));
+    } catch {
+      toast.error('Problem with getting favorites. Please try later');
+    }
   }
 );
 
@@ -79,8 +92,12 @@ export const fetchOfferReviewsAction = createAsyncThunk<void, string, {
 }>(
   'OFFERS/fetchOfferReviews',
   async (offerId, {dispatch, extra: api})=> {
-    const {data: reviews} = await api.get<Review[]>(`${APIPaths.Comments}/${offerId}`);
-    dispatch(loadOfferReviews(reviews));
+    try {
+      const {data: reviews} = await api.get<Review[]>(`${APIPaths.Comments}/${offerId}`);
+      dispatch(loadOfferReviews(reviews));
+    } catch {
+      toast.error('Problem with getting reviews. Please try later');
+    }
   }
 );
 
@@ -91,9 +108,13 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, string, {
 }>(
   'OFFERS/fetchNearbyOffers',
   async(offerId, {dispatch, extra: api}) => {
-    const {data: nearbyOffers} = await api.get<Offer[]>(`${APIPaths.Offers}/${offerId}/nearby`);
-    const shuffledNearbyOffers = shuffleNearby(nearbyOffers);
-    dispatch(loadNearbyOffers(shuffledNearbyOffers));
+    try{
+      const {data: nearbyOffers} = await api.get<Offer[]>(`${APIPaths.Offers}/${offerId}/nearby`);
+      const shuffledNearbyOffers = shuffleNearby(nearbyOffers);
+      dispatch(loadNearbyOffers(shuffledNearbyOffers));
+    } catch {
+      toast.error('Problem with getting nearby offers. Please try later');
+    }
   }
 );
 
@@ -119,11 +140,15 @@ export const loginAction = createAsyncThunk<void, AuthData, {
 }>(
   'USER/login',
   async ({login: email, password}, {dispatch, extra: api}) =>{
-    const {data: {token}} = await api.post<UserData>(APIPaths.Login, {email, password});
-    saveToken(token);
-    dispatch(fetchOffersAction());
-    dispatch(redirectToRoute(Paths.Main));
-    dispatch(checkAuthAction());
+    try {
+      const {data: {token}} = await api.post<UserData>(APIPaths.Login, {email, password});
+      saveToken(token);
+      dispatch(fetchOffersAction());
+      dispatch(redirectToRoute(Paths.Main));
+      dispatch(checkAuthAction());
+    } catch {
+      toast.error('Problem with login. Please try later');
+    }
   }
 );
 
@@ -134,8 +159,12 @@ export const logoutAction = createAsyncThunk<void, undefined, {
 }>(
   'USER/logout',
   async (_arg, {extra: api}) => {
-    await api.delete(APIPaths.Logout);
-    dropToken();
+    try {
+      await api.delete(APIPaths.Logout);
+      dropToken();
+    } catch {
+      toast.error('Problem with logout. Please try later');
+    }
   }
 );
 
@@ -146,7 +175,11 @@ export const postCommentAction = createAsyncThunk<void, CommentWithOfferId, {
 }>(
   'OFFER/postComment',
   async ({rating, description: comment, offerId}, {extra: api}) => {
-    await api.post(`${APIPaths.Comments}/${offerId}`, {rating, comment});
+    try{
+      await api.post(`${APIPaths.Comments}/${offerId}`, {rating, comment});
+    } catch {
+      toast.error('Problem with sending commentary. Please, try later');
+    }
   }
 );
 
@@ -159,7 +192,7 @@ export const setFavoriteAction = createAsyncThunk<void, favoriteData, {
   'OFFER/setFavorite',
   async({id: offerId, isFavorite}, {dispatch, extra: api}) => {
     await api.post(`${APIPaths.Favorite}/${offerId}/${Number(!isFavorite)}`);
-    dispatch(fetchFavoriteOffersAction());
-    dispatch(fetchOffersAction());
+    await dispatch(fetchFavoriteOffersAction());
+    await dispatch(fetchOffersAction());
   }
 );

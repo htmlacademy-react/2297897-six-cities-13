@@ -127,6 +127,7 @@ export const offersProcess = createSlice({
           state.offers = state.offers.sort((a, b) => b.rating - a.rating);
           break;
         default:
+          state.sortMethod = SortMethods.ByPopularity;
           state.offers = state.savedOrderOffers;
       }
     }

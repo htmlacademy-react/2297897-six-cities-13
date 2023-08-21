@@ -12,7 +12,7 @@ export type UserInfo = {
 
 export type AuthorizationStatus = typeof Authorization[keyof typeof Authorization];
 
-type InitialUserState = {
+export type InitialUserState = {
   authStatus: AuthorizationStatus;
   userInfo: UserInfo;
 }
