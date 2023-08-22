@@ -6,7 +6,7 @@ import {
   fetchOffersAction, postCommentAction
 } from '../../service/api-actions.ts';
 
-type InitialLoadingState = {
+export type InitialLoadingState = {
   isOffersLoading: boolean;
   isChosenOfferLoading: boolean;
   isNearbyOffersLoading: boolean;

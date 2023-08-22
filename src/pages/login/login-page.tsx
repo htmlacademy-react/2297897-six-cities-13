@@ -8,9 +8,11 @@ import {MemoizedRandomLoginCity} from '../../components/random-login-city/random
 export const LoginPage = () => {
   const [AuthInfo, setAuthInfo] = useState<AuthData>({login: '', password: ''});
   const [isFocused, setIsFocused] = useState(false);
+  const loginRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]+$/;
   const isValidPassword = passwordRegex.test(AuthInfo.password);
-  const isNeedDisable = !AuthInfo.login || !isValidPassword;
+  const isValidEmail = loginRegex.test(AuthInfo.login);
+  const isNeedDisable = !AuthInfo.login || !isValidPassword || !isValidEmail;
   const dispatch = useAppDispatch();
 
   const handleFocusPassword = () => {

@@ -74,6 +74,7 @@ export const OfferPage = () => {
     if(authStatus === Authorization.NoAuth){
       dispatch(redirectToRoute(Paths.Login));
     }
+
     try {
       dispatch(setFavoriteAction({id: offerId, isFavorite: isFavoriteLocal ?? false}));
     } finally {

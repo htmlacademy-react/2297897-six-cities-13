@@ -8,12 +8,16 @@ import {memo} from 'react';
 const RandomLoginCity = () =>{
   const dispatch = useAppDispatch();
   const randomCity = getRandomCity();
+  const handleRandomCityClick = () => {
+    dispatch(changeOffersCity(randomCity));
+  };
+
   return(
     <div className="locations__item">
       <Link
         className="locations__item-link"
         to={Paths.Main}
-        onClick={() => dispatch(changeOffersCity(randomCity))}
+        onClick={handleRandomCityClick}
       >
         <span>{randomCity}</span>
       </Link>

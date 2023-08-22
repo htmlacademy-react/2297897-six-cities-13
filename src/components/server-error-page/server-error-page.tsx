@@ -3,17 +3,19 @@ import {fetchOffersAction} from '../../service/api-actions.ts';
 
 export const ServerErrorPage = () => {
   const dispatch = useAppDispatch();
+  const handleReloadClick = () => {
+    dispatch(fetchOffersAction());
+  };
+
   return (
     <>
-      <p className="error__text">Не удалось загрузить предложения</p>
+      <p className="error__text">Server is not available</p>
       <button
-        onClick={() => {
-          dispatch(fetchOffersAction());
-        }}
+        onClick={handleReloadClick}
         className="replay replay--error"
         type="button"
       >
-        Попробовать ещё раз
+        Try again
       </button>
     </>
   );

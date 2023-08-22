@@ -10,6 +10,7 @@ import {CommentWithOfferId} from '../components/commentary-send-form/comment-sen
 import {redirectToRoute} from '../store/action.ts';
 import {loadUserData, UserInfo} from '../store/user-process/user-process.slice.ts';
 import {shuffleNearby} from '../utils.ts';
+import {toast} from 'react-toastify';
 import {
   loadChosenOffer,
   loadFavoriteOffers,
@@ -17,7 +18,6 @@ import {
   loadOfferReviews,
   loadOffers
 } from '../store/offers-process/offers-process.slice.ts';
-import {toast} from 'react-toastify';
 
 export type AuthData = {
   login: string;
@@ -140,15 +140,11 @@ export const loginAction = createAsyncThunk<void, AuthData, {
 }>(
   'USER/login',
   async ({login: email, password}, {dispatch, extra: api}) =>{
-    try {
-      const {data: {token}} = await api.post<UserData>(APIPaths.Login, {email, password});
-      saveToken(token);
-      dispatch(fetchOffersAction());
-      dispatch(redirectToRoute(Paths.Main));
-      dispatch(checkAuthAction());
-    } catch {
-      toast.error('Problem with login. Please try later');
-    }
+    const {data: {token}} = await api.post<UserData>(APIPaths.Login, {email, password});
+    saveToken(token);
+    dispatch(fetchOffersAction());
+    dispatch(redirectToRoute(Paths.Main));
+    dispatch(checkAuthAction());
   }
 );
 
