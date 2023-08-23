@@ -1,9 +1,5 @@
-import {Authorization, Months, Paths} from './const.ts';
-import {Offer} from './store/offers-process/offers-process.slice.ts';
-import {setFavoriteAction} from './service/api-actions.ts';
-import {redirectToRoute} from './store/action.ts';
-import {AppDispatch} from './hooks/use-app-dispatch.ts';
-import {AuthorizationStatus} from './store/user-process/user-process.slice.ts';
+import {CITIES, Months} from './const.ts';
+import {City, Offer} from './store/offers-process/offers-process.slice.ts';
 
 export const humanizeISODate = (date: string) => {
   const parseDate = new Date(date);
@@ -19,6 +15,4 @@ export const shuffleNearby = (nearbyOffers: Offer[]) => {
   return shuffledNearbyOffers.slice(0, 3);
 };
 
-export const handleFavoriteClick = (authStatus: AuthorizationStatus, dispatch: AppDispatch, offerId: string, isFavorite: boolean) => authStatus === Authorization.Auth
-  ? dispatch(setFavoriteAction({id: offerId, isFavorite}))
-  : dispatch(redirectToRoute(Paths.Login));
+export const getRandomCity = (): City => CITIES[Math.floor(Math.random() * CITIES.length)];

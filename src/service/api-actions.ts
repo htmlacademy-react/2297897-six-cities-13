@@ -9,6 +9,8 @@ import {Review} from '../store/offers-process/offers-process.slice.ts';
 import {CommentWithOfferId} from '../components/commentary-send-form/comment-send-form.tsx';
 import {redirectToRoute} from '../store/action.ts';
 import {loadUserData, UserInfo} from '../store/user-process/user-process.slice.ts';
+import {shuffleNearby} from '../utils.ts';
+import {toast} from 'react-toastify';
 import {
   loadChosenOffer,
   loadFavoriteOffers,
@@ -40,10 +42,15 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'OFFERS/fetchOffers',
   async (_arg, {dispatch, getState, extra: api}) => {
-    const {data} = await api.get<Offer[]>(APIPaths.Offers);
-    dispatch(loadOffers(data));
-    const currentSort = getState().OFFERS.sortMethod;
-    dispatch(sortOffers(currentSort));
+    try{
+      const {data} = await api.get<Offer[]>(APIPaths.Offers);
+      dispatch(loadOffers(data));
+      const currentSort = getState().OFFERS.sortMethod;
+      dispatch(sortOffers(currentSort));
+    } catch (error) {
+      toast.error('Problem with getting offers. Please try later');
+      throw error;
+    }
   }
 );
 
@@ -54,8 +61,13 @@ export const fetchChosenOfferAction = createAsyncThunk<void, string, {
 }>(
   'OFFERS/fetchOffer',
   async (offerId, {dispatch, extra: api})=>{
-    const {data: offerDetails} = await api.get<ChosenOffer>(`${APIPaths.Offers}/${offerId}`);
-    dispatch(loadChosenOffer(offerDetails));
+    try {
+      const {data: offerDetails} = await api.get<ChosenOffer>(`${APIPaths.Offers}/${offerId}`);
+      dispatch(loadChosenOffer(offerDetails));
+    } catch(error) {
+      toast.error('Problem with getting data. Please try later');
+      throw error;
+    }
   }
 );
 
@@ -66,8 +78,13 @@ export const fetchFavoriteOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'OFFER/fetchFavoriteOffers',
   async (_arg, {dispatch, extra: api}) => {
-    const {data: favoriteOffers} = await api.get<Offer[]>(APIPaths.Favorite);
-    dispatch(loadFavoriteOffers(favoriteOffers));
+    try {
+      const {data: favoriteOffers} = await api.get<Offer[]>(APIPaths.Favorite);
+      dispatch(loadFavoriteOffers(favoriteOffers));
+    } catch(error) {
+      toast.error('Problem with getting favorites. Please try later');
+      throw error;
+    }
   }
 );
 
@@ -78,8 +95,13 @@ export const fetchOfferReviewsAction = createAsyncThunk<void, string, {
 }>(
   'OFFERS/fetchOfferReviews',
   async (offerId, {dispatch, extra: api})=> {
-    const {data: reviews} = await api.get<Review[]>(`${APIPaths.Comments}/${offerId}`);
-    dispatch(loadOfferReviews(reviews));
+    try {
+      const {data: reviews} = await api.get<Review[]>(`${APIPaths.Comments}/${offerId}`);
+      dispatch(loadOfferReviews(reviews));
+    } catch(error) {
+      toast.error('Problem with getting reviews. Please try later');
+      throw error;
+    }
   }
 );
 
@@ -90,8 +112,14 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, string, {
 }>(
   'OFFERS/fetchNearbyOffers',
   async(offerId, {dispatch, extra: api}) => {
-    const {data: nearbyOffers} = await api.get<Offer[]>(`${APIPaths.Offers}/${offerId}/nearby`);
-    dispatch(loadNearbyOffers(nearbyOffers));
+    try{
+      const {data: nearbyOffers} = await api.get<Offer[]>(`${APIPaths.Offers}/${offerId}/nearby`);
+      const shuffledNearbyOffers = shuffleNearby(nearbyOffers);
+      dispatch(loadNearbyOffers(shuffledNearbyOffers));
+    } catch(error) {
+      toast.error('Problem with getting nearby offers. Please try later');
+      throw error;
+    }
   }
 );
 
@@ -131,10 +159,13 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     extra: AxiosInstance;
 }>(
   'USER/logout',
-  async (_arg, {dispatch, extra: api}) => {
-    await api.delete(APIPaths.Logout);
-    dropToken();
-    dispatch(fetchOffersAction());
+  async (_arg, {extra: api}) => {
+    try {
+      await api.delete(APIPaths.Logout);
+      dropToken();
+    } catch {
+      toast.error('Problem with logout. Please try later');
+    }
   }
 );
 
@@ -145,7 +176,12 @@ export const postCommentAction = createAsyncThunk<void, CommentWithOfferId, {
 }>(
   'OFFER/postComment',
   async ({rating, description: comment, offerId}, {extra: api}) => {
-    await api.post(`${APIPaths.Comments}/${offerId}`, {rating, comment});
+    try{
+      await api.post(`${APIPaths.Comments}/${offerId}`, {rating, comment});
+    } catch(error) {
+      toast.error('Problem with sending commentary. Please, try later');
+      throw error;
+    }
   }
 );
 
@@ -158,7 +194,7 @@ export const setFavoriteAction = createAsyncThunk<void, favoriteData, {
   'OFFER/setFavorite',
   async({id: offerId, isFavorite}, {dispatch, extra: api}) => {
     await api.post(`${APIPaths.Favorite}/${offerId}/${Number(!isFavorite)}`);
-    dispatch(fetchOffersAction());
-    dispatch(fetchFavoriteOffersAction());
+    await dispatch(fetchFavoriteOffersAction());
+    await dispatch(fetchOffersAction());
   }
 );

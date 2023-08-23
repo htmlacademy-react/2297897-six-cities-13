@@ -1,10 +1,11 @@
-import {FC, memo, MouseEventHandler} from 'react';
-import {RATING_COEFFICIENT} from '../../const.ts';
+import {FC, memo, MouseEventHandler, useState} from 'react';
+import {Authorization, Paths, RATING_COEFFICIENT} from '../../const.ts';
 import {Link} from 'react-router-dom';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
-import {handleFavoriteClick} from '../../utils.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
+import {setFavoriteAction} from '../../service/api-actions.ts';
+import {redirectToRoute} from '../../store/action.ts';
 
 export type PlaceCardProps = {
   id: string;
@@ -40,14 +41,17 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
 
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector(getAuthStatus);
+  const [isFavoriteLocal, setIsFavoriteLocal] = useState(isFavorite);
 
-  const favoriteClickHandler = () => {
-    handleFavoriteClick(
-      authStatus,
-      dispatch,
-      id,
-      isFavorite
-    );
+  const handleFavoriteClick = () => {
+    if(authStatus === Authorization.NoAuth){
+      dispatch(redirectToRoute(Paths.Login));
+    }
+    try {
+      dispatch(setFavoriteAction({id, isFavorite: isFavoriteLocal}));
+    } finally {
+      setIsFavoriteLocal((prevFavoriteLocal) => !prevFavoriteLocal);
+    }
   };
 
   return(
@@ -77,11 +81,11 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
           <button
             className={`
               place-card__bookmark-button
-              ${isFavorite ? 'place-card__bookmark-button--active' : ''}
+              ${(authStatus === Authorization.Auth && isFavoriteLocal) ? 'place-card__bookmark-button--active' : ''}
               button
             `}
             type="button"
-            onClick={favoriteClickHandler}
+            onClick={handleFavoriteClick}
           >
             <svg
               className="place-card__bookmark-icon"
@@ -95,7 +99,7 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating * RATING_COEFFICIENT}%`}}></span>
+            <span style={{width: `${Math.ceil(rating) * RATING_COEFFICIENT}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

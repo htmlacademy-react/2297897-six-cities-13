@@ -3,13 +3,25 @@ import {AuthData, loginAction} from '../../service/api-actions.ts';
 import {Link} from 'react-router-dom';
 import {Paths} from '../../const.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
+import {MemoizedRandomLoginCity} from '../../components/random-login-city/random-login-city.tsx';
 
 export const LoginPage = () => {
   const [AuthInfo, setAuthInfo] = useState<AuthData>({login: '', password: ''});
+  const [isFocused, setIsFocused] = useState(false);
+  const loginRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]+$/;
   const isValidPassword = passwordRegex.test(AuthInfo.password);
-  const isNeedDisable = !AuthInfo.login || !isValidPassword;
+  const isValidEmail = loginRegex.test(AuthInfo.login);
+  const isNeedDisable = !AuthInfo.login || !isValidPassword || !isValidEmail;
   const dispatch = useAppDispatch();
+
+  const handleFocusPassword = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlurPassword = () => {
+    setIsFocused(false);
+  };
 
   const handleLoginChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setAuthInfo({...AuthInfo, login: evt.target.value});
@@ -38,7 +50,7 @@ export const LoginPage = () => {
           <div className="header__wrapper">
             <div className="header__left">
               <Link className="header__logo-link" to={Paths.Main}>
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
+                <img className="header__logo" src="markup/img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
           </div>
@@ -71,6 +83,8 @@ export const LoginPage = () => {
                 <label className="visually-hidden">Password</label>
                 <input
                   value={AuthInfo.password}
+                  onFocus={handleFocusPassword}
+                  onBlur={handleBlurPassword}
                   onChange={handlePasswordChange}
                   className="login__input form__input"
                   type="password"
@@ -87,21 +101,13 @@ export const LoginPage = () => {
                 Sign in
               </button>
               <ul>
-                <li
-                  style={
-                    {color: isValidPassword ? 'green' : 'red'}
-                  }
-                >Password must contain at least 1 number and letter
-                </li>
+                { isFocused &&
+                <li style={{color: isValidPassword ? 'green' : 'red'}}>Password must contain at least 1 number and letter</li>}
               </ul>
             </form>
           </section>
           <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
-            </div>
+            <MemoizedRandomLoginCity />
           </section>
         </div>
       </main>
