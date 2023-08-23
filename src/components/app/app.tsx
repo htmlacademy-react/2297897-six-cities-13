@@ -8,7 +8,7 @@ import {ErrorPage} from '../../pages/error/error-page.tsx';
 import {PrivateFavoriteRoute} from '../private-routes/private-favorite-route.tsx';
 import {PrivateLoginRoute} from '../private-routes/private-login-route.tsx';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
-import {browserHistory} from '../../browser-history.ts';
+import browserHistory from '../../browser-history.ts';
 import {HistoryRouter} from '../history-route/history-route.tsx';
 import {checkAuthAction, fetchOffersAction} from '../../service/api-actions.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';

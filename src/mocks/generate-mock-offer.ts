@@ -44,7 +44,7 @@ export const generateMockOffer = (inDetails: boolean): Offer | ChosenOffer => {
       bedrooms: faker.datatype.number(),
       goods: faker.lorem.words().split(' '),
       host: hostInfo,
-      images: Array(3).map(() => faker.image.imageUrl()),
+      images: Array.from({length: 3},() => faker.image.imageUrl()),
       maxAdults: faker.datatype.number(10),
     };
     const chosenOffer: ChosenOffer = Object.assign(offer, offerDetails);

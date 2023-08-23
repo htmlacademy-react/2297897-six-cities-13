@@ -47,8 +47,9 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
       dispatch(loadOffers(data));
       const currentSort = getState().OFFERS.sortMethod;
       dispatch(sortOffers(currentSort));
-    } catch {
+    } catch (error) {
       toast.error('Problem with getting offers. Please try later');
+      throw error;
     }
   }
 );
@@ -63,8 +64,9 @@ export const fetchChosenOfferAction = createAsyncThunk<void, string, {
     try {
       const {data: offerDetails} = await api.get<ChosenOffer>(`${APIPaths.Offers}/${offerId}`);
       dispatch(loadChosenOffer(offerDetails));
-    } catch {
+    } catch(error) {
       toast.error('Problem with getting data. Please try later');
+      throw error;
     }
   }
 );
@@ -79,8 +81,9 @@ export const fetchFavoriteOffersAction = createAsyncThunk<void, undefined, {
     try {
       const {data: favoriteOffers} = await api.get<Offer[]>(APIPaths.Favorite);
       dispatch(loadFavoriteOffers(favoriteOffers));
-    } catch {
+    } catch(error) {
       toast.error('Problem with getting favorites. Please try later');
+      throw error;
     }
   }
 );
@@ -95,8 +98,9 @@ export const fetchOfferReviewsAction = createAsyncThunk<void, string, {
     try {
       const {data: reviews} = await api.get<Review[]>(`${APIPaths.Comments}/${offerId}`);
       dispatch(loadOfferReviews(reviews));
-    } catch {
+    } catch(error) {
       toast.error('Problem with getting reviews. Please try later');
+      throw error;
     }
   }
 );
@@ -112,8 +116,9 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, string, {
       const {data: nearbyOffers} = await api.get<Offer[]>(`${APIPaths.Offers}/${offerId}/nearby`);
       const shuffledNearbyOffers = shuffleNearby(nearbyOffers);
       dispatch(loadNearbyOffers(shuffledNearbyOffers));
-    } catch {
+    } catch(error) {
       toast.error('Problem with getting nearby offers. Please try later');
+      throw error;
     }
   }
 );
@@ -173,8 +178,9 @@ export const postCommentAction = createAsyncThunk<void, CommentWithOfferId, {
   async ({rating, description: comment, offerId}, {extra: api}) => {
     try{
       await api.post(`${APIPaths.Comments}/${offerId}`, {rating, comment});
-    } catch {
+    } catch(error) {
       toast.error('Problem with sending commentary. Please, try later');
+      throw error;
     }
   }
 );

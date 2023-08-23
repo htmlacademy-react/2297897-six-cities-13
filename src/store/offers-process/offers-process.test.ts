@@ -13,24 +13,24 @@ import {generateMockOffer} from '../../mocks/generate-mock-offer.ts';
 import {generateMockReview} from '../../mocks/generate-mock-review.ts';
 import {MAX_REVIEWS_ON_PAGE} from '../../const.ts';
 
-const initialOffersState: InitialOffersState = {
-  offersCity: 'Amsterdam',
-  offers: [],
-  savedOrderOffers: [],
-  favoriteOffers: [],
-  sortMethod: SortMethods.ByPopularity,
-  chosenOffer: {
-    offerDetails: null,
-    offerReviews: [],
-    nearbyOffers: [],
-  }
-};
-
-const mockOffers = Array.from({length: 3}, () => generateMockOffer(false)) as Offer[];
-const mockChosenOffer = generateMockOffer(true) as ChosenOffer;
-const mockReviews = Array.from({length: 3}, () => generateMockReview());
-
 describe('offersProcess Slice', () => {
+  const initialOffersState: InitialOffersState = {
+    offersCity: 'Amsterdam',
+    offers: [],
+    savedOrderOffers: [],
+    favoriteOffers: [],
+    sortMethod: SortMethods.ByPopularity,
+    chosenOffer: {
+      offerDetails: null,
+      offerReviews: [],
+      nearbyOffers: [],
+    }
+  };
+
+  const mockOffers = Array.from({length: 3}, () => generateMockOffer(false)) as Offer[];
+  const mockChosenOffer = generateMockOffer(true) as ChosenOffer;
+  const mockReviews = Array.from({length: 3}, () => generateMockReview());
+
   it('should return initial state with empty action', () => {
     const emptyAction = {type: ''};
     const expectedState = initialOffersState;
