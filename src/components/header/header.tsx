@@ -24,7 +24,14 @@ const Header = () =>{
         <div className="header__wrapper">
           <div className="header__left">
             <Link className="header__logo-link" to={Paths.Main}>
-              <img className="header__logo" src="markup/img/logo.svg" alt="6 cities logo" width="81" height="41"/>
+              <img
+                className="header__logo"
+                src="markup/img/logo.svg"
+                alt="6 cities logo"
+                width="81"
+                height="41"
+                data-testid="logo-element"
+              />
             </Link>
           </div>
           <nav className="header__nav">

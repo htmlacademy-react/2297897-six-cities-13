@@ -13,7 +13,7 @@ export const SortMethods = {
 
 export type allowedSortMethods = typeof SortMethods[keyof typeof SortMethods];
 
-const PlacesSortingForm = () => {
+export const PlacesSortingForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const currentSortMethod = useAppSelector(getSortMethod);
   const [currentSort, setCurrentSort] = useState<allowedSortMethods>(currentSortMethod);
@@ -30,15 +30,21 @@ const PlacesSortingForm = () => {
   };
 
   return (
-    <form className="places__sorting" action="#" method="get">
+    <form
+      className="places__sorting"
+      action="#"
+      method="get"
+      data-testid="places-sorting-form-element"
+    >
       <span className="places__sorting-caption">Sort by </span>
       <span className="places__sorting-type" tabIndex={0}>
-        <span>{currentSort}</span>
+        <span data-testid="current-sort-element">{currentSort}</span>
         <svg
           className="places__sorting-arrow"
           width="7"
           height="4"
           onClick={handleSortFormClick}
+          data-testid="places-sorting-arrow-element"
         >
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>

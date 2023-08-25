@@ -17,7 +17,7 @@ export type InitialUserState = {
   userInfo: UserInfo;
 }
 
-const initialUserState: InitialUserState = {
+export const initialUserState: InitialUserState = {
   authStatus: Authorization.Unknown,
   userInfo: {
     email: '',

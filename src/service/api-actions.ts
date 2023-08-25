@@ -6,7 +6,7 @@ import {ChosenOffer, Offer, sortOffers} from '../store/offers-process/offers-pro
 import {APIPaths, Authorization, NameSpace, Paths} from '../const.ts';
 import {dropToken, saveToken} from './token.ts';
 import {Review} from '../store/offers-process/offers-process.slice.ts';
-import {CommentWithOfferId} from '../components/commentary-send-form/comment-send-form.tsx';
+import {CommentWithOfferId} from '../components/comment-send-form/comment-send-form.tsx';
 import {redirectToRoute} from '../store/action.ts';
 import {loadUserData, UserInfo} from '../store/user-process/user-process.slice.ts';
 import {shuffleNearby} from '../utils.ts';

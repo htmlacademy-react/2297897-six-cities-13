@@ -3,7 +3,7 @@ import leaflet from 'leaflet';
 import {CityLocation} from '../store/offers-process/offers-process.slice.ts';
 
 type UseMapArgs = {
-  mapRef: MutableRefObject<null>;
+  mapRef: MutableRefObject<HTMLElement | null>;
   city: CityLocation;
 }
 

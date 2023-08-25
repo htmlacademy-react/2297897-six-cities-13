@@ -11,7 +11,10 @@ export const PlacesList: FC<PlacesListProps> = ({
   handleMouseEnter,
   handleMouseLeave,
 }) => (
-  <>
+  <div
+    className="cities__places-list places__list tabs__content"
+    data-testid="places-list-element"
+  >
     {offers.map(
       (offer) =>
         (
@@ -32,7 +35,7 @@ export const PlacesList: FC<PlacesListProps> = ({
           />
         )
     )};
-  </>
+  </div>
 );
 
 export const MemoizedPlacesList = memo(PlacesList);

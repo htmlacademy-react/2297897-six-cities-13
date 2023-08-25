@@ -3,7 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import {CityLocation, Offer} from '../../store/offers-process/offers-process.slice.ts';
 import {FC, useEffect, useRef} from 'react';
 import {UrlMarkers} from '../../const.ts';
-import {useMap} from '../../hooks/usemap.ts';
+import {useMap} from '../../hooks/use-map.ts';
 
 type MapProps = {
   offers: Offer[];
@@ -70,11 +70,7 @@ export const Map: FC<MapProps> = ({
   }, [map, offers, selectedOfferId, currentCustomIcon, defaultCustomIcon, cityLongitude, cityLatitude, zoom, nearbyOffers]);
 
   return (
-    <div
-      style={getMapStyle()}
-      ref={mapRef}
-    >
-
+    <div style={getMapStyle()} ref={mapRef} data-testid="map-element">
     </div>
   );
 };

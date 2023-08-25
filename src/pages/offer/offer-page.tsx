@@ -1,6 +1,6 @@
 import {MemoizedHeader} from '../../components/header/header.tsx';
 import {useParams} from 'react-router-dom';
-import {CommentSendForm} from '../../components/commentary-send-form/comment-send-form.tsx';
+import {CommentSendForm} from '../../components/comment-send-form/comment-send-form.tsx';
 import {ReviewsList} from '../../components/reviews-list/reviews-list.tsx';
 import {Map} from '../../components/map/map.tsx';
 import {ErrorPage} from '../error/error-page.tsx';
@@ -15,11 +15,12 @@ import {getChosenOffer, getOffers} from '../../store/offers-process/offers-proce
 import {getOffersLoadingStatus} from '../../store/loading-process/loading-process.selectors.ts';
 import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
 import {redirectToRoute} from '../../store/action.ts';
+import {Helmet} from 'react-helmet-async';
 
 export const OfferPage = () => {
   const dispatch = useAppDispatch();
   const offers = useAppSelector(getOffers);
-  const offerId = useParams().id || '';
+  const offerId = useParams().id || 'defaultId';
   const isExistingId = offers.some((offer) => offer.id === offerId);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
   const {offerDetails, offerReviews, nearbyOffers} = useAppSelector(getChosenOffer);
@@ -84,7 +85,13 @@ export const OfferPage = () => {
   };
 
   return (
-    <div className="page">
+    <div
+      className="page"
+      data-testid="offer-page-element"
+    >
+      <Helmet>
+        <title>6 cities. Offer</title>
+      </Helmet>
       <MemoizedHeader/>
       <main className="page__main page__main--offer">
         <section className="offer">
@@ -196,7 +203,7 @@ export const OfferPage = () => {
                 <ul className="reviews__list">
                   <ReviewsList offerId={offerId}/>
                 </ul>
-                {(authStatus === Authorization.Auth) && <CommentSendForm />}
+                {<CommentSendForm />}
               </section>
             </div>
           </div>

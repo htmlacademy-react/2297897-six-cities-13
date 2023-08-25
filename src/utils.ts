@@ -3,7 +3,7 @@ import {City, Offer} from './store/offers-process/offers-process.slice.ts';
 
 export const humanizeISODate = (date: string) => {
   const parseDate = new Date(date);
-  return `${parseDate.getDate()} ${Months[parseDate.getMonth()]}`;
+  return `${Months[parseDate.getMonth()]} ${parseDate.getFullYear()}`;
 };
 
 export const shuffleNearby = (nearbyOffers: Offer[]) => {

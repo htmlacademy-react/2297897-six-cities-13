@@ -21,7 +21,7 @@ export const ReviewsList: FC<ReviewsListProps> = ({offerId}) => {
   }, [isCommentPosting, isOffersLoading, offerId, dispatch]);
 
   return (
-    <>
+    <div data-testid ="reviews-list-element">
       {offerReviews.map(
         (review) =>
           (
@@ -34,7 +34,7 @@ export const ReviewsList: FC<ReviewsListProps> = ({offerId}) => {
             />
           )
       )}
-    </>
+    </div>
   );
 };
 

@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {Paths} from '../../const.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {MemoizedRandomLoginCity} from '../../components/random-login-city/random-login-city.tsx';
+import {Helmet} from 'react-helmet-async';
 
 export const LoginPage = () => {
   const [AuthInfo, setAuthInfo] = useState<AuthData>({login: '', password: ''});
@@ -45,6 +46,9 @@ export const LoginPage = () => {
 
   return(
     <div className="page page--gray page--login">
+      <Helmet>
+        <title>6 cities. Login</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -76,6 +80,7 @@ export const LoginPage = () => {
                   type="email"
                   name="email"
                   placeholder="Email"
+                  data-testid="login-element"
                   required
                 />
               </div>
@@ -90,12 +95,14 @@ export const LoginPage = () => {
                   type="password"
                   name="password"
                   placeholder="Password"
+                  data-testid="password-element"
                   required
                 />
               </div>
               <button
                 className="login__submit form__submit button"
                 type="submit"
+                data-testid="sign-in-button"
                 disabled={isNeedDisable}
               >
                 Sign in

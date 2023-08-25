@@ -1,10 +1,11 @@
 import {ChangeEvent, FormEvent, Fragment, useState} from 'react';
-import {MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATINGS} from '../../const.ts';
+import {Authorization, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATINGS} from '../../const.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {postCommentAction} from '../../service/api-actions.ts';
 import {useParams} from 'react-router-dom';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {getCommentPostingStatus} from '../../store/loading-process/loading-process.selectors.ts';
+import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
 
 export type Comment = {
   rating: number;
@@ -19,6 +20,11 @@ export const CommentSendForm = () => {
   const dispatch = useAppDispatch();
   const offerId = useParams().id || '';
   const isCommentPosting = useAppSelector(getCommentPostingStatus);
+  const authStatus = useAppSelector(getAuthStatus);
+
+  if(authStatus !== Authorization.Auth){
+    return null;
+  }
 
   const handleRadioChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setComment({...comment, rating: Number(evt.target.value)});
@@ -44,7 +50,12 @@ export const CommentSendForm = () => {
                                  comment.description.length > MAX_COMMENT_LENGTH;
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      data-testid="comment-send-form-element"
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {RATINGS.map((rating) => (

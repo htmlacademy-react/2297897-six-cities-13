@@ -22,12 +22,13 @@ export const ReviewItem = (
           alt="Reviews avatar"
         />
       </div>
-      <span className="reviews__user-name">{user.name}</span>
+      <span className="reviews__user-name">{user.name}
+      </span>
     </div>
     <div className="reviews__info">
       <div className="reviews__rating rating">
         <div className="reviews__stars rating__stars">
-          <span style={{width: `${rating * RATING_COEFFICIENT}%`}}></span>
+          <span data-testid="review-rating-element" style={{width: `${rating * RATING_COEFFICIENT}%`}}></span>
           <span className="visually-hidden">Rating</span>
         </div>
       </div>

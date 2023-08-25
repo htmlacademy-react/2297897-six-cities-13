@@ -13,7 +13,10 @@ export const FavoriteCityPlaces: FC<FavoritePlacesList> = ({favoriteOffers, city
   }
 
   return (
-    <li className="favorites__locations-items">
+    <li
+      className="favorites__locations-items"
+      data-testid="favorite-places-list-element"
+    >
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <a className="locations__item-link" href="#">

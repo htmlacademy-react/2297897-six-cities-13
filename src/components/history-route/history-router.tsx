@@ -2,13 +2,13 @@ import {BrowserHistory} from 'history';
 import {FC, ReactNode, useLayoutEffect, useState} from 'react';
 import {Router} from 'react-router-dom';
 
-export type HistoryRouteProps = {
+export type HistoryRouterProps = {
     history: BrowserHistory;
     basename?: string;
     children?: ReactNode;
 }
 
-export const HistoryRouter: FC<HistoryRouteProps> = ({
+export const HistoryRouter: FC<HistoryRouterProps> = ({
   basename,
   children,
   history,

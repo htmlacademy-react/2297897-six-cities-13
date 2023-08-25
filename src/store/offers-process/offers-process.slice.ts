@@ -72,12 +72,12 @@ export type InitialOffersState = {
     chosenOffer: OfferInfo;
 }
 
-const initialOffersState: InitialOffersState = {
+export const initialOffersState: InitialOffersState = {
   offersCity: 'Amsterdam',
   offers: [],
   savedOrderOffers: [],
   favoriteOffers: [],
-  sortMethod: SortMethods.ByPopularity,
+  sortMethod: 'Popular',
   chosenOffer: {
     offerDetails: null,
     offerReviews: [],
