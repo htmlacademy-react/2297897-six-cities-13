@@ -29,7 +29,7 @@ export const generateMockOffer = (inDetails: boolean): Offer | ChosenOffer => {
     isFavorite: faker.datatype.boolean(),
     isPremium: faker.datatype.boolean(),
     rating: faker.datatype.number(),
-    previewImage: faker.image.imageUrl()
+    previewImage: faker.datatype.string()
   };
 
   if(inDetails){
@@ -44,7 +44,7 @@ export const generateMockOffer = (inDetails: boolean): Offer | ChosenOffer => {
       bedrooms: faker.datatype.number(),
       goods: faker.lorem.words().split(' '),
       host: hostInfo,
-      images: Array.from({length: 3},() => faker.image.imageUrl()),
+      images: Array.from({length: 3},() => faker.datatype.string()),
       maxAdults: faker.datatype.number(10),
     };
     const chosenOffer: ChosenOffer = Object.assign(offer, offerDetails);

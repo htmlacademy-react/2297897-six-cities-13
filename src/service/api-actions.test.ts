@@ -328,6 +328,7 @@ describe('Async Actions', () => {
       expect(mockDropToken).toBeCalledTimes(1);
     });
   });
+
   describe('"postCommentAction" action works correct', () => {
     it('should dispatch "postCommentAction.pending" and "postCommentAction.fulfilled" with thunk "postCommentAction"', async () => {
       const mockComment = {rating: 3, description: 'test description', offerId: '1725fx'};

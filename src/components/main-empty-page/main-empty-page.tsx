@@ -1,13 +1,20 @@
 import {FC} from 'react';
 import {MemoizedCitiesList} from '../cities-list/cities-list.tsx';
 import {City} from '../../store/offers-process/offers-process.slice.ts';
+import {Helmet} from 'react-helmet-async';
 
 type MainEmptyPageProps = {
     activeCity: City;
 }
 
 export const MainEmptyPage: FC<MainEmptyPageProps> = ({activeCity}) => (
-  <main className="page__main page__main--index page__main--index-empty">
+  <main
+    className="page__main page__main--index page__main--index-empty"
+    data-testid="main-empty-page-element"
+  >
+    <Helmet>
+      <title>6 cities</title>
+    </Helmet>
     <h1 className="visually-hidden">Cities</h1>
     <div className="tabs">
       <section className="locations container">

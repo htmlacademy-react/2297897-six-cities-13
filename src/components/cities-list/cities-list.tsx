@@ -12,7 +12,10 @@ const CitiesList = () => {
   const handleCityClick = (nextCityName: City) => dispatch(changeOffersCity(nextCityName));
 
   return (
-    <>
+    <ul
+      className="locations__list tabs__list"
+      data-testid="cities-list-element"
+    >
       {CITIES.map((city) =>
         (
           <li className="locations__item" key={city}>
@@ -26,7 +29,7 @@ const CitiesList = () => {
           </li>
         )
       )}
-    </>
+    </ul>
   );
 };
 

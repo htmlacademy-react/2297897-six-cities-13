@@ -16,7 +16,7 @@ export type InitialLoadingState = {
   hasError: boolean;
 };
 
-const initialLoadingState: InitialLoadingState = {
+export const initialLoadingState: InitialLoadingState = {
   isOffersLoading: true,
   isChosenOfferLoading: false,
   isNearbyOffersLoading: false,

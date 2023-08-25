@@ -9,11 +9,11 @@ export const generateMockReview = (): Review => {
   };
 
   const review: Review = {
-    id: faker.random.uuid(),
+    id: faker.datatype.uuid(),
     date: faker.date.recent().toISOString(),
     user: userInfo,
     comment: faker.lorem.paragraph(),
-    rating: faker.random.number({ min: 1, max: 5 }),
+    rating: faker.datatype.number({ min: 1, max: 5 }),
   };
 
   return review;

@@ -13,7 +13,10 @@ const RandomLoginCity = () =>{
   };
 
   return(
-    <div className="locations__item">
+    <div
+      className="locations__item"
+      data-testid="random-login-city-element"
+    >
       <Link
         className="locations__item-link"
         to={Paths.Main}

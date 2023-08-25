@@ -8,6 +8,7 @@ import {getFavoriteOffers} from '../../store/offers-process/offers-process.selec
 import {getFavoriteOffersLoadingStatus} from '../../store/loading-process/loading-process.selectors.ts';
 import {LoadingScreen} from '../../components/loading-screen/loading-screen.tsx';
 import {FavoriteEmptyPage} from '../../components/favorite-empty-page/favorite-empty-page.tsx';
+import {Helmet} from 'react-helmet-async';
 
 export const FavoritesPage = () => {
   const favoriteOffers = useAppSelector(getFavoriteOffers);
@@ -39,8 +40,14 @@ export const FavoritesPage = () => {
 
   return (
     <div className="page">
+      <Helmet>
+        <title>6 cities. Favorites</title>
+      </Helmet>
       <MemoizedHeader/>
-      <main className="page__main page__main--favorites">
+      <main
+        className="page__main page__main--favorites"
+        data-testid="favorites-page-element"
+      >
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>

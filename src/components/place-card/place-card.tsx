@@ -23,7 +23,7 @@ export type ActiveCardProps = {
   handleMouseLeave?: MouseEventHandler;
 };
 
-type PlaceCardPropsWithActiveCard = PlaceCardProps & ActiveCardProps;
+export type PlaceCardPropsWithActiveCard = PlaceCardProps & ActiveCardProps;
 
 const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
   id,
@@ -59,6 +59,7 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
       className="cities__card place-card"
       onMouseEnter={() => handleMouseEnter ? handleMouseEnter(id) : null}
       onMouseLeave={handleMouseLeave ?? undefined}
+      data-testid="place-card-element"
     >
 
       {
@@ -86,6 +87,7 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
             `}
             type="button"
             onClick={handleFavoriteClick}
+            data-testid="set-favorite-element"
           >
             <svg
               className="place-card__bookmark-icon"

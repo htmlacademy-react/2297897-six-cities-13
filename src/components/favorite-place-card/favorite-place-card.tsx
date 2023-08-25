@@ -29,7 +29,10 @@ export const FavoritePlaceCard: FC<FavoritePlaceCardProps> = ({
   };
 
   return(
-    <article className="favorites__card place-card">
+    <article
+      className="favorites__card place-card"
+      data-testid="favorite-place-card-element"
+    >
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>
           <img
@@ -51,6 +54,7 @@ export const FavoritePlaceCard: FC<FavoritePlaceCardProps> = ({
             className="place-card__bookmark-button place-card__bookmark-button--active button"
             type="button"
             onClick={handleFavoriteClick}
+            data-testid="favorite-button-element"
           >
             <svg
               className="place-card__bookmark-icon"
