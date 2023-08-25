@@ -1,9 +1,9 @@
-import { render, screen } from '@testing-library/react';
-import { ReviewItem } from './review-item.tsx';
+import {render, screen} from '@testing-library/react';
+import {ReviewItem} from './review-item.tsx';
 import {humanizeISODate} from '../../utils.ts';
 import {RATING_COEFFICIENT} from '../../const.ts';
 
-describe('ReviewItem component', () => {
+describe('Component: ReviewItem', () => {
   const mockReview = {
     date: '2023-08-24T12:34:56.789Z',
     user: {

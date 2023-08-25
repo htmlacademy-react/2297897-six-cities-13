@@ -36,7 +36,7 @@ describe('userProcess slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  describe('"loadUserData" action works correct', () => {
+  describe('"loadUserData" action works correctly', () => {
     it('should return initial state with user info with "loadUserData" action', () => {
       const injectedUserInfo = mockUser;
       const initialState = initialUserState;
@@ -51,7 +51,7 @@ describe('userProcess slice', () => {
     });
   });
 
-  describe('"checkAuthAction" action works correct', () => {
+  describe('"checkAuthAction" action works correctly', () => {
     it('should set "Auth" with "checkAuthAction.fulfilled" action', () => {
       const initialState = initialUserState;
       const expectedState = {
@@ -75,7 +75,7 @@ describe('userProcess slice', () => {
     });
   });
 
-  describe('"loginAction" action works correct', () => {
+  describe('"loginAction" action works correctly', () => {
     it('should set "Auth" with "loginAction.fulfilled" action', () => {
       const initialState = initialUserState;
       const expectedState = {
@@ -99,7 +99,7 @@ describe('userProcess slice', () => {
     });
   });
 
-  describe('"logoutAction" action works correct', () => {
+  describe('"logoutAction" action works correctly', () => {
     it('should set "NoAuth" with "logoutAction.fulfilled" action', () => {
       const initialState = initialUserState;
       const expectedState = {

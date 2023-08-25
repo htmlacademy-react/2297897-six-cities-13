@@ -29,7 +29,6 @@ const localStorageMock = (function localStorageMock () {
 
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
-
 describe('Token', () => {
   beforeEach(() => {
     window.localStorage.clear();

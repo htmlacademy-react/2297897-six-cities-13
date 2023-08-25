@@ -1,13 +1,13 @@
-import { render, screen} from '@testing-library/react';
-import { MemoryHistory, createMemoryHistory } from 'history';
-import { App } from './app';
+import {render, screen} from '@testing-library/react';
+import {MemoryHistory, createMemoryHistory} from 'history';
+import {App} from './app';
 import {Paths} from '../../const.ts';
 import {withHistory, withStore} from '../../mocks/mock-component.tsx';
 import {initialOffersState} from '../../store/offers-process/offers-process.slice.ts';
 import {initialLoadingState} from '../../store/loading-process/loading-process.slice.ts';
 import {initialUserState} from '../../store/user-process/user-process.slice.ts';
 
-describe('App', () => {
+describe('Component: App', () => {
   let mockHistory: MemoryHistory;
 
   beforeEach(() => {

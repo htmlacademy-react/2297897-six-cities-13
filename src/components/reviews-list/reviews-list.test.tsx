@@ -1,5 +1,5 @@
-import { render, waitFor, screen } from '@testing-library/react';
-import { ReviewsList } from './reviews-list.tsx';
+import {render, waitFor, screen} from '@testing-library/react';
+import {ReviewsList} from './reviews-list.tsx';
 import {withStore} from '../../mocks/mock-component.tsx';
 import {generateMockOffer} from '../../mocks/generate-mock-offer.ts';
 import {generateMockReview} from '../../mocks/generate-mock-review.ts';
@@ -8,7 +8,7 @@ import {ChosenOffer, initialOffersState} from '../../store/offers-process/offers
 import * as apiActions from '../../service/api-actions.ts';
 import {beforeEach} from 'vitest';
 
-describe('ReviewsList component', () => {
+describe('Component: ReviewsList', () => {
   const mockChosenOffer = generateMockOffer(true) as ChosenOffer;
   const mockReviews = Array.from({length: 3}, () => generateMockReview());
   const fetchOfferReviewsActionSpy = vi.spyOn(apiActions, 'fetchOfferReviewsAction');

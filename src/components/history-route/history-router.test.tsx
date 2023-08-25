@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
+import {render, screen} from '@testing-library/react';
+import {createMemoryHistory} from 'history';
 import {HistoryRouter, HistoryRouterProps} from './history-router.tsx';
 
-describe('Component: <HistoryRouter>', () => {
+describe('Component: HistoryRouter', () => {
   let history: ReturnType<typeof createMemoryHistory>;
   let props: HistoryRouterProps;
 
@@ -11,12 +11,12 @@ describe('Component: <HistoryRouter>', () => {
     props = { history };
   });
 
-  it('renders without crashing', () => {
+  it('renders works correctly', () => {
     render(<HistoryRouter {...props} />);
   });
 
 
-  it('sets the correct location in Router', () => {
+  it('should set the correct location in Router', () => {
     const mockRoute = '/mock-route';
     history.push(mockRoute);
 

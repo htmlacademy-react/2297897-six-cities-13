@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoizedPlaceCard } from './place-card';
+import {render, screen, fireEvent} from '@testing-library/react';
+import {MemoizedPlaceCard} from './place-card';
 import {withHistory, withStore} from '../../mocks/mock-component.tsx';
 import {initialUserState} from '../../store/user-process/user-process.slice.ts';
 import {Authorization} from '../../const.ts';
