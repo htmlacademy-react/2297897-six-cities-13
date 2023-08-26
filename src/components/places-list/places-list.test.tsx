@@ -8,6 +8,7 @@ import {initialUserState} from '../../store/user-process/user-process.slice.ts';
 
 describe('Component: PlacesList', () => {
   const mockOffers = Array.from({length: 3}, () => generateMockOffer(false)) as Offer[];
+
   it('should render correctly', () => {
     const placesListElementId = 'places-list-element';
     const {withStoreComponent} = withStore(<PlacesList offers={mockOffers}/>, {USER: initialUserState});

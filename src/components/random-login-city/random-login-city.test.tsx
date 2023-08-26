@@ -5,6 +5,7 @@ import {render, screen} from '@testing-library/react';
 
 describe('Component: RandomLoginCity', () => {
   const randomLoginCityElementId = 'random-login-city-element';
+
   it('should render correctly', () => {
     const {withStoreComponent} = withStore(<MemoizedRandomLoginCity/>, {});
     const preparedComponent = withHistory(withStoreComponent);
