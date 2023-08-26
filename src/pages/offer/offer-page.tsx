@@ -16,6 +16,7 @@ import {getOffersLoadingStatus} from '../../store/loading-process/loading-proces
 import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
 import {redirectToRoute} from '../../store/action.ts';
 import {Helmet} from 'react-helmet-async';
+import {capitalizeFirstLetter} from '../../utils.ts';
 
 export const OfferPage = () => {
   const dispatch = useAppDispatch();
@@ -150,8 +151,8 @@ export const OfferPage = () => {
                 <span className="offer__rating-value rating__value">{rating}</span>
               </div>
               <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire" style={{textTransform: 'capitalize'}}>
-                  {type}
+                <li className="offer__feature offer__feature--entire">
+                  {capitalizeFirstLetter(type)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
                   {bedrooms} Bedrooms
@@ -221,7 +222,7 @@ export const OfferPage = () => {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <MemoizedPlacesList offers={nearbyOffers}/>
+              <MemoizedPlacesList offers={nearbyOffers} />
             </div>
           </section>
         </div>

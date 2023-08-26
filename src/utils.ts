@@ -16,3 +16,5 @@ export const shuffleNearby = (nearbyOffers: Offer[]) => {
 };
 
 export const getRandomCity = (): City => CITIES[Math.floor(Math.random() * CITIES.length)];
+
+export const capitalizeFirstLetter = (word: string): string => `${word[0].toUpperCase()}${word.slice(1)}`;

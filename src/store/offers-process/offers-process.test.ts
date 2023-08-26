@@ -18,7 +18,7 @@ import {MAX_REVIEWS_ON_PAGE} from '../../const.ts';
 
 describe('offersProcess Slice', () => {
   const initialOffersState: InitialOffersState = {
-    offersCity: 'Amsterdam',
+    offersCity: 'Paris',
     offers: [],
     savedOrderOffers: [],
     favoriteOffers: [],
