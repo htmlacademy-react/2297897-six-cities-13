@@ -20,9 +20,8 @@ export const MainPage = () => {
   const authStatus = useAppSelector(getAuthStatus);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
   const offers = useAppSelector(getOffers);
-  const activeCity: City = useAppSelector(getOffersCity);
+  const activeCity: City = useAppSelector(getOffersCity) || 'Paris';
   const offersForCity = offers.filter((offer) => offer.city.name === activeCity);
-
   const handleMouseEnter = useCallback((offerId: string | undefined) => {
     setActiveId(offerId);
   }, []);
@@ -57,7 +56,7 @@ export const MainPage = () => {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersForCity.length} places to stay in {activeCity}</b>
+              <b className="places__found">{offersForCity.length} { offersForCity.length === 1 ? 'place' : 'places'} to stay in {activeCity}</b>
               <MemoizedPlacesSortingForm/>
               <MemoizedPlacesList
                 handleMouseEnter={handleMouseEnter}
@@ -67,12 +66,11 @@ export const MainPage = () => {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map
+                {offersForCity[0] && <Map
                   offers={offersForCity}
                   city={offersForCity[0].city}
                   selectedOfferId={activeId}
-                  isOfferPage={false}
-                />
+                  isOfferPage={false}/>}
               </section>
             </div>
           </div>

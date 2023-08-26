@@ -6,6 +6,7 @@ import {Offer} from '../../store/offers-process/offers-process.slice.ts';
 describe('Component: Map', () => {
   const mockOffers = Array.from({length: 3}, () => generateMockOffer(false)) as Offer[];
   const mapElementId = 'map-element';
+
   it('should render correctly', () => {
     const {withStoreComponent} = withStore(
       <Map

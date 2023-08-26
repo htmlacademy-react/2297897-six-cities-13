@@ -2,8 +2,11 @@ import {describe, expect} from 'vitest';
 import {
   changeOffersCity,
   ChosenOffer,
-  InitialOffersState, loadChosenOffer, loadFavoriteOffers,
-  loadNearbyOffers, loadOfferReviews,
+  InitialOffersState,
+  loadChosenOffer,
+  loadFavoriteOffers,
+  loadNearbyOffers,
+  loadOfferReviews,
   loadOffers,
   Offer,
   offersProcess, sortOffers
@@ -15,7 +18,7 @@ import {MAX_REVIEWS_ON_PAGE} from '../../const.ts';
 
 describe('offersProcess Slice', () => {
   const initialOffersState: InitialOffersState = {
-    offersCity: 'Amsterdam',
+    offersCity: 'Paris',
     offers: [],
     savedOrderOffers: [],
     favoriteOffers: [],
@@ -133,7 +136,7 @@ describe('offersProcess Slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  it('"by popularity" sort is working correct', () => {
+  it('"by popularity" sort is working correctly', () => {
     const initialState = {
       ...initialOffersState,
       offers: mockOffers,
@@ -146,7 +149,7 @@ describe('offersProcess Slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  it('"by price increase" sort is working correct', () => {
+  it('"by price increase" sort is working correctly', () => {
     const byPriceIncreaseSortedOffers = [...mockOffers].sort((a, b) => a.price - b.price);
     const initialState = {
       ...initialOffersState,
@@ -163,7 +166,7 @@ describe('offersProcess Slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  it('"by price decrease" sort is working correct', () => {
+  it('"by price decrease" sort is working correctly', () => {
     const byPriceDecreaseSortedOffers = [...mockOffers].sort((a, b) => b.price - a.price);
     const initialState = {
       ...initialOffersState,
@@ -180,7 +183,7 @@ describe('offersProcess Slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  it('"by rating" sort is working correct', () => {
+  it('"by rating" sort is working correctly', () => {
     const byRatingSortedOffers = [...mockOffers].sort((a, b) => b.rating - a.rating);
     const initialState = {
       ...initialOffersState,
@@ -197,7 +200,7 @@ describe('offersProcess Slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  it('default case sort is working correct', () => {
+  it('default case sort is working correctly', () => {
     const initialState = {
       ...initialOffersState,
       offers: mockOffers,

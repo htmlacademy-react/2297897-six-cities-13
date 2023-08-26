@@ -37,7 +37,7 @@ describe('loadingProcess Slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  describe('"fetchOffersAction" action works correct', () => {
+  describe('"fetchOffersAction" action works correctly', () => {
     it('should return initial state with isOfferLoading and without hasError with "fetchOffersAction.pending" action', () => {
       const initialState = initialLoadingState;
       const expectedState = initialState;
@@ -73,7 +73,7 @@ describe('loadingProcess Slice', () => {
     });
   });
 
-  describe('"fetchChosenOfferAction" action works correct', () => {
+  describe('"fetchChosenOfferAction" action works correctly', () => {
     it('should return initial state with isChosenOfferLoading with "fetchChosenOfferAction.pending" action', () => {
       const initialState = initialLoadingState;
       const expectedState = {
@@ -111,7 +111,7 @@ describe('loadingProcess Slice', () => {
     });
   });
 
-  describe('"fetchNearbyOffersAction" action works correct', () => {
+  describe('"fetchNearbyOffersAction" action works correctly', () => {
     it('should return initial state with isNearbyOffersLoading with "fetchNearbyOffersAction.pending" action', () => {
       const initialState = initialLoadingState;
       const expectedState = {
@@ -149,7 +149,7 @@ describe('loadingProcess Slice', () => {
     });
   });
 
-  describe('"fetchOfferReviewsAction" action works correct', () => {
+  describe('"fetchOfferReviewsAction" action works correctly', () => {
     it('should return initial state with isOfferReviewsLoading with "fetchOfferReviewsAction.pending" action', () => {
       const initialState = initialLoadingState;
       const expectedState = {
@@ -187,7 +187,7 @@ describe('loadingProcess Slice', () => {
     });
 
   });
-  describe('"fetchFavoriteOffersAction" action works correct', () => {
+  describe('"fetchFavoriteOffersAction" action works correctly', () => {
     it('should return initial state with isFavoriteOffersLoading with "fetchFavoriteOffersAction.pending" action', () => {
       const initialState = initialLoadingState;
       const expectedState = {
@@ -225,7 +225,7 @@ describe('loadingProcess Slice', () => {
     });
   });
 
-  describe('"postCommentAction" action works correct', () => {
+  describe('"postCommentAction" action works correctly', () => {
     it('should return initial state with isCommentPosting with "postCommentAction.pending" action', () => {
       const initialState = initialLoadingState;
       const expectedState = {

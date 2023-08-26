@@ -6,6 +6,7 @@ import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {getAuthStatus} from '../../store/user-process/user-process.selectors.ts';
 import {setFavoriteAction} from '../../service/api-actions.ts';
 import {redirectToRoute} from '../../store/action.ts';
+import {capitalizeFirstLetter} from '../../utils.ts';
 
 export type PlaceCardProps = {
   id: string;
@@ -108,7 +109,7 @@ const PlaceCard: FC<PlaceCardPropsWithActiveCard> = ({
         <h2 className="place-card__name">
           <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type" style={{textTransform: 'capitalize'}}>{type}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(type)}</p>
       </div>
     </article>
   );

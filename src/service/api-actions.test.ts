@@ -45,7 +45,7 @@ describe('Async Actions', () => {
     store = mockStoreCreator(mockState);
   });
 
-  describe('"checkAuthAction" action works correct', () => {
+  describe('"checkAuthAction" action works correctly', () => {
     it('should dispatch "checkAuthAction.pending", "loadUserData", "checkAuthAction.fulfilled" with thunk "checkAuthAction"', async () => {
       mockAxiosAdapter.onGet(APIPaths.Login).reply(200);
 
@@ -72,7 +72,7 @@ describe('Async Actions', () => {
     });
   });
 
-  describe('"fetchOffersAction" action works correct', () => {
+  describe('"fetchOffersAction" action works correctly', () => {
     it('should dispatch "fetchOffersAction.pending", "loadOffers", "sortOffers", "fetchOffersAction.fulfilled" with thunk "fetchOffersAction"', async () => {
       const responseOffers = mockOffers;
       mockAxiosAdapter.onGet(APIPaths.Offers).reply(200, responseOffers);
@@ -104,7 +104,7 @@ describe('Async Actions', () => {
     });
   });
 
-  describe('"fetchChosenOfferAction" action works correct', () => {
+  describe('"fetchChosenOfferAction" action works correctly', () => {
     it('should dispatch "fetchChosenOfferAction.pending", "loadChosenOffer", "fetchChosenOffer.fulfilled" with thunk "fetchChosenOfferAction"', async () => {
       mockAxiosAdapter.onGet(`${APIPaths.Offers}/${mockChosenOffer.id}`).reply(200, mockChosenOffer);
 
@@ -135,7 +135,7 @@ describe('Async Actions', () => {
     });
   });
 
-  describe('"fetchFavoriteOffersAction" action works correct', () => {
+  describe('"fetchFavoriteOffersAction" action works correctly', () => {
     it('should dispatch "fetchFavoriteOffersAction.pending", "loadFavoriteOffers", "fetchFavoriteOffersAction.rejected" with thunk "fetchFavoriteOffersAction"', async () => {
       const responseFavoriteOffers = mockOffers;
       mockAxiosAdapter.onGet(APIPaths.Favorite).reply(200, responseFavoriteOffers);
@@ -167,7 +167,7 @@ describe('Async Actions', () => {
     });
   });
 
-  describe('"fetchOfferReviewsAction" action works correct', () => {
+  describe('"fetchOfferReviewsAction" action works correctly', () => {
     it('should dispatch "fetchOfferReviewsAction.pending", "loadOfferReviews", "fetchOfferReviewsAction.fulfilled" with thunk "fetchOfferReviewsAction"', async () => {
       const offerId = mockChosenOffer.id;
       const responseReviews = mockReviews;
@@ -201,7 +201,7 @@ describe('Async Actions', () => {
     });
   });
 
-  describe('"fetchNearbyOffersAction" action works correct', () => {
+  describe('"fetchNearbyOffersAction" action works correctly', () => {
     it('should dispatch "fetchNearbyOffersAction.pending", "loadNearbyOffers", "fetchNearbyOffersAction.fulfilled" with thunk "fetchNearbyOffersAction"', async () => {
       const offerId = mockChosenOffer.id;
       const responseNearbyOffers = mockOffers;
@@ -235,7 +235,7 @@ describe('Async Actions', () => {
     });
   });
 
-  describe('"setFavoriteAction" action works correct', () => {
+  describe('"setFavoriteAction" action works correctly', () => {
     it('dispatches works correctly with thunk "setFavoriteAction"', async () => {
       const {id, isFavorite} = mockOffers[0];
       mockAxiosAdapter.onPost(`${APIPaths.Favorite}/${id}/${Number(!isFavorite)}`).reply(200);
@@ -274,8 +274,8 @@ describe('Async Actions', () => {
     });
   });
 
-  describe('"loginAction" actions works correct', () => {
-    it('dispatches works correct with thunk "loginAction"', async () => {
+  describe('"loginAction" actions works correctly', () => {
+    it('dispatches works correctly with thunk "loginAction"', async () => {
       const injectedUserData = mockUserData;
       const testToken = {token: '1337'};
       mockAxiosAdapter.onPost(APIPaths.Login).reply(200, testToken);
@@ -306,7 +306,7 @@ describe('Async Actions', () => {
     });
   });
 
-  describe('"logoutAction" action works correct', () => {
+  describe('"logoutAction" action works correctly', () => {
     it('should dispatch "logoutAction.pending", "logoutAction.fulfilled" when server response 204', async () => {
       mockAxiosAdapter.onDelete(APIPaths.Logout).reply(204);
 
@@ -329,7 +329,7 @@ describe('Async Actions', () => {
     });
   });
 
-  describe('"postCommentAction" action works correct', () => {
+  describe('"postCommentAction" action works correctly', () => {
     it('should dispatch "postCommentAction.pending" and "postCommentAction.fulfilled" with thunk "postCommentAction"', async () => {
       const mockComment = {rating: 3, description: 'test description', offerId: '1725fx'};
       mockAxiosAdapter.onPost(`${APIPaths.Comments}/${mockComment.offerId}`).reply(200);

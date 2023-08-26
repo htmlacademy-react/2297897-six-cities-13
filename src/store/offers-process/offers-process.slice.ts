@@ -73,7 +73,7 @@ export type InitialOffersState = {
 }
 
 export const initialOffersState: InitialOffersState = {
-  offersCity: 'Amsterdam',
+  offersCity: 'Paris',
   offers: [],
   savedOrderOffers: [],
   favoriteOffers: [],

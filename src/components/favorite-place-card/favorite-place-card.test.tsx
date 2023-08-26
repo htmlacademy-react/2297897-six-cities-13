@@ -10,7 +10,6 @@ import userEvent from '@testing-library/user-event';
 import {extractActionsTypes} from '../../mocks/mock-state.ts';
 import {setFavoriteAction} from '../../service/api-actions.ts';
 
-
 describe('Component: FavoritePlaceCard', () => {
   let mockOffer = generateMockOffer(false) as Offer;
   mockOffer = {

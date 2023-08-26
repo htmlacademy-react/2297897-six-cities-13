@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoizedHeader} from './header.tsx';
 import {APIPaths, Authorization} from '../../const.ts';

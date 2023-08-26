@@ -3,7 +3,7 @@ import {LoadingScreen} from './loading-screen.tsx';
 import {render, screen} from '@testing-library/react';
 
 describe('Component: Loading screen', () => {
-  it('should render correct', () => {
+  it('should render correctly', () => {
     const loadingContainerTestId = 'loading-container';
 
     render(<LoadingScreen/>);

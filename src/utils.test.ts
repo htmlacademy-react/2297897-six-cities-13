@@ -1,4 +1,4 @@
-import {getRandomCity, humanizeISODate, shuffleNearby} from './utils.ts';
+import {capitalizeFirstLetter, getRandomCity, humanizeISODate, shuffleNearby} from './utils.ts';
 import {describe, expect} from 'vitest';
 import {generateMockOffer} from './mocks/generate-mock-offer.ts';
 import {Offer} from './store/offers-process/offers-process.slice.ts';
@@ -21,5 +21,14 @@ describe('Utilities', () => {
     const result = (CITIES.includes(randomCity));
 
     expect(result).toBe(true);
+  });
+
+  it('capitalizeFirstLetter function works correctly', () => {
+    const mockWord = 'testWord';
+    const expectedWord = 'TestWord';
+
+    const result = capitalizeFirstLetter(mockWord);
+
+    expect(result).toBe(expectedWord);
   });
 });
