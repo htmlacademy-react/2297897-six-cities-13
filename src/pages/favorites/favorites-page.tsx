@@ -1,6 +1,6 @@
 import {MemoizedHeader} from '../../components/header/header.tsx';
 import {Offer} from '../../store/offers-process/offers-process.slice.ts';
-import {FavoriteCityPlaces} from '../../components/favorite-places-list/favorite-places-list.tsx';
+import {FavoriteCityPlaces} from '../../components/favorite-city-places/favorite-city-places.tsx';
 import {CITIES, Paths} from '../../const.ts';
 import {Link} from 'react-router-dom';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
