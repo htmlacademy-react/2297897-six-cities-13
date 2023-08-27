@@ -2,12 +2,12 @@ import {Offer} from '../../store/offers-process/offers-process.slice.ts';
 import {FavoritePlaceCard} from '../favorite-place-card/favorite-place-card.tsx';
 import {FC} from 'react';
 
-type FavoritePlacesList = {
+type FavoriteCityPlacesProps = {
   favoriteOffers: Offer[];
   cityName: string;
 }
 
-export const FavoriteCityPlaces: FC<FavoritePlacesList> = ({favoriteOffers, cityName}) => {
+export const FavoriteCityPlaces: FC<FavoriteCityPlacesProps> = ({favoriteOffers, cityName}) => {
   if(!favoriteOffers.length){
     return null;
   }
@@ -15,7 +15,7 @@ export const FavoriteCityPlaces: FC<FavoritePlacesList> = ({favoriteOffers, city
   return (
     <li
       className="favorites__locations-items"
-      data-testid="favorite-places-list-element"
+      data-testid="favorite-city-places-element"
     >
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">

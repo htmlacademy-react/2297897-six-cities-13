@@ -1,0 +1,10 @@
+.errorPageContainer {
+    text-align: center;
+    margin-top: 10%;
+    font-size: 30px;
+}
+
+.tryAgainButton {
+    text-decoration: underline;
+    color: #4481c3;
+}
