@@ -35,8 +35,8 @@ export const Months = [
 ] as const;
 
 export const UrlMarkers = {
-  Default: 'markup/img/pin.svg',
-  Current: 'markup/img/pin-active.svg',
+  Default: '../img/pin.svg',
+  Current: '../img/pin-active.svg',
 } as const;
 
 export const Paths = {
